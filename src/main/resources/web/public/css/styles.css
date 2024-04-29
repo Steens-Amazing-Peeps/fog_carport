@@ -1,7 +1,244 @@
-/* Stylesheet for the application */
+:root {
+    font-size: 16px;
+    font-family: Arial, serif;
+}
 
-h1 {
-    color: #369;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 3rem;
+body {
+    display: flex;
+    justify-content: center;
+    max-height: 90vh;
+
+    /*background-image: url("../images!***");*/
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+}
+
+button {
+    margin-bottom: 8px;
+
+    border-radius: 5px;
+    width: 8.4rem;
+    height: 2.4rem;
+    font-size: 1.2rem;
+    background-color: royalblue;
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+button:hover {
+    /*background-color: lightskyblue;*/
+    color: black;
+}
+
+.page {
+    min-height: 700px;
+    max-width: 900px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: center;
+
+    border-radius: 2px;
+}
+
+.logo a {
+    display: flex;
+    justify-content: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+
+    font-size: 1.5rem;
+
+    border-radius: 2px;
+
+    border: 2px solid transparent;
+}
+
+nav:hover {
+    transition: 0.5s;
+    /*border: 2px solid black;*/
+}
+
+.content {
+    background-color: #F5F5F3;
+    /*border: 1px solid black;*/
+    border-radius: 2px;
+
+}
+
+/*.intro-text {
+    padding: 20px;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+
+    font-size: 2.5rem;
+}
+
+.subtitle {
+    display: flex;
+    justify-content: center;
+}
+
+.error-msg {
+    border: 1px solid red;
+    padding: 10px;
+    color: red;
+    max-width: 400px;
+}
+
+.dropdowns {
+    display: flex;
+    justify-content: space-around;
+    padding-left: 20%;
+    padding-right: 20%;
+    gap: 10px;
+}
+
+.dropdown-pair{
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-start;
+}
+
+.dropdown-label{
+    font-size: 1.2rem;
+
+    -webkit-text-stroke-width: 0.01rem;
+    -webkit-text-stroke-color: black;
+}
+
+
+.dropdowns select {
+    flex-grow: 1;
+    min-height: 2.4rem;
+
+    font-size: 1.2rem;
+
+    border-radius: 5px;
+
+    background-color: purple;
+    color: white;
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    -webkit-text-stroke-width: 0.01rem;
+    -webkit-text-stroke-color: black;
+}
+
+#newOrderlineBottom {
+    background-color: brown;
+}
+
+#newOrderlineTop  {
+    background-color: #37195D;
+}
+
+#newOrderlineAmount {
+    background-color: white;
+    color: black;
+}
+
+.comment{
+    display: flex;
+    justify-content: start;
+    padding: 10px 20% 10px 20%;
+    margin: 10px 0 10px 0%;
+}
+
+textarea{
+    display: flex;
+    flex-grow: 1;
+    max-width: 20rem;
+    min-width: 10rem;
+
+    max-height: 4.8rem;
+    min-height: 3rem;
+}
+
+.checkout {
+    display: flex;
+    justify-content: end;
+    padding: 5% 18.5% 5% 5%;
+}*/
+
+.inline {
+    display: inline;
+}
+
+.link-button {
+    width: auto;
+    height: auto;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+.link-button:focus {
+    outline: none;
+}
+.link-button:active {
+    color:red;
+}
+
+.underline-animation {
+    display: inline-block;
+    position: relative;
+
+    color: black;
+}
+
+.underline-animation::after {
+    position: absolute;
+    content: '';
+
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.28s ease-out;
+
+    background-color: black;
+}
+
+.underline-animation:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+@media screen and (max-width: 680px) {
+
+    #dropdowns {
+        flex-direction: column;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #checkout {
+        justify-content: end;
+    }
+
 }
