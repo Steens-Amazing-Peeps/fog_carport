@@ -1,4 +1,4 @@
-package app.web;
+package app;
 
 import app.web.config.SessionConfig;
 import app.web.config.ThymeleafConfig;
