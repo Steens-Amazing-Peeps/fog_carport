@@ -22,7 +22,7 @@ public class CreateAccountService
     
     public static User createAccount( String email, String password, String passwordAgain, String role ) throws DatabaseException, WebInvalidInputException, UnexpectedResultDbException, NoIdKeyReturnedException
     {
-        if ( !validEmail( email ) ) {
+        if ( !isEmailValid( email ) ) {
             throw new WebInvalidInputException( "Input Error: " + "Not a valid email. The email = '" + email + "'" );
         }
         
@@ -60,7 +60,7 @@ public class CreateAccountService
         return user;
     }
     
-    private static boolean validEmail( String email ) //TODO: Make this not suck
+    private static boolean isEmailValid( String email ) //TODO: Make this not suck
     {
         if ( email.contains( "@" ) && email.contains( "." ) ) {
             return true;
