@@ -13,29 +13,29 @@ public class IndexController
     public static void addRoutes( Javalin app )
     {
         
-        app.get( WebPages.INDEX_GET_PAGE, ctx -> indexGet( ctx ) );
+        app.get( WebPages.INDEX_GET_PAGE, ctx -> getPage( ctx ) );
         
 //        app.post( WebPages.INDEX_POST_PAGE, ctx -> indexPost( ctx ) );
     }
     
-    public static void indexRedirect( Context ctx )
+    public static void redirect( Context ctx )
     
     {
         ctx.redirect( WebPages.INDEX_GET_PAGE );
     }
     
     
-    public static void indexRender( Context ctx )
+    public static void render( Context ctx )
     {
         ctx.render( WebHtml.INDEX_HTML );
     }
     
-    private static void indexGet( Context ctx )
+    private static void getPage( Context ctx )
     {
-        indexRender( ctx );
+        render( ctx );
     }
     
-    private static void indexPost( Context ctx )
+    private static void post( Context ctx )
     {
 
     }

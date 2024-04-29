@@ -23,27 +23,27 @@ public class CreateAccountController
     public static void addRoutes( Javalin app )
     {
         
-        app.get( WebPages.CREATE_ACCOUNT_GET_PAGE, ctx -> createAccountGet( ctx ) );
+        app.get( WebPages.CREATE_ACCOUNT_GET_PAGE, ctx -> getPage( ctx ) );
 
-        app.post( WebPages.CREATE_ACCOUNT_POST_PAGE, ctx -> createAccountPost( ctx ) );
+        app.post( WebPages.CREATE_ACCOUNT_POST_PAGE, ctx -> post( ctx ) );
     }
     
-    public static void createAccountRedirect( Context ctx )
+    public static void redirect( Context ctx )
     {
         ctx.redirect( WebPages.CREATE_ACCOUNT_GET_PAGE );
     }
     
-    public static void createAccountRender( Context ctx )
+    public static void render( Context ctx )
     {
         ctx.render( WebHtml.CREATE_ACCOUNT_HTML );
     }
     
-    private static void createAccountGet( Context ctx )
+    private static void getPage( Context ctx )
     {
-        createAccountRender( ctx );
+        render( ctx );
     }
     
-    private static void createAccountPost( Context ctx )
+    private static void post( Context ctx )
     {
         String email;
         String password;
@@ -62,13 +62,13 @@ public class CreateAccountController
                   DatabaseException e ) {
             
             ctx.attribute( WebAttributes.msg, e.getUserMessage() );
-            createAccountRender(ctx);
+            render( ctx );
             return;
             
         }
         
         
-        IndexController.indexRedirect( ctx );
+        IndexController.redirect( ctx );
     }
     
 }

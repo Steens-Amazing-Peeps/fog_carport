@@ -21,27 +21,27 @@ public class LoginController
     
     public static void addRoutes( Javalin app ){
         
-        app.get( WebPages.LOGIN_GET_PAGE, ctx -> loginGet( ctx ) );
+        app.get( WebPages.LOGIN_GET_PAGE, ctx -> getPage( ctx ) );
 
-        app.post( WebPages.LOGIN_POST_PAGE, ctx -> loginPost( ctx ) );
+        app.post( WebPages.LOGIN_POST_PAGE, ctx -> post( ctx ) );
     }
     
-    public static void loginRedirect( Context ctx )
+    public static void redirect( Context ctx )
     {
         ctx.redirect( WebPages.LOGIN_GET_PAGE );
     }
     
-    public static void loginRender( Context ctx )
+    public static void render( Context ctx )
     {
         ctx.render( WebHtml.LOGIN_HTML );
     }
     
-    private static void loginGet( Context ctx )
+    private static void getPage( Context ctx )
     {
-        loginRender( ctx );
+        render( ctx );
     }
     
-    private static void loginPost( Context ctx )
+    private static void post( Context ctx )
     {
         String email;
         String password;
@@ -57,13 +57,13 @@ public class LoginController
         } catch ( WebInvalidInputException | UnexpectedResultDbException | DatabaseException e ) {
             
             ctx.attribute( WebAttributes.msg, e.getUserMessage() );
-            loginRender( ctx );
+            render( ctx );
             return;
             
         }
         
         
-        IndexController.indexRedirect( ctx );
+        IndexController.redirect( ctx );
     }
     
 }

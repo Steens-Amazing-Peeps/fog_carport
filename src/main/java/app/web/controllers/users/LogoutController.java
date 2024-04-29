@@ -10,13 +10,13 @@ public class LogoutController
 {
     public static void addRoutes( Javalin app ){
         
-        app.post( WebPages.LOGOUT_POST_PAGE, ctx -> logoutPost( ctx ) );
+        app.post( WebPages.LOGOUT_POST_PAGE, ctx -> post( ctx ) );
     }
     
-    private static void logoutPost( Context ctx )
+    private static void post( Context ctx )
     {
         ctx.req().getSession().invalidate();
         
-        IndexController.indexRedirect( ctx );
+        IndexController.redirect( ctx );
     }
 }
