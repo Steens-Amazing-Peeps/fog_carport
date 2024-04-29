@@ -6,7 +6,7 @@ import app.web.persistence.GetConnectionIf;
 
 public interface TemplateMappersStartUp
 {
-    static void startUpSetConnectionPoolAccess( GetConnectionIf connectionPoolAccess ) {
-        TemplateSharedCrud.setConnectionPoolAccess( connectionPoolAccess );
+    static void startUpSetConnectionPoolAccess( GetConnectionIf connectionPool ) {
+        TemplateSharedCrud.setConnectionPoolAccess( connectionPool );
     }
 }
