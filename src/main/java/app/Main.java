@@ -4,6 +4,7 @@ import app.web.config.SessionConfig;
 import app.web.config.ThymeleafConfig;
 import app.web.constants.attributes.WebGlobalAttributes;
 import app.web.controllers.IndexController;
+import app.web.controllers.users.CarportController;
 import app.web.controllers.users.CreateAccountController;
 import app.web.controllers.users.LoginController;
 import app.web.controllers.users.LogoutController;
@@ -37,6 +38,8 @@ public class Main
         CreateAccountController.addRoutes( app );
         LoginController.addRoutes( app );
         LogoutController.addRoutes( app );
+
+        CarportController.addRoutes( app );
     }
     
 }
