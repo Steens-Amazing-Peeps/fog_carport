@@ -6,5 +6,6 @@ public interface WebHtml
     String LOGIN_HTML = "users/login.html";
     String CREATE_ACCOUNT_HTML = "users/create.html";
     String CARPORT_HTML = "carport.html";
+    String HISTORY_HTML = "history.html";
     
 }
