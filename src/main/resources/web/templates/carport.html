@@ -36,7 +36,7 @@
                         <!--            Looks nicer than a link-->
                         <form method="get" action="/create-account" class="inline"
                               th:if="${session.currentUser} == null">
-                            <button type="submit" class="link-button" th:if="${session.currentUser} == null">Fog Konto
+                            <button type="submit" class="link-button" th:if="${session.currentUser} == null">Opret
                             </button>
                         </form>
                     </div>
@@ -44,7 +44,15 @@
                     <div class="underline-animation">
                         <!--            Looks nicer than a link-->
                         <form method="get" action="/login" class="inline" th:if="${session.currentUser} == null">
-                            <button type="submit" class="link-button" th:if="${session.currentUser} == null">Log Ind
+                            <button type="submit" class="link-button" th:if="${session.currentUser} == null">Fog Konto
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="underline-animation">
+                        <!--            Looks nicer than a link-->
+                        <form method="get" action="/reset" class="inline" th:if="${session.currentUser} == null">
+                            <button type="submit" class="link-button" th:if="${session.currentUser} == null">Glemt kodeord
                             </button>
                         </form>
                     </div>
@@ -67,6 +75,28 @@
             </nav>
         </div>
     </header>
+
+    <div class="content" id="content">
+
+        <h1>Her kommer vores design choices og indtast af mål fx til at være</h1>
+        <nav>
+            <div class="underline-animation">
+                <form method="get" action="/order-carport" class="inline">
+                    <button type="submit" class="link-button">Bestil carport</button>
+                </form>
+            </div>
+        </nav>
+
+    </div>
+
+    <footer class="footer-content">
+        <h3>Hos Fog værdsætter vi din holdning. Er der noget vi kan gøre bedre? Så giv os besked!</h3>
+        <div class="underline-animation">
+            <form method="get" action="/feedback" class="inline">
+                <button type="submit" class="link-button">Giv feedback</button>
+            </form>
+        </div>
+    </footer>
 
 </div>
 
