@@ -45,6 +45,15 @@ button:hover {
     border-radius: 2px;
 }
 
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 2px;
+}
+
 .logo a {
     display: flex;
     justify-content: center;

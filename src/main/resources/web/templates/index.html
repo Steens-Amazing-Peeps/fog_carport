@@ -18,28 +18,15 @@
             <img src="../public/images/logo.svg" width="50%" th:src="@{/images/logo.svg}">
         </a>
 
-        <div class="anvend-grid-her-når-der-skal-være-site-menu-knapper">
-            <!--nav buttons to carport/materials ect-->
-            <nav>
-                <div class="underline-animation">
-                    <form method="get" action="/carport" class="inline">
-                        <button type="submit" class="link-button">Carporte/Have og Fritid</button>
-                    </form>
-                </div>
-            </nav>
+        <div class="anvend-grid-her-når-der-skal-være-site-menu-knapper-maybe">
 
             <!--left topnote buttons, right topnote buttons-->
             <nav>
 
                 <div class="left-nav" id="left-nav">
-                    <div class="underline-animation">
-                        <!--            Looks nicer than a link-->
-                        <form method="get" action="/order-history" class="inline">
-                            <button type="submit" class="link-button">Bestillinger</button>
-                        </form>
-                    </div>
-
+                    <!-- Currently left-nav only exists to keep reused CSS from messing up, change in future -->
                 </div>
+
                 <div class="right-nav" id="right-nav">
 
                     <div class="underline-animation">
@@ -90,77 +77,32 @@
         <div class="content" id="content">
 
             <h1>Dette er en ultra primitiv placeholder</h1>
-            <h1>Og her kommer fyldet</h1>
-            <h1>At some point</h1>
-            <h1>Who knows when</h1>
-
-        <!--    <div class="intro-text" id="intro-text">
-                <h1 class="title" id="title">Velkommen ombord</h1>
-                <h2 class="subtitle" id="subtitle">Øens bedste cupcakes. Vælg og bestil her:</h2>
-            </div>
-
-
-            <form class="order" method="post" id="order">
-                <div class="dropdowns" id="dropdowns">
-
-                    <div class="dropdown-pair">
-                        <label class="dropdown-label" for="newOrderlineBottom">Bund</label>
-                        <select name="newOrderlineBottom" id="newOrderlineBottom">
-                            <option value="" disabled selected>Vælg Bottom!</option>
-
-
-                            <option th:each="cupcakebottom : ${session.bottomMap}"
-                                    th:value="${cupcakebottom.value.bottomId}"
-                                    th:text="${cupcakebottom.value.addToCart}">
-                            </option>
-
-
-                        </select>
-                    </div>
-
-                    <div class="dropdown-pair">
-                        <label class="dropdown-label" for="newOrderlineTop">Top</label>
-                        <select name="newOrderlineTop" id="newOrderlineTop">
-                            <option value="" disabled selected>Vælg Top!</option>
-
-
-                            <option th:each="cupcaketop : ${session.topMap}"
-                                    th:value="${cupcaketop.value.topId}"
-                                    th:text="${cupcaketop.value.addToCart}">
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="dropdown-pair">
-                        <label class="dropdown-label" for="newOrderlineAmount">Antal</label>
-                        <select name="newOrderlineAmount" id="newOrderlineAmount">
-                            <option value="" disabled selected>Vælg Antal!</option>
-                            <option value="1">1 stk</option>
-                            <option value="2">2 stk</option>
-                            <option value="3">3 stk</option>
-                            <option value="4">4 stk</option>
-                            <option value="5">5 stk</option>
-                            <option value="6">6 stk</option>
-                            <option value="7">7 stk</option>
-                            <option value="8">8 stk</option>
-                            <option value="9">9 stk</option>
-                            <option value="10">10 stk</option>
-                        </select>
-                    </div>
-
+            <h1>Og her kommer til at være to større links</h1>
+            <h1>Til hhv standard carporte og custom carporte</h1>
+            <nav>
+                <div class="underline-animation">
+                    <form method="get" action="https://www.johannesfog.dk/have-fritid/carporte" class="inline">
+                        <button type="submit" class="link-button">Standard Carporte</button>
+                    </form>
                 </div>
-            </form>
 
-            <div class="checkout" id="checkout">
-                <button type="submit" formaction="cupcakeSend" form="order">Læg i Kurv!</button>
-            </div>
-
-            <div class="checkout">
-                <p class="error-msg" style="white-space: pre-line" th:unless="${#strings.isEmpty(msg)}"
-                   th:text="${msg}"></p>
-            </div>-->
+                <div class="underline-animation">
+                    <form method="get" action="/carport" class="inline">
+                        <button type="submit" class="link-button">Design egen carport</button>
+                    </form>
+                </div>
+            </nav>
 
         </div>
+
+    <footer class="footer-content">
+        <h3>Hos Fog værdsætter vi din holdning. Er der noget vi kan gøre bedre? Så giv os besked!</h3>
+        <div class="underline-animation">
+            <form method="get" action="/feedback" class="inline">
+                <button type="submit" class="link-button">Giv feedback</button>
+            </form>
+        </div>
+    </footer>
 
 </div>
 
