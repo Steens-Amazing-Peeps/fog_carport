@@ -4,9 +4,7 @@ import app.web.config.SessionConfig;
 import app.web.config.ThymeleafConfig;
 import app.web.constants.attributes.WebGlobalAttributes;
 import app.web.controllers.IndexController;
-import app.web.controllers.users.CreateAccountController;
-import app.web.controllers.users.LoginController;
-import app.web.controllers.users.LogoutController;
+import app.web.controllers.users.*;
 import app.web.persistence.ConnectionPool;
 import app.web.persistence.mappers.TemplateMappersStartUp;
 import io.javalin.Javalin;
@@ -37,6 +35,9 @@ public class Main
         CreateAccountController.addRoutes( app );
         LoginController.addRoutes( app );
         LogoutController.addRoutes( app );
+
+        CarportController.addRoutes( app );
+        HistoryController.addRoutes( app );
     }
     
 }

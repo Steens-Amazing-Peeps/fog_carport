@@ -13,6 +13,9 @@ public interface WebPages
     
     String CREATE_ACCOUNT_GET_PAGE = "/create-account";
     String CREATE_ACCOUNT_POST_PAGE = CREATE_ACCOUNT_GET_PAGE;
+
+    String CARPORT_GET_PAGE = "/carport";
+    String HISTORY_GET_PAGE = "/order-history";
     
 
     
