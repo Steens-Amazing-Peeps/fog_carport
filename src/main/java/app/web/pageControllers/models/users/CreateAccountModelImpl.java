@@ -1,7 +1,6 @@
 package app.web.pageControllers.models.users;
 
 
-import app.web.constants.attributes.WebGlobalAttributes;
 import app.web.entities.User;
 import app.web.exceptions.DatabaseException;
 import app.web.exceptions.NoIdKeyReturnedException;
@@ -22,7 +21,7 @@ public class CreateAccountModelImpl implements CreateAccountModel
         this.userMapper = userMapper;
     }
     @Override
-    public User createAccount( String email, String password, String passwordAgain, String role ) throws DatabaseException, WebInvalidInputException, UnexpectedResultDbException, NoIdKeyReturnedException
+    public User createAccount( String email, String password, String passwordAgain, Map<Integer, User> globalUserMap, String role ) throws DatabaseException, WebInvalidInputException, UnexpectedResultDbException, NoIdKeyReturnedException
     {
         if ( !isEmailValid( email ) ) {
             throw new WebInvalidInputException( "Input Error: " + "Not a valid email. The email = '" + email + "'" );
@@ -40,7 +39,7 @@ public class CreateAccountModelImpl implements CreateAccountModel
             throw new WebInvalidInputException( "Input Error: " + "Password too short" );
         }
         
-        Map< Integer, User > singleUserMap = userMapper.readAllByEmail( email );
+        Map< Integer, User > singleUserMap = this.userMapper.readAllByEmail( email );
         
         if ( !singleUserMap.isEmpty() ) {
             throw new WebInvalidInputException( "Input Error: " + "Email already used, login instead. The email = '" + email + "'" );
@@ -55,17 +54,17 @@ public class CreateAccountModelImpl implements CreateAccountModel
         user.setPassword( password );
         user.setRole( role );
         
-        userMapper.create( user );
+        this.userMapper.create( user );
         
-        WebGlobalAttributes.USER_MAP.put( user.getUserId(), user );
+        globalUserMap.put( user.getUserId(), user );
         
         return user;
     }
     
     @Override
-    public User createAccount( String email, String password, String passwordAgain ) throws DatabaseException, WebInvalidInputException, UnexpectedResultDbException, NoIdKeyReturnedException
+    public User createAccount( String email, String password, String passwordAgain, Map<Integer, User> globalUserMap ) throws DatabaseException, WebInvalidInputException, UnexpectedResultDbException, NoIdKeyReturnedException
     {
-        return createAccount( email, password, passwordAgain, null );
+        return this.createAccount( email, password, passwordAgain, globalUserMap, null );
     }
     
     private static boolean isEmailValid( String email ) //TODO: Make this not suck

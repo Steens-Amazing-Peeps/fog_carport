@@ -24,8 +24,6 @@ public final class UserMapperImpl implements UserMapper
     private static final UserMapperImpl.DtoCreatorImpl DTO_CREATOR = new DtoCreatorImpl();
     
     
-    private static UserMapperImpl userMapperImpl = null;
-    
     public UserMapperImpl( DataStore dataStore )
     {
         this.setDataStore( dataStore );
