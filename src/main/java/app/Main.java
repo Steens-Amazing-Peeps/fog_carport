@@ -3,6 +3,7 @@ package app;
 import app.web.config.SessionConfig;
 import app.web.config.ThymeleafConfig;
 import app.web.constants.attributes.WebGlobalAttributes;
+
 import app.web.pageControllers.controllers.IndexController;
 import app.web.pageControllers.controllers.users.CreateAccountController;
 import app.web.pageControllers.controllers.users.LoginController;
@@ -17,6 +18,10 @@ import app.web.pageControllers.views.IndexViewImpl;
 import app.web.pageControllers.views.View;
 import app.web.pageControllers.views.users.CreateAccountViewImpl;
 import app.web.pageControllers.views.users.LoginViewImpl;
+
+
+import app.web.controllers.users.*;
+
 import app.web.persistence.ConnectionPool;
 import app.web.persistence.GetConnectionIf;
 import app.web.persistence.mappers.DataStore;
@@ -51,6 +56,9 @@ public class Main
         CreateAccountController.addRoutes( app );
         LoginController.addRoutes( app );
         LogoutController.addRoutes( app );
+
+        CarportController.addRoutes( app );
+        HistoryController.addRoutes( app );
     }
     
     private static void setUpWebServer( GetConnectionIf connectionPool )

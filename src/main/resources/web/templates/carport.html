@@ -2,10 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
-    <title>Frontpage</title>
+    <title>Carport</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="../public/css/carport.css" th:href="@{/css/carport.css}" rel="stylesheet"/>
 </head>
 
 
@@ -83,27 +84,18 @@
         </div>
     </header>
 
+    <div class="content" id="content">
 
-        <div class="content" id="content">
+        <h1>Her kommer vores design choices og indtast af mål fx til at være</h1>
+        <nav>
+            <div class="underline-animation">
+                <form method="get" action="/order-carport" class="inline">
+                    <button type="submit" class="link-button">Bestil carport</button>
+                </form>
+            </div>
+        </nav>
 
-            <h1>Dette er en ultra primitiv placeholder</h1>
-            <h1>Og her kommer til at være to større links</h1>
-            <h1>Til hhv standard carporte og custom carporte</h1>
-            <nav>
-                <div class="underline-animation">
-                    <form method="get" action="https://www.johannesfog.dk/have-fritid/carporte" class="inline">
-                        <button type="submit" class="link-button">Standard Carporte</button>
-                    </form>
-                </div>
-
-                <div class="underline-animation">
-                    <form method="get" action="/carport" class="inline">
-                        <button type="submit" class="link-button">Design egen carport</button>
-                    </form>
-                </div>
-            </nav>
-
-        </div>
+    </div>
 
     <footer class="footer-content">
         <h3>Hos Fog værdsætter vi din holdning. Er der noget vi kan gøre bedre? Så giv os besked!</h3>
