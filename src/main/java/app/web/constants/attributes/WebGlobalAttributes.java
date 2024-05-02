@@ -5,6 +5,7 @@ package app.web.constants.attributes;
 import app.web.entities.User;
 import app.web.exceptions.DatabaseException;
 import app.web.persistence.mappers.UserMapper;
+import app.web.persistence.mappers.UserMapperImpl;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,10 +23,10 @@ public interface WebGlobalAttributes
     
     
     
-    static void startUp()
+    static void startUp( UserMapper userMapper )
     {
         try {
-            USER_MAP.putAll( UserMapper.readAll() );
+            USER_MAP.putAll( userMapper.readAll() );
             
         } catch ( DatabaseException e ) {
             throw new RuntimeException( e );

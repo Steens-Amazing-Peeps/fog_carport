@@ -12,49 +12,53 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * Singleton
  * <p>
  * All the shared crud operations
  * Security needs to be tight on this thing, it accepts SQL in string form to send to the database
  */
-final class TemplateSharedCrud
+//TODO: Make Security 'tight'
+public final class DataStoreImpl implements DataStore
 {
     
-    private static GetConnectionIf CONNECTION_POOL_ACCESS = null;
+    private static DataStoreImpl dataStoreImpl = null;
+    private GetConnectionIf connectionPool = null;
     
-    private TemplateSharedCrud()
+    public DataStoreImpl( GetConnectionIf connectionPool )
     {
-    
+        this.setConnectionPool( connectionPool );
     }
     
+    
     /**
-     * @param connectionPoolAccess How do we connect to database? With this!
+     * @param connectionPool How do we connect to database? With this!
      */
-    public static void setConnectionPoolAccess( GetConnectionIf connectionPoolAccess )
+    @Override
+    public void setConnectionPool( GetConnectionIf connectionPool )
     {
-        if ( CONNECTION_POOL_ACCESS == null ) {
-            CONNECTION_POOL_ACCESS = connectionPoolAccess;
+        if ( this.connectionPool == null ) {
+            this.connectionPool = connectionPool;
         }
     }
     
     /**
-     * @param rawSql             SQL for this request
-     * @param entity             DTO for this request
-     * @param parametersForSql   We replace the '?' in rawSQL with parametersForSql
-     * @param templateDtoCreator How to we make this DTO? By using this!
+     * @param rawSql           SQL for this request
+     * @param entity           DTO for this request
+     * @param parametersForSql We replace the '?' in rawSQL with parametersForSql
+     * @param dtoCreator       How to we make this DTO? By using this!
      * @return the Id of created row
      * @throws DatabaseException           If we have issues with connecting to the Database or a coding error/SQL code error happens
      * @throws UnexpectedResultDbException If we receive the wrong result (IE result-set on create) or if we affect more than 1 row
      * @throws NoIdKeyReturnedException    If there wasn't, for some reason. an id returned from database
      */
     //Default Access
-    static int create( String rawSql, Object entity, Object[] parametersForSql, TemplateDtoCreator templateDtoCreator ) throws DatabaseException, UnexpectedResultDbException, NoIdKeyReturnedException
-    {
+    @Override
+    public int create( String rawSql, Object entity, Object[] parametersForSql, DtoCreator dtoCreator ) throws DatabaseException, UnexpectedResultDbException, NoIdKeyReturnedException
+    { //TODO: Make SQL safe, somehow
         String checkedSql = checkSql( rawSql, parametersForSql.length );
         
         int resKey;
         
-        try ( Connection connection = CONNECTION_POOL_ACCESS.getConnection() ) {
+        try ( Connection connection = connectionPool.getConnection() ) {
             try ( PreparedStatement ps = connection.prepareStatement( checkedSql, Statement.RETURN_GENERATED_KEYS ) ) {
                 for ( int i = 0; i < parametersForSql.length; i++ ) {
                     if ( parametersForSql[ i ] instanceof Date ) {
@@ -89,7 +93,7 @@ final class TemplateSharedCrud
                 }
                 
                 resKey = keySet.getInt( 1 );
-                templateDtoCreator.setId( entity, resKey );
+                dtoCreator.setId( entity, resKey );
                 System.out.println( "Database: " + "Added row for DTO=" + entity );
                 
             }
@@ -104,45 +108,48 @@ final class TemplateSharedCrud
     }
     
     /**
-     * @param rawSql             SQL for this request
-     * @param templateDtoCreator How to we make this DTO? By using this!
+     * @param rawSql     SQL for this request
+     * @param dtoCreator How to we make this DTO? By using this!
      * @return A LinkedHashMap of <Id, Dto>
      * @throws DatabaseException If we have issues with connecting to the Database or a coding error/SQL code error happens
      */
     //Default Access
-    static Map< Integer, ? > readAll( String rawSql, TemplateDtoCreator templateDtoCreator ) throws DatabaseException
-    {
-        return readAll( rawSql, new Object[ 0 ], templateDtoCreator );
+    @Override
+    public Map< Integer, ? > readAll( String rawSql, DtoCreator dtoCreator ) throws DatabaseException
+    { //TODO: Make SQL safe, somehow
+        return readAll( rawSql, new Object[ 0 ], dtoCreator );
     }
     
     /**
-     * @param rawSql             SQL for this request
-     * @param id                 find all with this foreign key id
-     * @param templateDtoCreator How to we make this DTO? By using this!
+     * @param rawSql     SQL for this request
+     * @param id         find all with this foreign key id
+     * @param dtoCreator How to we make this DTO? By using this!
      * @return A LinkedHashMap of <Id, Dto>
      * @throws DatabaseException If we have issues with connecting to the Database or a coding error/SQL code error happens
      */
     //Default Access
-    static Map< Integer, ? > readAll( String rawSql, Integer id, TemplateDtoCreator templateDtoCreator ) throws DatabaseException
+    @Override
+    public Map< Integer, ? > readAll( String rawSql, Integer id, DtoCreator dtoCreator ) throws DatabaseException
     {
-        return readAll( rawSql, new Object[]{ id }, templateDtoCreator );
+        return readAll( rawSql, new Object[]{ id }, dtoCreator );
     }
     
     /**
-     * @param rawSql             SQL for this request
-     * @param parametersForSql   We replace the '?' in rawSQL with parametersForSql
-     * @param templateDtoCreator How to we make this DTO? By using this!
+     * @param rawSql           SQL for this request
+     * @param parametersForSql We replace the '?' in rawSQL with parametersForSql
+     * @param dtoCreator       How to we make this DTO? By using this!
      * @return A LinkedHashMap of <Id, Dto>
      * @throws DatabaseException If we have issues with connecting to the Database or a coding error/SQL code error happens
      */
     //Default Access
-    static Map< Integer, ? > readAll( String rawSql, Object[] parametersForSql, TemplateDtoCreator templateDtoCreator ) throws DatabaseException
-    {
+    @Override
+    public Map< Integer, ? > readAll( String rawSql, Object[] parametersForSql, DtoCreator dtoCreator ) throws DatabaseException
+    { //TODO: Make SQL safe, somehow
         String checkedSql = checkSql( rawSql, parametersForSql.length );
         
         Map< Integer, ? > resMap;
         
-        try ( Connection connection = CONNECTION_POOL_ACCESS.getConnection() ) {
+        try ( Connection connection = connectionPool.getConnection() ) {
             try ( PreparedStatement ps = connection.prepareStatement( checkedSql, Statement.RETURN_GENERATED_KEYS ) ) {
                 for ( int i = 0; i < parametersForSql.length; i++ ) {
                     ps.setObject( i + 1, parametersForSql[ i ] );
@@ -150,7 +157,7 @@ final class TemplateSharedCrud
                 
                 ResultSet rs = ps.executeQuery();
                 
-                resMap = templateDtoCreator.createDtoMultiple( rs );
+                resMap = dtoCreator.createDtoMultiple( rs );
                 
             }
             
@@ -163,27 +170,28 @@ final class TemplateSharedCrud
     }
     
     /**
-     * @param rawSql             SQL for this request
-     * @param id                 Primary key to find
-     * @param templateDtoCreator How to we make this DTO? By using this!
+     * @param rawSql     SQL for this request
+     * @param id         Primary key to find
+     * @param dtoCreator How to we make this DTO? By using this!
      * @return The Dto
      * @throws DatabaseException If we have issues with connecting to the Database or a coding error/SQL code error happens
      */
     //Default Access
-    static Object readSingle( String rawSql, Integer id, TemplateDtoCreator templateDtoCreator ) throws DatabaseException
-    {
+    @Override
+    public Object readSingle( String rawSql, Integer id, DtoCreator dtoCreator ) throws DatabaseException
+    { //TODO: Make SQL safe, somehow
         String checkedSql = checkSql( rawSql, 1 );
         
         Object resObject;
         
-        try ( Connection connection = CONNECTION_POOL_ACCESS.getConnection() ) {
+        try ( Connection connection = connectionPool.getConnection() ) {
             try ( PreparedStatement ps = connection.prepareStatement( checkedSql, Statement.RETURN_GENERATED_KEYS ) ) {
                 ps.setInt( 1, id );
                 
                 ResultSet rs = ps.executeQuery();
                 rs.next();
                 
-                resObject = templateDtoCreator.createDto( rs );
+                resObject = dtoCreator.createDto( rs );
             }
             
         } catch ( SQLException e ) {
@@ -204,13 +212,14 @@ final class TemplateSharedCrud
      * @throws UnexpectedResultDbException If there wasn't, for some reason. an id returned from database
      */
     //Default Access
-    static int update( String rawSql, Object entity, Object[] parametersForSql ) throws DatabaseException, UnexpectedResultDbException
-    {
+    @Override
+    public int update( String rawSql, Object entity, Object[] parametersForSql ) throws DatabaseException, UnexpectedResultDbException
+    { //TODO: Make SQL safe, somehow
         String checkedSql = checkSql( rawSql, parametersForSql.length );
         
         int resRowsAffected;
         
-        try ( Connection connection = CONNECTION_POOL_ACCESS.getConnection() ) {
+        try ( Connection connection = connectionPool.getConnection() ) {
             try ( PreparedStatement ps = connection.prepareStatement( checkedSql, Statement.RETURN_GENERATED_KEYS ) ) {
                 for ( int i = 0; i < parametersForSql.length; i++ ) {
                     if ( parametersForSql[ i ] instanceof Date ) {
@@ -254,13 +263,14 @@ final class TemplateSharedCrud
      * @throws UnexpectedResultDbException If we receive the wrong result (IE result-set on create) or if we affect more than 1 row
      */
     //Default Access
-    static int delete( String rawSql, String tableName, Integer id ) throws DatabaseException, UnexpectedResultDbException
-    {
+    @Override
+    public int delete( String rawSql, String tableName, Integer id ) throws DatabaseException, UnexpectedResultDbException
+    { //TODO: Make SQL safe, somehow
         String checkedSql = checkSql( rawSql, 1 );
         
         int resRowsAffected;
         
-        try ( Connection connection = CONNECTION_POOL_ACCESS.getConnection() ) {
+        try ( Connection connection = connectionPool.getConnection() ) {
             try ( PreparedStatement ps = connection.prepareStatement( checkedSql, Statement.RETURN_GENERATED_KEYS ) ) {
                 ps.setInt( 1, id );
                 
