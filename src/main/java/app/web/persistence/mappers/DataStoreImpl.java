@@ -19,8 +19,6 @@ import java.util.Map;
 //TODO: Make Security 'tight'
 public final class DataStoreImpl implements DataStore
 {
-    
-    private static DataStoreImpl dataStoreImpl = null;
     private GetConnectionIf connectionPool = null;
     
     public DataStoreImpl( GetConnectionIf connectionPool )

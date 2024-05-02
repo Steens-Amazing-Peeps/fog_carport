@@ -3,6 +3,7 @@ package app.web.pageControllers.controllers.users;
 
 
 import app.web.constants.attributes.WebAttributes;
+import app.web.constants.attributes.WebGlobalAttributes;
 import app.web.constants.attributes.WebSessionAttributes;
 import app.web.constants.postRequest.WebFormParam;
 import app.web.constants.routing.WebPages;
@@ -66,7 +67,7 @@ public class CreateAccountController
         passwordAgain = ctx.formParam( WebFormParam.repeatPassword );
         
         try {
-            User user = createAccountModel.createAccount( email, password, passwordAgain );
+            User user = createAccountModel.createAccount( email, password, passwordAgain, WebGlobalAttributes.USER_MAP );
             ctx.sessionAttribute( WebSessionAttributes.currentUser, user );
             ctx.attribute( WebAttributes.msg, "" );
             
