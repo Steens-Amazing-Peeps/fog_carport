@@ -1,4 +1,4 @@
-package app.web.services.users;
+package app.web.pageControllers.models.users;
 
 
 
@@ -11,13 +11,21 @@ import app.web.persistence.mappers.UserMapper;
 import java.util.Map;
 import java.util.Objects;
 
-public class LoginService
+public class LoginModelImpl implements LoginModel
 {
     
+    UserMapper userMapper;
     
-    public static User login( String email, String password ) throws DatabaseException, WebInvalidInputException, UnexpectedResultDbException
+    public LoginModelImpl( UserMapper userMapper )
     {
-        Map< Integer, User > singleUserMap = UserMapper.readAllByEmail( email );
+        this.userMapper = userMapper;
+    }
+    
+    
+    @Override
+    public User login( String email, String password ) throws DatabaseException, WebInvalidInputException, UnexpectedResultDbException
+    {
+        Map< Integer, User > singleUserMap = this.userMapper.readAllByEmail( email );
         
         if ( singleUserMap.isEmpty() ) {
             throw new WebInvalidInputException( "Input Error: " + "User with the email was not found. The email = '" + email + "'" );
@@ -38,7 +46,5 @@ public class LoginService
         
         return user;
     }
-    
-    
     
 }
