@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head>
-    <title>Frontpage</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
-    <link href="../../public/css/users/login.css" th:href="@{/css/users/login.css}" rel="stylesheet"/>
-</head>
+<div th:replace="~{fragments :: sub-head('Login','login')}"></div>
 
 <body>
+
+<div class="page" id="page">
+
+    <div th:replace="~{fragments :: header}"></div>
+
+    <div class="content" id="content">
+
+    </div>
+
+    <div th:replace="~{fragments :: footer}"></div>
+
+</div>
 
 </body>
 </html>
