@@ -40,9 +40,9 @@ public final class DataStoreImpl implements DataStore
     
     /**
      * @param rawSql           SQL for this request
-     * @param entity           DTO for this request
+     * @param entity           Entity for this request
      * @param parametersForSql We replace the '?' in rawSQL with parametersForSql
-     * @param dtoCreator       How to we make this DTO? By using this!
+     * @param entityCreator       How to we make this Entity? By using this!
      * @return the Id of created row
      * @throws DatabaseException           If we have issues with connecting to the Database or a coding error/SQL code error happens
      * @throws UnexpectedResultDbException If we receive the wrong result (IE result-set on create) or if we affect more than 1 row
@@ -50,13 +50,13 @@ public final class DataStoreImpl implements DataStore
      */
     //Default Access
     @Override
-    public int create( String rawSql, Object entity, Object[] parametersForSql, DtoCreator dtoCreator ) throws DatabaseException, UnexpectedResultDbException, NoIdKeyReturnedException
+    public int create( String rawSql, Object entity, Object[] parametersForSql, EntityCreator entityCreator ) throws DatabaseException, UnexpectedResultDbException, NoIdKeyReturnedException
     { //TODO: Make SQL safe, somehow
         String checkedSql = checkSql( rawSql, parametersForSql.length );
         
         int resKey;
         
-        try ( Connection connection = connectionPool.getConnection() ) {
+        try ( Connection connection = this.connectionPool.getConnection() ) {
             try ( PreparedStatement ps = connection.prepareStatement( checkedSql, Statement.RETURN_GENERATED_KEYS ) ) {
                 for ( int i = 0; i < parametersForSql.length; i++ ) {
                     if ( parametersForSql[ i ] instanceof Date ) {
@@ -71,7 +71,7 @@ public final class DataStoreImpl implements DataStore
                 
                 
                 if ( shouldBeFalse ) {
-                    throw new UnexpectedResultDbException( "Database Error: " + "Inserting into database returned a query result, your input was likely not inserted into the database correctly", "Database Error: " + "at Create: " + "Insert CRUD had a return set for DTO=" + entity );
+                    throw new UnexpectedResultDbException( "Database Fejl: Under indsætning af data til databasen, returnerede uforventet data", "Database Error: " + "at Create: " + "Insert CRUD had a return set for Entity=" + entity );
                 }
                 
                 int rowsAdded = ps.getUpdateCount();
@@ -81,24 +81,24 @@ public final class DataStoreImpl implements DataStore
 //            }
                 
                 if ( rowsAdded > 1 ) {
-                    throw new UnexpectedResultDbException( "Database Error: " + "Created multiple copies in database", "Database Error: " + "at Create: " + "More than 1 row affected for DTO=" + entity );
+                    throw new UnexpectedResultDbException( "Database Fejl: Under indsætning af data til databasen, flere kopier indsat", "Database Error: " + "at Create: " + "More than 1 row affected for Entity=" + entity );
                 }
                 
                 ResultSet keySet = ps.getGeneratedKeys();
                 
                 if ( !keySet.next() ) {
-                    throw new NoIdKeyReturnedException( "Database Error: " + "at Create: " + "Could not get the new ID from database", "Database Error: " + "at Create: " + "Failed to retrieve generated key (ID) for DTO=" + entity );
+                    throw new NoIdKeyReturnedException( "Database Fejl: Kunne ikke skaffe det nye ID fra databasen", "Database Error: " + "at Create: " + "Failed to retrieve generated key (ID) for Entity=" + entity );
                 }
                 
                 resKey = keySet.getInt( 1 );
-                dtoCreator.setId( entity, resKey );
-                System.out.println( "Database: " + "Added row for DTO=" + entity );
+                entityCreator.setId( entity, resKey );
+                System.out.println( "Database: Added row for Entity=" + entity );
                 
             }
             
         } catch ( SQLException e ) {
             e.printStackTrace();
-            throw new DatabaseException( "Fatal database exception. Is the Database down? ", e.getMessage() );
+            throw new DatabaseException( "Fata database fejl, er Databasen nede?", e.getMessage() );
         }
         
         return resKey;
@@ -107,47 +107,47 @@ public final class DataStoreImpl implements DataStore
     
     /**
      * @param rawSql     SQL for this request
-     * @param dtoCreator How to we make this DTO? By using this!
-     * @return A LinkedHashMap of <Id, Dto>
+     * @param entityCreator How to we make this Entity? By using this!
+     * @return A LinkedHashMap of <Id, Entity>
      * @throws DatabaseException If we have issues with connecting to the Database or a coding error/SQL code error happens
      */
     //Default Access
     @Override
-    public Map< Integer, ? > readAll( String rawSql, DtoCreator dtoCreator ) throws DatabaseException
+    public Map< Integer, ? > readAll( String rawSql, EntityCreator entityCreator ) throws DatabaseException
     { //TODO: Make SQL safe, somehow
-        return readAll( rawSql, new Object[ 0 ], dtoCreator );
+        return this.readAll( rawSql, new Object[ 0 ], entityCreator );
     }
     
     /**
      * @param rawSql     SQL for this request
      * @param id         find all with this foreign key id
-     * @param dtoCreator How to we make this DTO? By using this!
-     * @return A LinkedHashMap of <Id, Dto>
+     * @param entityCreator How to we make this Entity? By using this!
+     * @return A LinkedHashMap of <Id, Entity>
      * @throws DatabaseException If we have issues with connecting to the Database or a coding error/SQL code error happens
      */
     //Default Access
     @Override
-    public Map< Integer, ? > readAll( String rawSql, Integer id, DtoCreator dtoCreator ) throws DatabaseException
+    public Map< Integer, ? > readAll( String rawSql, Integer id, EntityCreator entityCreator ) throws DatabaseException
     {
-        return readAll( rawSql, new Object[]{ id }, dtoCreator );
+        return this.readAll( rawSql, new Object[]{ id }, entityCreator );
     }
     
     /**
      * @param rawSql           SQL for this request
      * @param parametersForSql We replace the '?' in rawSQL with parametersForSql
-     * @param dtoCreator       How to we make this DTO? By using this!
-     * @return A LinkedHashMap of <Id, Dto>
+     * @param entityCreator       How to we make this Entity? By using this!
+     * @return A LinkedHashMap of <Id, Entity>
      * @throws DatabaseException If we have issues with connecting to the Database or a coding error/SQL code error happens
      */
     //Default Access
     @Override
-    public Map< Integer, ? > readAll( String rawSql, Object[] parametersForSql, DtoCreator dtoCreator ) throws DatabaseException
+    public Map< Integer, ? > readAll( String rawSql, Object[] parametersForSql, EntityCreator entityCreator ) throws DatabaseException
     { //TODO: Make SQL safe, somehow
         String checkedSql = checkSql( rawSql, parametersForSql.length );
         
         Map< Integer, ? > resMap;
         
-        try ( Connection connection = connectionPool.getConnection() ) {
+        try ( Connection connection = this.connectionPool.getConnection() ) {
             try ( PreparedStatement ps = connection.prepareStatement( checkedSql, Statement.RETURN_GENERATED_KEYS ) ) {
                 for ( int i = 0; i < parametersForSql.length; i++ ) {
                     ps.setObject( i + 1, parametersForSql[ i ] );
@@ -155,13 +155,13 @@ public final class DataStoreImpl implements DataStore
                 
                 ResultSet rs = ps.executeQuery();
                 
-                resMap = dtoCreator.createDtoMultiple( rs );
+                resMap = entityCreator.createEntityMultiple( rs );
                 
             }
             
         } catch ( SQLException e ) {
             e.printStackTrace();
-            throw new DatabaseException( "Fatal database exception. Is the Database down? ", e.getMessage() );
+            throw new DatabaseException( "Fata database fejl, er Databasen nede?", e.getMessage() );
         }
         
         return resMap;
@@ -170,31 +170,31 @@ public final class DataStoreImpl implements DataStore
     /**
      * @param rawSql     SQL for this request
      * @param id         Primary key to find
-     * @param dtoCreator How to we make this DTO? By using this!
-     * @return The Dto
+     * @param entityCreator How to we make this Entity? By using this!
+     * @return The Entity
      * @throws DatabaseException If we have issues with connecting to the Database or a coding error/SQL code error happens
      */
     //Default Access
     @Override
-    public Object readSingle( String rawSql, Integer id, DtoCreator dtoCreator ) throws DatabaseException
+    public Object readSingle( String rawSql, Integer id, EntityCreator entityCreator ) throws DatabaseException
     { //TODO: Make SQL safe, somehow
         String checkedSql = checkSql( rawSql, 1 );
         
         Object resObject;
         
-        try ( Connection connection = connectionPool.getConnection() ) {
+        try ( Connection connection = this.connectionPool.getConnection() ) {
             try ( PreparedStatement ps = connection.prepareStatement( checkedSql, Statement.RETURN_GENERATED_KEYS ) ) {
                 ps.setInt( 1, id );
                 
                 ResultSet rs = ps.executeQuery();
                 rs.next();
                 
-                resObject = dtoCreator.createDto( rs );
+                resObject = entityCreator.createEntity( rs );
             }
             
         } catch ( SQLException e ) {
             e.printStackTrace();
-            throw new DatabaseException( "Fatal database exception. Is the Database down? ", e.getMessage() );
+            throw new DatabaseException( "Fata database fejl, er Databasen nede?", e.getMessage() );
         }
         
         return resObject;
@@ -203,7 +203,7 @@ public final class DataStoreImpl implements DataStore
     
     /**
      * @param rawSql           SQL for this request
-     * @param entity           DTO for this request
+     * @param entity           Entity for this request
      * @param parametersForSql We replace the '?' in rawSQL with parametersForSql
      * @return Amount of Affected Rows
      * @throws DatabaseException           If we have issues with connecting to the Database or a coding error/SQL code error happens
@@ -217,7 +217,7 @@ public final class DataStoreImpl implements DataStore
         
         int resRowsAffected;
         
-        try ( Connection connection = connectionPool.getConnection() ) {
+        try ( Connection connection = this.connectionPool.getConnection() ) {
             try ( PreparedStatement ps = connection.prepareStatement( checkedSql, Statement.RETURN_GENERATED_KEYS ) ) {
                 for ( int i = 0; i < parametersForSql.length; i++ ) {
                     if ( parametersForSql[ i ] instanceof Date ) {
@@ -238,7 +238,7 @@ public final class DataStoreImpl implements DataStore
 //                    throw new UnexpectedResultDbException( Lang_Crud.updateErrorUser_tooManyRowsAffected(), Lang_Crud.updateErrorSys_tooManyRowsAffected( entity ) );
 //                }
                 
-                System.out.println( "Database: " + "Updated DTO=" + entity );
+                System.out.println( "Database: Updated Entity=" + entity );
                 
                 
                 
@@ -246,7 +246,7 @@ public final class DataStoreImpl implements DataStore
             
         } catch ( SQLException e ) {
             e.printStackTrace();
-            throw new DatabaseException( "Fatal database exception. Is the Database down? ", e.getMessage() );
+            throw new DatabaseException( "Fata database fejl, er Databasen nede?", e.getMessage() );
         }
         
         return resRowsAffected;
@@ -268,7 +268,7 @@ public final class DataStoreImpl implements DataStore
         
         int resRowsAffected;
         
-        try ( Connection connection = connectionPool.getConnection() ) {
+        try ( Connection connection = this.connectionPool.getConnection() ) {
             try ( PreparedStatement ps = connection.prepareStatement( checkedSql, Statement.RETURN_GENERATED_KEYS ) ) {
                 ps.setInt( 1, id );
                 
@@ -283,13 +283,13 @@ public final class DataStoreImpl implements DataStore
 //                    throw new UnexpectedResultDbException( Lang_Crud.deleteErrorUser_tooManyRowsAffected(), Lang_Crud.deleteErrorSys_tooManyRowsAffected( tableName, id ) );
 //                }
                 
-                System.out.println( "Database: " + "Deleted '" + tableName + "' row with id=" + id );
+                System.out.println( "Database: Deleted '" + tableName + "' row with id=" + id );
                 
             }
             
         } catch ( SQLException e ) {
             e.printStackTrace();
-            throw new DatabaseException( "Fatal database exception. Is the Database down? ", e.getMessage() );
+            throw new DatabaseException( "Fata database fejl, er Databasen nede?", e.getMessage() );
         }
         
         return resRowsAffected;
@@ -318,7 +318,7 @@ public final class DataStoreImpl implements DataStore
         }
         
         if ( amountOfSetableValues != parametersForSqlSize ) {
-            throw new DatabaseException( "Database Error: " + "A problem with the SQL in this code means it doesn't work", "Database Error: " + "at update: " + "SQL invalid, SQL=" + rawSql );
+            throw new DatabaseException( "Database Fejl: Fejlagtig SQL kode, gerne contact IT-Afdelingen om fejlen", "Database Error: " + "at update: " + "SQL invalid, SQL=" + rawSql );
         }
         
         //If it passes the above, it is valid enough

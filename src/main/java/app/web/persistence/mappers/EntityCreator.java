@@ -4,19 +4,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
-public interface DtoCreator
+public interface EntityCreator
 {
     /**
      *Should always follow this rule
      *
-     * NOTE: DTO = (user, wallet, orderLines ect.)
+     * NOTE: Entity = (user, wallet, orderLines ect.)
      *
      * @param rs
-     * @return DTO
+     * @return Entity
      * @throws SQLException
      */
     
-    Object createDto( ResultSet rs ) throws SQLException;
+    Object createEntity( ResultSet rs ) throws SQLException;
     
     
     /**
@@ -24,13 +24,13 @@ public interface DtoCreator
      *
      *Should always follow this rule
      *
-     * NOTE: DTO = (user, wallet, orderLines ect.)
+     * NOTE: Entity = (user, wallet, orderLines ect.)
      *
      * @param rs
-     * @return LinkedHashMap<Integer,DTO>
+     * @return LinkedHashMap<Integer,Entity>
      * @throws SQLException
      */
-    Map<Integer, ?> createDtoMultiple( ResultSet rs ) throws SQLException;
+    Map<Integer, ?> createEntityMultiple( ResultSet rs ) throws SQLException;
     
     
     
@@ -39,9 +39,9 @@ public interface DtoCreator
     /**
      * Casting baby!
      *
-     * @param entity (DTO)
-     * @param id (ID to Set on DTO)
-     * @return DTO with ID set
+     * @param entity (Entity)
+     * @param id (ID to Set on Entity)
+     * @return Entity with ID set
      */
     Object setId (Object entity, Integer id);
     

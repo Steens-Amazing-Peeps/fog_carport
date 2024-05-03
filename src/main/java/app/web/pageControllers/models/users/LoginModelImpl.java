@@ -28,11 +28,11 @@ public class LoginModelImpl implements LoginModel
         Map< Integer, User > singleUserMap = this.userMapper.readAllByEmail( email );
         
         if ( singleUserMap.isEmpty() ) {
-            throw new WebInvalidInputException( "Input Error: " + "User with the email was not found. The email = '" + email + "'" );
+            throw new WebInvalidInputException( "Ingen brugere fundet med emailen '" + email + "'" );
         }
         
         if ( singleUserMap.size() > 1 ) {
-            throw new UnexpectedResultDbException( "Database Error: " + "Found multiple accounts with the email, contact an administrator. The email = '" + email + "'", "Database Error: " + "at login: " + "Found multiple accounts with the email, contact an administrator. The email = '" + email + "'" );
+            throw new UnexpectedResultDbException( "Database Fejl: Flere brugere fundet med samme email, contact en administrator. Emailen er '" + email + "'", "Database Error: " + "at login: " + "Found multiple accounts with the email, contact an administrator. The email = '" + email + "'" );
         }
         
         User user = null;
@@ -41,7 +41,7 @@ public class LoginModelImpl implements LoginModel
         }
         
         if ( !Objects.equals( user.getPassword(), password ) ) {
-            throw new WebInvalidInputException( "Input Error: " + "Wrong Password" );
+            throw new WebInvalidInputException( "Forkert kodeord" );
         }
         
         return user;
