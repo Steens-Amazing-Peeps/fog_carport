@@ -1,13 +1,13 @@
 package app.web.pageControllers.models.users;
 
 
+import app.web.constants.Config;
 import app.web.entities.User;
 import app.web.exceptions.DatabaseException;
 import app.web.exceptions.NoIdKeyReturnedException;
 import app.web.exceptions.UnexpectedResultDbException;
 import app.web.exceptions.WebInvalidInputException;
 import app.web.persistence.mappers.UserMapper;
-import app.web.persistence.mappers.UserMapperImpl;
 
 import java.util.Map;
 import java.util.Objects;
@@ -31,11 +31,11 @@ public class CreateAccountModelImpl implements CreateAccountModel
             throw new WebInvalidInputException( "Input Error: " + "Passwords do not match" );
         }
         
-        if ( password.length() > UserMapperImpl.PASSWORD_MAX_LENGTH ) {
+        if ( password.length() > Config.PASSWORD_MAX_LENGTH ) {
             throw new WebInvalidInputException( "Input Error: " + "Password too long" );
         }
         
-        if ( password.length() < UserMapperImpl.PASSWORD_MIN_LENGTH ) {
+        if ( password.length() < Config.PASSWORD_MIN_LENGTH ) {
             throw new WebInvalidInputException( "Input Error: " + "Password too short" );
         }
         

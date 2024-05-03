@@ -2,11 +2,11 @@ package app.web.persistence.mappers;
 
 
 
+import app.web.constants.Config;
 import app.web.entities.User;
 import app.web.exceptions.DatabaseException;
 import app.web.exceptions.NoIdKeyReturnedException;
 import app.web.exceptions.UnexpectedResultDbException;
-import app.web.persistence.GetConnectionIf;
 
 import java.sql.*;
 import java.util.*;
@@ -14,10 +14,6 @@ import java.util.*;
 
 public final class UserMapperImpl implements UserMapper
 {
-    
-    public static final int PASSWORD_MAX_LENGTH = 100;
-    public static final int PASSWORD_MIN_LENGTH = 4;
-    private static final String DEFAULT_USER_ROLE = "user";
     
     
     private DataStore dataStore = null;
@@ -39,7 +35,7 @@ public final class UserMapperImpl implements UserMapper
     public int create( User user ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
     {
         if ( user.getRole() == null ) {
-            user.setRole( DEFAULT_USER_ROLE );
+            user.setRole( Config.DEFAULT_USER_ROLE );
         }
         
         

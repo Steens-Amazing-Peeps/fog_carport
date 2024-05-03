@@ -1,5 +1,6 @@
 package app.web.persistence;
 
+import app.web.constants.Config;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -13,8 +14,6 @@ import java.util.logging.Logger;
  */
 public final class ConnectionPool implements GetConnectionIf
 {
-    
-    private static final int CONNECTION_POOL_SIZE = 10;
     
     private static ConnectionPool instance = null;
     private static HikariDataSource ds = null;
@@ -86,7 +85,7 @@ public final class ConnectionPool implements GetConnectionIf
         config.setJdbcUrl( String.format( url, db ) );
         config.setUsername( user );
         config.setPassword( password );
-        config.setMaximumPoolSize( CONNECTION_POOL_SIZE );
+        config.setMaximumPoolSize( Config.CONNECTION_POOL_SIZE );
         config.setPoolName( "Postgresql Pool" );
         config.addDataSourceProperty( "cachePrepStmts", "true" );
         config.addDataSourceProperty( "prepStmtCacheSize", "250" );

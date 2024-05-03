@@ -2,6 +2,7 @@ package app;
 
 import app.web.config.SessionConfig;
 import app.web.config.ThymeleafConfig;
+import app.web.constants.Config;
 import app.web.constants.attributes.WebGlobalAttributes;
 
 import app.web.pageControllers.controllers.IndexController;
@@ -29,7 +30,6 @@ import io.javalin.rendering.template.JavalinThymeleaf;
 public class Main
 {
     
-    private static final int PORT = 7072;
     private static final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     
     public static void main( String[] args )
@@ -42,7 +42,7 @@ public class Main
             config.fileRenderer( new JavalinThymeleaf( ThymeleafConfig.templateEngine() ) );
             
             setUpWebServer( CONNECTION_POOL );
-        } ).start( PORT );
+        } ).start( Config.PORT );
         
         // Routing
         
