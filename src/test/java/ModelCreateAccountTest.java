@@ -1,3 +1,4 @@
+import app.web.constants.Config;
 import app.web.entities.User;
 import app.web.exceptions.DatabaseException;
 import app.web.exceptions.NoIdKeyReturnedException;
@@ -115,7 +116,8 @@ public class ModelCreateAccountTest
     
     
     @Test
-    void passwordsDoNotMatch(){
+    void passwordsDoNotMatch()
+    {
         //Passwords do not match
         this.repeatPassword = this.password + " ";
         
@@ -144,9 +146,18 @@ public class ModelCreateAccountTest
     }
     
     @Test
-    void passwordTooShort(){
+    void passwordTooShort()
+    {
         //Password too short
-        this.password = "123";
+        StringBuilder stringBuilder = new StringBuilder();
+        
+        for ( int i = 0; i < ( Config.PASSWORD_MIN_LENGTH - 1 ); i++ ) { //Passwords ends up 1 shorter than min
+            stringBuilder.append( "9" );
+        }
+        
+        this.password = stringBuilder.toString();
+        
+        assertTrue( this.password.length() < Config.PASSWORD_MIN_LENGTH );
         
         try {
             this.createAccountModel.createAccount( this.email, this.password, this.repeatPassword, this.globalUserMap, this.role );
@@ -160,9 +171,18 @@ public class ModelCreateAccountTest
     }
     
     @Test
-    void passwordTooLong(){
+    void passwordTooLong()
+    {
         //Password too long
-        this.password = "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999";
+        StringBuilder stringBuilder = new StringBuilder();
+        
+        for ( int i = 0; i < ( Config.PASSWORD_MAX_LENGTH + 1 ); i++ ) { //Passwords ends up 1 longer than nax
+            stringBuilder.append( "9" );
+        }
+        
+        this.password = stringBuilder.toString();
+        
+        assertTrue( this.password.length() > Config.PASSWORD_MAX_LENGTH );
         
         try {
             this.createAccountModel.createAccount( this.email, this.password, this.repeatPassword, this.globalUserMap, this.role );
@@ -176,7 +196,8 @@ public class ModelCreateAccountTest
     }
     
     @Test
-    void emailInvalid(){
+    void emailInvalid()
+    {
         //Email invalid
         this.email = "dddaaaa.com";
         
@@ -214,11 +235,12 @@ public class ModelCreateAccountTest
             assertTrue( e instanceof WebInvalidInputException );
         }
         
- 
+        
     }
     
     @Test
-    void emailInvalidOptionalReq(){
+    void emailInvalidOptionalReq()
+    {
         //Additional, Optional email validation
         
         this.email = "dddaaaa@.com";
