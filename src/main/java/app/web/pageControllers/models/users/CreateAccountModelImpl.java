@@ -24,29 +24,29 @@ public class CreateAccountModelImpl implements CreateAccountModel
     public User createAccount( String email, String password, String passwordAgain, Map<Integer, User> globalUserMap, String role ) throws DatabaseException, WebInvalidInputException, UnexpectedResultDbException, NoIdKeyReturnedException
     {
         if ( !isEmailValid( email ) ) {
-            throw new WebInvalidInputException( "Input Error: " + "Not a valid email. The email = '" + email + "'" );
+            throw new WebInvalidInputException( "Emailen '" + email + "' er ikke en gyldig email" );
         }
         
         if ( !Objects.equals( password, passwordAgain ) ) {
-            throw new WebInvalidInputException( "Input Error: " + "Passwords do not match" );
+            throw new WebInvalidInputException( "Kodeordende var ikke ens" );
         }
         
-        if ( password.length() > Config.PASSWORD_MAX_LENGTH ) {
-            throw new WebInvalidInputException( "Input Error: " + "Password too long" );
+        if ( password.length() > Config.User.PASSWORD_MAX_LENGTH ) {
+            throw new WebInvalidInputException( "Kode ord for langt, max " + Config.User.PASSWORD_MAX_LENGTH + " tegn" );
         }
         
-        if ( password.length() < Config.PASSWORD_MIN_LENGTH ) {
-            throw new WebInvalidInputException( "Input Error: " + "Password too short" );
+        if ( password.length() < Config.User.PASSWORD_MIN_LENGTH ) {
+            throw new WebInvalidInputException( "Kode ord for kort, min " + Config.User.PASSWORD_MIN_LENGTH + " tegn" );
         }
         
         Map< Integer, User > singleUserMap = this.userMapper.readAllByEmail( email );
         
         if ( !singleUserMap.isEmpty() ) {
-            throw new WebInvalidInputException( "Input Error: " + "Email already used, login instead. The email = '" + email + "'" );
+            throw new WebInvalidInputException( "En bruger med emailen '" + email + "' findes allerede" );
         }
         
         if ( singleUserMap.size() > 1 ) {
-            throw new UnexpectedResultDbException( "Database Error: " + "Found multiple accounts with the email, contact an administrator. The email = '" + email + "'", "Database Error: " + "at create account: " + "Found multiple accounts with the email, contact an administrator. The email = '" + email + "'" );
+            throw new UnexpectedResultDbException( "Database Fejl: Flere brugere fundet med samme email, contact en administrator. Emailen er '" + email + "'", "Database Error: " + "at create account: " + "Found multiple accounts with the email, contact an administrator. The email = '" + email + "'" );
         }
         
         User user = new User();

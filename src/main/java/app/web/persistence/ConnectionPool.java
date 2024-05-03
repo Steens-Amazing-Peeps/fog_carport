@@ -35,14 +35,14 @@ public final class ConnectionPool implements GetConnectionIf
     public static ConnectionPool getInstance()
     {
         if ( instance == null ) {
-        
+
 //            if (System.getenv("DEPLOYED") != null)
             
             ds = createHikariConnectionPool(
-                    System.getenv( "JDBC_USER" ),
-                    System.getenv( "JDBC_PASSWORD" ),
-                    System.getenv( "JDBC_CONNECTION_STRING" ),
-                    System.getenv( "JDBC_DB" ) );
+                    Config.ConnectionPool.JDBC_USER,
+                    Config.ConnectionPool.JDBC_PASSWORD,
+                    Config.ConnectionPool.JDBC_CONNECTION_STRING,
+                    Config.ConnectionPool.JDBC_DB );
             
             instance = new ConnectionPool();
         }
@@ -85,7 +85,7 @@ public final class ConnectionPool implements GetConnectionIf
         config.setJdbcUrl( String.format( url, db ) );
         config.setUsername( user );
         config.setPassword( password );
-        config.setMaximumPoolSize( Config.CONNECTION_POOL_SIZE );
+        config.setMaximumPoolSize( Config.ConnectionPool.CONNECTION_POOL_SIZE );
         config.setPoolName( "Postgresql Pool" );
         config.addDataSourceProperty( "cachePrepStmts", "true" );
         config.addDataSourceProperty( "prepStmtCacheSize", "250" );

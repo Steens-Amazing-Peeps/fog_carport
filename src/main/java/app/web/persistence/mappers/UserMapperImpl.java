@@ -17,7 +17,7 @@ public final class UserMapperImpl implements UserMapper
     
     
     private DataStore dataStore = null;
-    private static final UserMapperImpl.DtoCreatorImpl DTO_CREATOR = new DtoCreatorImpl();
+    private static final EntityCreatorImpl ENTITY_CREATOR = new EntityCreatorImpl();
     
     
     public UserMapperImpl( DataStore dataStore )
@@ -35,7 +35,7 @@ public final class UserMapperImpl implements UserMapper
     public int create( User user ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
     {
         if ( user.getRole() == null ) {
-            user.setRole( Config.DEFAULT_USER_ROLE );
+            user.setRole( Config.User.DEFAULT_USER_ROLE );
         }
         
         
@@ -50,7 +50,7 @@ public final class UserMapperImpl implements UserMapper
         parametersForSql[ 1 ] = user.getPassword();
         parametersForSql[ 2 ] = user.getRole();
         
-        return this.dataStore.create( sql, user, parametersForSql, DTO_CREATOR );
+        return this.dataStore.create( sql, user, parametersForSql, ENTITY_CREATOR );
     }
     
     @Override
@@ -65,7 +65,7 @@ public final class UserMapperImpl implements UserMapper
                 "   user_id;";
         
         
-        return ( Map< Integer, User > ) this.dataStore.readAll( sql, DTO_CREATOR );
+        return ( Map< Integer, User > ) this.dataStore.readAll( sql, ENTITY_CREATOR );
     }
     
     @Override
@@ -79,7 +79,7 @@ public final class UserMapperImpl implements UserMapper
                 "WHERE " +
                 "   email = ?;";
         
-        return ( Map< Integer, User > ) this.dataStore.readAll( sql, new Object[]{ email }, DTO_CREATOR );
+        return ( Map< Integer, User > ) this.dataStore.readAll( sql, new Object[]{ email }, ENTITY_CREATOR );
     }
     
     @Override
@@ -93,7 +93,7 @@ public final class UserMapperImpl implements UserMapper
                 "WHERE " +
                 "   user_id = ?;";
         
-        return ( User ) this.dataStore.readSingle( sql, id, DTO_CREATOR );
+        return ( User ) this.dataStore.readSingle( sql, id, ENTITY_CREATOR );
     }
     
     
@@ -131,16 +131,16 @@ public final class UserMapperImpl implements UserMapper
     
     
     
-    private static class DtoCreatorImpl implements DtoCreator
+    private static class EntityCreatorImpl implements EntityCreator
     {
         
-        private DtoCreatorImpl()
+        private EntityCreatorImpl()
         {
             
         }
         
         @Override
-        public Object createDto( ResultSet rs ) throws SQLException
+        public Object createEntity( ResultSet rs ) throws SQLException
         {
             User user;
             
@@ -155,7 +155,7 @@ public final class UserMapperImpl implements UserMapper
         }
         
         @Override
-        public Map< Integer, ? > createDtoMultiple( ResultSet rs ) throws SQLException
+        public Map< Integer, ? > createEntityMultiple( ResultSet rs ) throws SQLException
         {
             Map< Integer, User > usersMap = new LinkedHashMap<>();
             User user;

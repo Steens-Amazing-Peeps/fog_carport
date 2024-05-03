@@ -151,13 +151,13 @@ public class ModelCreateAccountTest
         //Password too short
         StringBuilder stringBuilder = new StringBuilder();
         
-        for ( int i = 0; i < ( Config.PASSWORD_MIN_LENGTH - 1 ); i++ ) { //Passwords ends up 1 shorter than min
+        for ( int i = 0; i < ( Config.User.PASSWORD_MIN_LENGTH - 1 ); i++ ) { //Passwords ends up 1 shorter than min
             stringBuilder.append( "9" );
         }
         
         this.password = stringBuilder.toString();
         
-        assertTrue( this.password.length() < Config.PASSWORD_MIN_LENGTH );
+        assertTrue( this.password.length() < Config.User.PASSWORD_MIN_LENGTH );
         
         try {
             this.createAccountModel.createAccount( this.email, this.password, this.repeatPassword, this.globalUserMap, this.role );
@@ -176,13 +176,13 @@ public class ModelCreateAccountTest
         //Password too long
         StringBuilder stringBuilder = new StringBuilder();
         
-        for ( int i = 0; i < ( Config.PASSWORD_MAX_LENGTH + 1 ); i++ ) { //Passwords ends up 1 longer than nax
+        for ( int i = 0; i < ( Config.User.PASSWORD_MAX_LENGTH + 1 ); i++ ) { //Passwords ends up 1 longer than nax
             stringBuilder.append( "9" );
         }
         
         this.password = stringBuilder.toString();
         
-        assertTrue( this.password.length() > Config.PASSWORD_MAX_LENGTH );
+        assertTrue( this.password.length() > Config.User.PASSWORD_MAX_LENGTH );
         
         try {
             this.createAccountModel.createAccount( this.email, this.password, this.repeatPassword, this.globalUserMap, this.role );

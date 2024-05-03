@@ -19,59 +19,59 @@ public interface DataStore
     
     /**
      * @param rawSql           SQL for this request
-     * @param entity           DTO for this request
+     * @param entity           Entity for this request
      * @param parametersForSql We replace the '?' in rawSQL with parametersForSql
-     * @param dtoCreator       How to we make this DTO? By using this!
+     * @param entityCreator       How to we make this Entity? By using this!
      * @return the Id of created row
      * @throws DatabaseException           If we have issues with connecting to the Database or a coding error/SQL code error happens
      * @throws UnexpectedResultDbException If we receive the wrong result (IE result-set on create) or if we affect more than 1 row
      * @throws NoIdKeyReturnedException    If there wasn't, for some reason. an id returned from database
      */
     //Default Access
-    int create( String rawSql, Object entity, Object[] parametersForSql, DtoCreator dtoCreator ) throws DatabaseException, UnexpectedResultDbException, NoIdKeyReturnedException;
+    int create( String rawSql, Object entity, Object[] parametersForSql, EntityCreator entityCreator ) throws DatabaseException, UnexpectedResultDbException, NoIdKeyReturnedException;
     
     /**
      * @param rawSql     SQL for this request
-     * @param dtoCreator How to we make this DTO? By using this!
-     * @return A LinkedHashMap of <Id, Dto>
+     * @param entityCreator How to we make this Entity? By using this!
+     * @return A LinkedHashMap of <Id, Entity>
      * @throws DatabaseException If we have issues with connecting to the Database or a coding error/SQL code error happens
      */
     //Default Access
-    Map< Integer, ? > readAll( String rawSql, DtoCreator dtoCreator ) throws DatabaseException;
+    Map< Integer, ? > readAll( String rawSql, EntityCreator entityCreator ) throws DatabaseException;
     
     /**
      * @param rawSql     SQL for this request
      * @param id         find all with this foreign key id
-     * @param dtoCreator How to we make this DTO? By using this!
-     * @return A LinkedHashMap of <Id, Dto>
+     * @param entityCreator How to we make this Entity? By using this!
+     * @return A LinkedHashMap of <Id, Entity>
      * @throws DatabaseException If we have issues with connecting to the Database or a coding error/SQL code error happens
      */
     //Default Access
-    Map< Integer, ? > readAll( String rawSql, Integer id, DtoCreator dtoCreator ) throws DatabaseException;
+    Map< Integer, ? > readAll( String rawSql, Integer id, EntityCreator entityCreator ) throws DatabaseException;
     
     /**
      * @param rawSql           SQL for this request
      * @param parametersForSql We replace the '?' in rawSQL with parametersForSql
-     * @param dtoCreator       How to we make this DTO? By using this!
-     * @return A LinkedHashMap of <Id, Dto>
+     * @param entityCreator       How to we make this Entity? By using this!
+     * @return A LinkedHashMap of <Id, Entity>
      * @throws DatabaseException If we have issues with connecting to the Database or a coding error/SQL code error happens
      */
     //Default Access
-    Map< Integer, ? > readAll( String rawSql, Object[] parametersForSql, DtoCreator dtoCreator ) throws DatabaseException;
+    Map< Integer, ? > readAll( String rawSql, Object[] parametersForSql, EntityCreator entityCreator ) throws DatabaseException;
     
     /**
      * @param rawSql     SQL for this request
      * @param id         Primary key to find
-     * @param dtoCreator How to we make this DTO? By using this!
-     * @return The Dto
+     * @param entityCreator How to we make this Entity? By using this!
+     * @return The Entity
      * @throws DatabaseException If we have issues with connecting to the Database or a coding error/SQL code error happens
      */
     //Default Access
-    Object readSingle( String rawSql, Integer id, DtoCreator dtoCreator ) throws DatabaseException;
+    Object readSingle( String rawSql, Integer id, EntityCreator entityCreator ) throws DatabaseException;
     
     /**
      * @param rawSql           SQL for this request
-     * @param entity           DTO for this request
+     * @param entity           Entity for this request
      * @param parametersForSql We replace the '?' in rawSQL with parametersForSql
      * @return Amount of Affected Rows
      * @throws DatabaseException           If we have issues with connecting to the Database or a coding error/SQL code error happens
