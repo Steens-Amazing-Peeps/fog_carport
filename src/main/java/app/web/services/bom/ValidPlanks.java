@@ -1,4 +1,4 @@
-package app.services.bom;
+package app.web.services.bom;
 
 import app.web.entities.Plank;
 
