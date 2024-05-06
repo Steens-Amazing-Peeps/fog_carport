@@ -1,22 +1,13 @@
-import app.services.bom.BoardCalculator;
-import app.services.bom.BoardCalculatorImpl;
-import app.services.bom.ValidPlanks;
-import app.services.bom.ValidPlanksImpl;
+import app.web.services.bom.BoardCalculator;
+import app.web.services.bom.BoardCalculatorImpl;
+import app.web.services.bom.ValidPlanks;
+import app.web.services.bom.ValidPlanksImpl;
 import app.web.entities.Carport;
-import app.web.entities.Order;
 import app.web.entities.Plank;
-import app.web.entities.User;
-import app.web.exceptions.DatabaseException;
-import app.web.exceptions.UnexpectedResultDbException;
-import app.web.exceptions.WebInvalidInputException;
-import app.web.pageControllers.models.users.LoginModel;
-import app.web.pageControllers.models.users.LoginModelImpl;
 import org.junit.jupiter.api.*;
-import testClasses.mappers.UserMapperTest;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EntityCarport

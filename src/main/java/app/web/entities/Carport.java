@@ -1,7 +1,7 @@
 package app.web.entities;
 
-import app.services.bom.BoardCalculator;
-import app.services.bom.ValidPlanks;
+import app.web.services.bom.BoardCalculator;
+import app.web.services.bom.ValidPlanks;
 
 public class Carport
 {
