@@ -8,4 +8,7 @@ public interface WebHtml
     String CARPORT_HTML = "users/carport.html";
     String HISTORY_HTML = "users/history.html";
     
+    String CONFIRM_CARPORT_HTML = "users/confirm-carport.html";
+    String RESET_HTML = "users/reset.html";
+    
 }

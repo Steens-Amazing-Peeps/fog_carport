@@ -10,6 +10,43 @@
     <div th:replace="~{fragments :: header}"></div>
 
     <div class="content" id="content">
+        <div class="intro-text" id="intro-text">
+            <h1 class="title" id="title">Opret bruger</h1>
+            <h2 class="subtitle" id="subtitle">Opret din bruger. Benyt venligst en gyldig email adresse!</h2>
+        </div>
+
+        <div class="create">
+            <form method="post">
+
+                <div class="create-div">
+                    <span><i class='user-icon'></i></span>
+                    <input type="text" id="email" name="email" required placeholder="Email"><br>
+                </div>
+
+                <div class="create-div">
+                    <span><i class='password-icon'></i></span>
+                    <input type="password" id="password" name="password" required placeholder="Password"><br>
+                </div>
+
+                <div class="create-div">
+                    <span><i class='password-icon'></i></span>
+                    <input type="password" id="verify-password" name="verify-password" required
+                           placeholder="Bekræft password"><br>
+                </div>
+
+                <!--                <br>-->
+
+                <div class="create-button" id="create-button">
+                    <button type="submit">Opret</button>
+                </div>
+
+                <div>
+                    <p class="error-msg" style="white-space: pre-line" th:unless="${#strings.isEmpty(msg)}"
+                       th:text="${msg}"></p>
+                </div>
+
+            </form>
+        </div>
 
     </div>
 
