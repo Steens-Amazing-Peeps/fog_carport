@@ -11,6 +11,45 @@
 
     <div class="content" id="content">
 
+        <div class="intro-text" id="intro-text">
+            <h1 class="title" id="title">Log ind</h1>
+            <!--            <h2 class="subtitle" id="subtitle">Log ind</h2>-->
+        </div>
+
+        <div class="login">
+            <form method="post">
+
+                <div class="login-div">
+                    <span><i class='user-icon'></i></span>
+                    <input type="text" id="email" name="email" required placeholder="Email"><br>
+                </div>
+
+                <div class="login-div">
+                    <span><i class='password-icon'></i></span>
+                    <input type="password" id="password" name="password" required placeholder="Password"><br>
+                </div>
+
+                <br>
+
+                <div class="login-button" id="login-button">
+                    <button type="submit">Log ind</button>
+                </div>
+
+
+                <!--                <br><br>-->
+
+                <div class="create-account-div">
+                    <!--                    <p>Ingen konto? <a href="create.html" th:href="@{../create-account}">Opret en konto her!</a></p>-->
+                </div>
+
+                <div>
+                    <p class="error-msg" style="white-space: pre-line" th:unless="${#strings.isEmpty(msg)}"
+                       th:text="${msg}"></p>
+                </div>
+
+            </form>
+        </div>
+
     </div>
 
     <div th:replace="~{fragments :: footer}"></div>

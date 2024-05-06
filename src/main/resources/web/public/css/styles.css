@@ -129,6 +129,13 @@ nav:hover {
     background-color: black;
 }
 
+.error-msg {
+    border: 1px solid red;
+    padding: 10px;
+    color: red;
+    max-width: 400px;
+}
+
 .underline-animation:hover::after {
     transform: scaleX(1);
     transform-origin: bottom left;

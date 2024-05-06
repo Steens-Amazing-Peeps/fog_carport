@@ -12,10 +12,7 @@ import app.web.pageControllers.models.IndexModelImpl;
 import app.web.pageControllers.models.users.*;
 import app.web.pageControllers.views.IndexViewImpl;
 import app.web.pageControllers.views.View;
-import app.web.pageControllers.views.users.CarportViewImpl;
-import app.web.pageControllers.views.users.CreateAccountViewImpl;
-import app.web.pageControllers.views.users.HistoryViewImpl;
-import app.web.pageControllers.views.users.LoginViewImpl;
+import app.web.pageControllers.views.users.*;
 
 
 import app.web.persistence.ConnectionPool;
@@ -48,11 +45,14 @@ public class Main
         
         IndexController.addRoutes( app );
         
+        HeaderController.addRoutes( app );
         CreateAccountController.addRoutes( app );
         LoginController.addRoutes( app );
-        HeaderController.addRoutes( app );
-
+        ResetController.addRoutes( app );
+        
         CarportController.addRoutes( app );
+        ConfirmCarportController.addRoutes( app );
+        
         HistoryController.addRoutes( app );
     }
     
@@ -70,30 +70,39 @@ public class Main
         //Models
         IndexModel indexModel = new IndexModelImpl();
         
-        LoginModel loginModel = new LoginModelImpl( userMapper );
         CreateAccountModel createAccountModel = new CreateAccountModelImpl( userMapper );
+        LoginModel loginModel = new LoginModelImpl( userMapper );
+        ResetModel resetModel = new ResetModelImpl();
+        
+        HistoryModel historyModel = new HistoryModelImpl();
         
         CarportModel carportModel = new CarportModelImpl();
-        HistoryModel historyModel = new HistoryModelImpl();
+        ConfirmCarportModel confirmCarportModel = new ConfirmCarportModelImpl();
         
         //Views
         View indexView = new IndexViewImpl();
         
-        View loginView = new LoginViewImpl();
         View createAccountView = new CreateAccountViewImpl();
+        View loginView = new LoginViewImpl();
+        View resetView = new ResetViewImpl();
+        
+        View historyView = new HistoryViewImpl();
         
         View carportView = new CarportViewImpl();
-        View historyView = new HistoryViewImpl();
+        View confirmCarportView = new ConfirmCarportViewImpl();
         
         //Controllers
         IndexController.startUp( indexModel, indexView );
         
         HeaderController.startUp( indexView );
-        LoginController.startUp( loginModel, loginView, indexView );
         CreateAccountController.startUp( createAccountModel, createAccountView, indexView );
+        LoginController.startUp( loginModel, loginView, indexView );
+        ResetController.startUp( resetModel, resetView, indexView );
+        
+        HistoryController.startUp( historyModel, historyView, indexView );
         
         CarportController.startUp( carportModel, carportView, indexView );
-        HistoryController.startUp( historyModel, historyView, indexView );
+        ConfirmCarportController.startUp( confirmCarportModel, confirmCarportView, indexView );
     }
     
 }
