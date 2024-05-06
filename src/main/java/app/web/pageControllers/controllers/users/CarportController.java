@@ -4,8 +4,11 @@ package app.web.pageControllers.controllers.users;
 import app.web.constants.routing.WebHtml;
 import app.web.constants.routing.WebPages;
 import app.web.pageControllers.models.users.CarportModel;
+import app.web.services.Svg;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+
+import java.util.Locale;
 
 
 public class CarportController
@@ -40,6 +43,10 @@ public class CarportController
     
     private static void getPage( Context ctx )
     {
+        Locale.setDefault(new Locale("US"));
+        Svg carportSvg = new Svg(0,0,"0 0 800 600", "100%","auto");
+        carportSvg.addRectangle(0,0,600,800,"stroke: #000000; stroke-width: 1px; fill: #ffffff");
+        ctx.attribute("svg", carportSvg.toString());
         render( ctx );
     }
 
