@@ -44,8 +44,18 @@ public class CarportController
     private static void getPage( Context ctx )
     {
         Locale.setDefault(new Locale("US"));
-        Svg carportSvg = new Svg(0,0,"0 0 800 600", "100%","auto");
+//        outer svg setup
+        Svg carportSvg = new Svg(0,0,"0 0 900 700", "100%","auto");
+        carportSvg.addRectangle(0,0,700,900,"stroke: #000000; stroke-width: 1px; fill: none");
+        carportSvg.addArrow(50, 620,50,20);
+        carportSvg.addArrow(80, 650,880,650);
+        carportSvg.addText(30,300,-90,"600 cm");
+        carportSvg.addText(470,680,0,"800 cm");
+
+//        inner svg setup
+        carportSvg.addSvg(30,20,"0 0 800 600", "900", "600");
         carportSvg.addRectangle(0,0,600,800,"stroke: #000000; stroke-width: 1px; fill: #ffffff");
+
         ctx.attribute("svg", carportSvg.toString());
         render( ctx );
     }
