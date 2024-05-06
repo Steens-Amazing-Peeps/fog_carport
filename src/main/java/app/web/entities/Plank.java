@@ -1,5 +1,7 @@
 package app.web.entities;
 
+import app.util.UnitConversion;
+
 import java.math.BigDecimal;
 
 public class Plank
@@ -20,6 +22,7 @@ public class Plank
     private Integer amount = null;
     private Integer price = null;
     private BigDecimal pricePrMm = null;
+    
     
     public Plank()
     {
@@ -118,6 +121,40 @@ public class Plank
     public void setPricePrMm( BigDecimal pricePrMm )
     {
         this.pricePrMm = pricePrMm;
+    }
+    
+   public double getDrawHeight( UnitConversion unitConversion ) {
+       
+       if ( this.type == Plank.BOARD ) {
+           return unitConversion.heightMmToDrawUnits( this.length );
+       }
+        
+        if ( this.type == Plank.POST ) {
+            return unitConversion.heightMmToDrawUnits( this.height );
+        }
+       
+       if ( this.type == Plank.BEAM ) {
+           return unitConversion.heightMmToDrawUnits( this.width );
+       }
+        
+        return -1;
+    }
+    
+    public double getDrawWidth( UnitConversion unitConversion ) {
+        
+        if ( this.type == Plank.BOARD ) {
+            return unitConversion.heightMmToDrawUnits( this.width );
+        }
+        
+        if ( this.type == Plank.POST ) {
+            return unitConversion.heightMmToDrawUnits( this.width );
+        }
+        
+        if ( this.type == Plank.BEAM ) {
+            return unitConversion.heightMmToDrawUnits( this.length );
+        }
+        
+        return -1;
     }
     
 }
