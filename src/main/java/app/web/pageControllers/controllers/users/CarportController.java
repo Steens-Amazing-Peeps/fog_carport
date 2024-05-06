@@ -53,7 +53,7 @@ public class CarportController
         carportSvg.addText(470,680,0,"800 cm");
 
 //        inner svg setup
-        carportSvg.addSvg(30,20,"0 0 800 600", "900", "600");
+        carportSvg.addSvg(80,20,"0 0 800 600", "800", "600");
         carportSvg.addRectangle(0,0,600,800,"stroke: #000000; stroke-width: 1px; fill: #ffffff");
 
         ctx.attribute("svg", carportSvg.toString());
