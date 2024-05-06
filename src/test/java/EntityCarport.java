@@ -1,0 +1,171 @@
+import app.services.bom.BoardCalculator;
+import app.services.bom.BoardCalculatorImpl;
+import app.services.bom.ValidPlanks;
+import app.services.bom.ValidPlanksImpl;
+import app.web.entities.Carport;
+import app.web.entities.Order;
+import app.web.entities.Plank;
+import app.web.entities.User;
+import app.web.exceptions.DatabaseException;
+import app.web.exceptions.UnexpectedResultDbException;
+import app.web.exceptions.WebInvalidInputException;
+import app.web.pageControllers.models.users.LoginModel;
+import app.web.pageControllers.models.users.LoginModelImpl;
+import org.junit.jupiter.api.*;
+import testClasses.mappers.UserMapperTest;
+
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+public class EntityCarport
+{
+    
+    private static ValidPlanks validPlanks = new ValidPlanksImpl();
+    private static BoardCalculator boardCalculator;
+    private static Carport carport;
+    
+    
+    private static int id = 0;
+    
+    @BeforeAll
+    static void beforeAll()
+    {
+        //Boards
+        Map< Integer,  Plank > boards = new TreeMap<>();
+        boards.put( id++, new Plank( id, 25, 200, 500, Plank.BOARD, 200 ) );
+        boards.put( id++, new Plank( id, 25, 200, 900, Plank.BOARD, 200 ) );
+        boards.put( id++, new Plank( id, 25, 200, 1100, Plank.BOARD, 200 ) );
+        boards.put( id++, new Plank( id, 25, 200, 1300, Plank.BOARD, 200 ) );
+        boards.put( id++, new Plank( id, 25, 200, 1400, Plank.BOARD, 200 ) );
+        boards.put( id++, new Plank( id, 25, 200, 1500, Plank.BOARD, 200 ) );
+        boards.put( id++, new Plank( id, 25, 200, 1700, Plank.BOARD, 200 ) );
+        boards.put( id++, new Plank( id, 25, 200, 2000, Plank.BOARD, 200 ) );
+        boards.put( id++, new Plank( id, 25, 200, 2300, Plank.BOARD, 200 ) );
+        boards.put( id++, new Plank( id, 25, 200, 2600, Plank.BOARD, 200 ) );
+        boards.put( id++, new Plank( id, 25, 200, 2900, Plank.BOARD, 200 ) );
+        boards.put( id++, new Plank( id, 25, 200, 3200, Plank.BOARD, 200 ) );
+        boards.put( id++, new Plank( id, 25, 200, 3400, Plank.BOARD, 200 ) );
+        
+        validPlanks.setBoards( boards );
+        
+        //Laths
+        Map< Integer,  Plank > laths = new TreeMap<>();
+        laths.put( id++, new Plank( id, 38, 73, 500, Plank.LATH, 180 ) );
+        laths.put( id++, new Plank( id, 38, 73, 900, Plank.LATH, 180 ) );
+        laths.put( id++, new Plank( id, 38, 73, 1100, Plank.LATH, 180 ) );
+        laths.put( id++, new Plank( id, 38, 73, 1300, Plank.LATH, 180 ) );
+        laths.put( id++, new Plank( id, 38, 73, 1400, Plank.LATH, 180 ) );
+        laths.put( id++, new Plank( id, 38, 73, 1500, Plank.LATH, 180 ) );
+        laths.put( id++, new Plank( id, 38, 73, 1700, Plank.LATH, 180 ) );
+        laths.put( id++, new Plank( id, 38, 73, 2000, Plank.LATH, 180 ) );
+        laths.put( id++, new Plank( id, 38, 73, 2300, Plank.LATH, 180 ) );
+        laths.put( id++, new Plank( id, 38, 73, 2600, Plank.LATH, 180 ) );
+        laths.put( id++, new Plank( id, 38, 73, 2900, Plank.LATH, 180 ) );
+        laths.put( id++, new Plank( id, 38, 73, 3200, Plank.LATH, 180 ) );
+        laths.put( id++, new Plank( id, 38, 73, 3400, Plank.LATH, 180 ) );
+        
+        
+        validPlanks.setLaths( laths );
+        
+        //Beams
+        Map< Integer,  Plank > beams = new TreeMap<>();
+        beams.put( id++, new Plank( id, 45, 95, 500, Plank.BEAM, 175 ) );
+        beams.put( id++, new Plank( id, 45, 95, 900, Plank.BEAM, 175 ) );
+        beams.put( id++, new Plank( id, 45, 95, 1100, Plank.BEAM, 175 ) );
+        beams.put( id++, new Plank( id, 45, 95, 1300, Plank.BEAM, 175 ) );
+        beams.put( id++, new Plank( id, 45, 95, 1400, Plank.BEAM, 175 ) );
+        beams.put( id++, new Plank( id, 45, 95, 1500, Plank.BEAM, 175 ) );
+        beams.put( id++, new Plank( id, 45, 95, 1700, Plank.BEAM, 175 ) );
+        beams.put( id++, new Plank( id, 45, 95, 2000, Plank.BEAM, 175 ) );
+        beams.put( id++, new Plank( id, 45, 95, 2300, Plank.BEAM, 175 ) );
+        beams.put( id++, new Plank( id, 45, 95, 2600, Plank.BEAM, 175 ) );
+        beams.put( id++, new Plank( id, 45, 95, 2900, Plank.BEAM, 175 ) );
+        beams.put( id++, new Plank( id, 45, 95, 3200, Plank.BEAM, 175 ) );
+        beams.put( id++, new Plank( id, 45, 95, 3400, Plank.BEAM, 175 ) );
+        
+        validPlanks.setBeams( beams );
+        
+        
+        
+        //Rafters
+        Map< Integer,  Plank > rafters = new TreeMap<>();
+        rafters.put( id++, new Plank( id, 45, 195, 500, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 900, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 1100, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 1300, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 1400, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 1500, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 1700, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 2000, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 2300, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 2600, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 2900, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 3200, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 3400, Plank.RAFTER, 225 ) );
+        
+        validPlanks.setRafters( rafters );
+        
+        //Posts
+        Map< Integer,  Plank > posts = new TreeMap<>();
+        posts.put( id++, new Plank( id, 19, 100, 500, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 900, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 1100, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 1300, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 1400, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 1500, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 1700, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 2000, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 2300, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 2600, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 2900, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 3200, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 3400, Plank.POST, 160 ) );
+        
+        validPlanks.setPosts( posts );
+        
+        //Calculator
+        boardCalculator = new BoardCalculatorImpl();
+        
+        //Carport
+        carport = new Carport( boardCalculator, validPlanks );
+    }
+    
+    @BeforeEach
+    void setUp()
+    {
+    
+    
+    }
+    
+    @AfterEach
+    void tearDown()
+    {
+    
+    }
+    
+    @AfterAll
+    static void afterAll()
+    {
+    
+    }
+    
+    @Test
+    void happyPath()
+    {
+    
+    }
+    
+    @Test
+    void calcPosts()
+    {
+    
+    }
+    
+
+    
+    
+    
+    
+}

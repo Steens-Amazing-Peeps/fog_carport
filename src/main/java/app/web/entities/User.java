@@ -1,6 +1,8 @@
 package app.web.entities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class User
@@ -10,6 +12,8 @@ public class User
     private String email;  // t
     private String password;  // t
     private String role;  // t
+    
+    private List<Order> orders = new ArrayList<>();
     
     public Integer getUserId()
     {
