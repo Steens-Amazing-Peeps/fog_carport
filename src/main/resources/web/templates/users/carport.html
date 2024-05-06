@@ -11,7 +11,175 @@
 
     <div class="content" id="content">
 
-        <h1>Her kommer vores design choices og indtast af mål fx til at være</h1>
+        <h1>Bestil Quick-Byg tilbud - carport med fladt tag</h1>
+        <p>Udfyld formularen omhyggeligt og klik på "Bestil", så kan vi hurtigt beregne en pris og skabe en skitsetegning</p>
+        <p>Felter markeret med * SKAL udfyldes</p>
+
+        <div class="carport-form">
+            <form class="order" method="post">
+                <div class="carport-dropdown-form">
+
+                    <div class="carport-dropdowns">
+                        <label class="dropdown-label" for="carportWidth">Carport bredde*</label>
+                        <select required name="carportWidth" id="carportWidth">
+                            <option value="" disabled selected></option>
+                            <option value="240 cm">240 cm</option>
+                            <option value="270 cm">270 cm</option>
+                            <option value="300 cm">300 cm</option>
+                            <option value="330 cm">330 cm</option>
+                            <option value="360 cm">360 cm</option>
+                            <option value="390 cm">390 cm</option>
+                            <option value="420 cm">420 cm</option>
+                            <option value="450 cm">450 cm</option>
+                            <option value="480 cm">480 cm</option>
+                            <option value="510 cm">510 cm</option>
+                            <option value="540 cm">540 cm</option>
+                            <option value="570 cm">570 cm</option>
+                            <option value="600 cm">600 cm</option>
+
+                            <!--<option th:each="cupcakebottom : ${session.Map}" //TODO
+                                    th:value="${cupcakebottom.value.Id}"
+                                    th:text="${cupcakebottom.value.order}">
+                            </option>-->
+
+                        </select>
+                    </div>
+
+                    <div class="carport-dropdowns">
+                        <label class="dropdown-label" for="carportLength">Carport længde*</label>
+                        <select required name="carportLength" id="carportLength">
+                            <option value="" disabled selected></option>
+                            <option value="240 cm">240 cm</option>
+                            <option value="270 cm">270 cm</option>
+                            <option value="300 cm">300 cm</option>
+                            <option value="330 cm">330 cm</option>
+                            <option value="360 cm">360 cm</option>
+                            <option value="390 cm">390 cm</option>
+                            <option value="420 cm">420 cm</option>
+                            <option value="450 cm">450 cm</option>
+                            <option value="480 cm">480 cm</option>
+                            <option value="510 cm">510 cm</option>
+                            <option value="540 cm">540 cm</option>
+                            <option value="570 cm">570 cm</option>
+                            <option value="600 cm">600 cm</option>
+                            <option value="630 cm">630 cm</option>
+                            <option value="660 cm">660 cm</option>
+                            <option value="690 cm">690 cm</option>
+                            <option value="720 cm">720 cm</option>
+                            <option value="750 cm">750 cm</option>
+                            <option value="780 cm">780 cm</option>
+
+                            <!--<option th:each="cupcakebottom : ${session.Map}" //TODO
+                                    th:value="${cupcakebottom.value.Id}"
+                                    th:text="${cupcakebottom.value.order}">
+                            </option>-->
+
+                        </select>
+                    </div>
+
+                    <div class="carport-dropdowns">
+                        <label class="dropdown-label" for="carportRoof">Carport trapeztag*</label>
+                        <select required name="carportRoof" id="carportRoof">
+                            <option value="" disabled selected></option>
+                            <option value="Uden tagplader">Uden tagplader</option>
+                            <option value="Plasttrapezplader">Plasttrapezplader</option>
+
+                            <!--<option th:each="cupcakebottom : ${session.Map}" //TODO
+                                    th:value="${cupcakebottom.value.Id}"
+                                    th:text="${cupcakebottom.value.order}">
+                            </option>-->
+
+                        </select>
+                    </div>
+
+                    <p>
+                        <b>Redskabsrum</b>
+                        <br>
+                        Bemærk! Der skal beregnes 15 cm tagudhæng på hver side af redskabsrummet*
+                    </p>
+
+                    <div class="carport-dropdowns">
+                        <label class="dropdown-label" for="toolshedWidth">Redskabsrum bredde*</label>
+                        <select required name="toolshedWidth" id="toolshedWidth">
+                            <option value="" disabled selected></option>
+                            <option value="Uden redskabsrum">Uden redskabsrum</option>
+                            <option value="210 cm">210 cm</option>
+                            <option value="240 cm">240 cm</option>
+                            <option value="270 cm">270 cm</option>
+                            <option value="300 cm">300 cm</option>
+                            <option value="330 cm">330 cm</option>
+                            <option value="360 cm">360 cm</option>
+                            <option value="390 cm">390 cm</option>
+                            <option value="420 cm">420 cm</option>
+                            <option value="450 cm">450 cm</option>
+                            <option value="480 cm">480 cm</option>
+                            <option value="510 cm">510 cm</option>
+                            <option value="540 cm">540 cm</option>
+                            <option value="570 cm">570 cm</option>
+                            <option value="600 cm">600 cm</option>
+                            <option value="630 cm">630 cm</option>
+                            <option value="660 cm">660 cm</option>
+                            <option value="690 cm">690 cm</option>
+                            <option value="720 cm">720 cm</option>
+
+                            <!--<option th:each="cupcakebottom : ${session.Map}" //TODO
+                                    th:value="${cupcakebottom.value.Id}"
+                                    th:text="${cupcakebottom.value.order}">
+                            </option>-->
+
+                        </select>
+                    </div>
+
+                    <div class="carport-dropdowns">
+                        <label class="dropdown-label" for="toolshedLength">Redskabsrum længde*</label>
+                        <select name="toolshedLength" id="toolshedLength">
+                            <option value="" disabled selected></option>
+                            <option value="Uden redskabsrum">Uden redskabsrum</option>
+                            <option value="150 cm">150 cm</option>
+                            <option value="180 cm">180 cm</option>
+                            <option value="210 cm">210 cm</option>
+                            <option value="240 cm">240 cm</option>
+                            <option value="270 cm">270 cm</option>
+                            <option value="300 cm">300 cm</option>
+                            <option value="330 cm">330 cm</option>
+                            <option value="360 cm">360 cm</option>
+                            <option value="390 cm">390 cm</option>
+                            <option value="420 cm">420 cm</option>
+                            <option value="450 cm">450 cm</option>
+                            <option value="480 cm">480 cm</option>
+                            <option value="510 cm">510 cm</option>
+                            <option value="540 cm">540 cm</option>
+                            <option value="570 cm">570 cm</option>
+                            <option value="600 cm">600 cm</option>
+                            <option value="630 cm">630 cm</option>
+                            <option value="660 cm">660 cm</option>
+
+                            <!--<option th:each="cupcakebottom : ${session.Map}" //TODO
+                                    th:value="${cupcakebottom.value.Id}"
+                                    th:text="${cupcakebottom.value.order}">
+                            </option>-->
+
+                        </select>
+                    </div>
+
+                    <div class="carport-remarks">
+                        <label class="dropdown-label">Evt. bemærkning / særlige ønsker</label>
+                        <div class="wrap">
+                            <textarea class="Message-box" name="Message" id="Message"></textarea>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <p>
+                        <b>Kontaktoplysninger:</b>
+                    </p>
+
+                    <input type="text" id="email" name="email" required placeholder="Email"><br>
+
+                </div>
+            </form>
+        </div>
+
         <nav>
             <div class="underline-animation">
                 <form method="get" action="/confirm-carport" class="inline">
