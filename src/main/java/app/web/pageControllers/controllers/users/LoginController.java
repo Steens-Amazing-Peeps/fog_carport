@@ -5,15 +5,14 @@ package app.web.pageControllers.controllers.users;
 import app.web.constants.attributes.WebAttributes;
 import app.web.constants.attributes.WebSessionAttributes;
 import app.web.constants.postRequest.WebFormParam;
+import app.web.constants.routing.WebHtml;
 import app.web.constants.routing.WebPages;
-import app.web.pageControllers.controllers.IndexController;
 import app.web.entities.User;
 import app.web.exceptions.DatabaseException;
 import app.web.exceptions.UnexpectedResultDbException;
 import app.web.exceptions.WebInvalidInputException;
-import app.web.pageControllers.models.IndexModel;
+import app.web.pageControllers.controllers.IndexController;
 import app.web.pageControllers.models.users.LoginModel;
-import app.web.pageControllers.views.View;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -21,21 +20,11 @@ public class LoginController
 {
     
     private static LoginModel loginModel;
-    private static View loginView;
-    private static View indexView;
     
-    public static void startUp( LoginModel loginModel, View loginView, View indexView )
+    public static void startUp( LoginModel loginModel)
     {
         if ( LoginController.loginModel == null ) {
             LoginController.loginModel = loginModel;
-        }
-        
-        if ( LoginController.loginView == null ) {
-            LoginController.loginView = loginView;
-        }
-        
-        if ( LoginController.indexView == null ) {
-            LoginController.indexView = indexView;
         }
     }
     
@@ -47,9 +36,21 @@ public class LoginController
         app.post( WebPages.LOGIN_POST_PAGE, ctx -> post( ctx ) );
     }
     
+
+    public static void render( Context ctx )
+    {
+        ctx.render( WebHtml.LOGIN_HTML );
+    }
+    
+
+    public static void redirect( Context ctx )
+    {
+        ctx.redirect( WebPages.LOGIN_GET_PAGE );
+    }
+    
     private static void getPage( Context ctx )
     {
-        loginView.display( ctx );
+        render( ctx );
     }
     
     private static void post( Context ctx )
@@ -67,13 +68,14 @@ public class LoginController
             
         } catch ( WebInvalidInputException | UnexpectedResultDbException | DatabaseException e ) {
             
-            loginView.displayCommonError( ctx, e );
+            ctx.attribute( WebAttributes.msg, e.getUserMessage() );
+            render( ctx );
             return;
             
         }
         
         
-        indexView.redirect( ctx );
+        IndexController.redirect( ctx );
     }
     
     

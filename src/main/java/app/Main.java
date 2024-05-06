@@ -10,9 +10,6 @@ import app.web.pageControllers.controllers.users.*;
 import app.web.pageControllers.models.IndexModel;
 import app.web.pageControllers.models.IndexModelImpl;
 import app.web.pageControllers.models.users.*;
-import app.web.pageControllers.views.IndexViewImpl;
-import app.web.pageControllers.views.View;
-import app.web.pageControllers.views.users.*;
 
 
 import app.web.persistence.ConnectionPool;
@@ -79,30 +76,18 @@ public class Main
         CarportModel carportModel = new CarportModelImpl();
         ConfirmCarportModel confirmCarportModel = new ConfirmCarportModelImpl();
         
-        //Views
-        View indexView = new IndexViewImpl();
-        
-        View createAccountView = new CreateAccountViewImpl();
-        View loginView = new LoginViewImpl();
-        View resetView = new ResetViewImpl();
-        
-        View historyView = new HistoryViewImpl();
-        
-        View carportView = new CarportViewImpl();
-        View confirmCarportView = new ConfirmCarportViewImpl();
-        
         //Controllers
-        IndexController.startUp( indexModel, indexView );
+        IndexController.startUp( indexModel );
         
-        HeaderController.startUp( indexView );
-        CreateAccountController.startUp( createAccountModel, createAccountView, indexView );
-        LoginController.startUp( loginModel, loginView, indexView );
-        ResetController.startUp( resetModel, resetView, indexView );
+        HeaderController.startUp();
+        CreateAccountController.startUp( createAccountModel );
+        LoginController.startUp( loginModel );
+        ResetController.startUp( resetModel );
         
-        HistoryController.startUp( historyModel, historyView, indexView );
+        HistoryController.startUp( historyModel );
         
-        CarportController.startUp( carportModel, carportView, indexView );
-        ConfirmCarportController.startUp( confirmCarportModel, confirmCarportView, indexView );
+        CarportController.startUp( carportModel );
+        ConfirmCarportController.startUp( confirmCarportModel );
     }
     
 }
