@@ -11,11 +11,14 @@
 
     <div class="content" id="content">
 
-        <h1>Bestil Quick-Byg tilbud - carport med fladt tag</h1>
-        <p>Udfyld formularen omhyggeligt og klik på "Bestil", så kan vi hurtigt beregne en pris og skabe en skitsetegning</p>
-        <p>Felter markeret med * SKAL udfyldes</p>
-
         <div class="carport-form">
+
+            <div class="form-header">
+                <h1>Bestil Quick-Byg tilbud - carport med fladt tag</h1>
+                <p>Udfyld formularen omhyggeligt og klik på "Bestil", så kan vi hurtigt beregne en pris og skabe en skitsetegning</p>
+                <p>Felter markeret med * SKAL udfyldes</p>
+            </div>
+
             <form class="order" method="post">
                 <div class="carport-dropdown-form">
 
@@ -37,7 +40,7 @@
                             <option value="570 cm">570 cm</option>
                             <option value="600 cm">600 cm</option>
 
-                            <!--<option th:each="cupcakebottom : ${session.Map}" //TODO
+                            <!--<option th:each="cupcakebottom : ${session.Map}" //TODO fix the dropdowns and use mm
                                     th:value="${cupcakebottom.value.Id}"
                                     th:text="${cupcakebottom.value.order}">
                             </option>-->
@@ -69,7 +72,7 @@
                             <option value="750 cm">750 cm</option>
                             <option value="780 cm">780 cm</option>
 
-                            <!--<option th:each="cupcakebottom : ${session.Map}" //TODO
+                            <!--<option th:each="cupcakebottom : ${session.Map}" //TODO same
                                     th:value="${cupcakebottom.value.Id}"
                                     th:text="${cupcakebottom.value.order}">
                             </option>-->
@@ -83,11 +86,6 @@
                             <option value="" disabled selected></option>
                             <option value="Uden tagplader">Uden tagplader</option>
                             <option value="Plasttrapezplader">Plasttrapezplader</option>
-
-                            <!--<option th:each="cupcakebottom : ${session.Map}" //TODO
-                                    th:value="${cupcakebottom.value.Id}"
-                                    th:text="${cupcakebottom.value.order}">
-                            </option>-->
 
                         </select>
                     </div>
@@ -122,7 +120,7 @@
                             <option value="690 cm">690 cm</option>
                             <option value="720 cm">720 cm</option>
 
-                            <!--<option th:each="cupcakebottom : ${session.Map}" //TODO
+                            <!--<option th:each="cupcakebottom : ${session.Map}" //TODO same
                                     th:value="${cupcakebottom.value.Id}"
                                     th:text="${cupcakebottom.value.order}">
                             </option>-->
@@ -154,7 +152,7 @@
                             <option value="630 cm">630 cm</option>
                             <option value="660 cm">660 cm</option>
 
-                            <!--<option th:each="cupcakebottom : ${session.Map}" //TODO
+                            <!--<option th:each="cupcakebottom : ${session.Map}" //TODO same
                                     th:value="${cupcakebottom.value.Id}"
                                     th:text="${cupcakebottom.value.order}">
                             </option>-->
@@ -169,7 +167,6 @@
                         </div>
                     </div>
 
-                    <hr>
                     <p>
                         <b>Kontaktoplysninger:</b>
                     </p>
@@ -216,24 +213,24 @@
                         </div>
                     </div>
 
-                    <p>
-                        <b>Kontakt samtykke</b>
-                    </p>
                     <div class="checkbox">
+                        <p>
+                            <b>Kontakt samtykke</b>
+                        </p>
                         <input type="checkbox" id="consent" name="consent" value="Contact">
                         <label for="consent">Fog må benytte de afgivne oplysninger til at kontakte mig i forbindelse
                             med tilbud på QuickByg carport*</label>
                     </div>
 
-                </div>
+                    <nav>
+                        <div class="underline-animation" id="confirm">
+                            <form method="get" action="/confirm-carport" class="inline">
+                                <button type="submit" class="link-button">Bestil carport</button>
+                            </form>
+                        </div>
+                    </nav>
 
-                <nav>
-                    <div class="underline-animation">
-                        <form method="get" action="/confirm-carport" class="inline">
-                            <button type="submit" class="link-button">Bestil carport</button>
-                        </form>
-                    </div>
-                </nav>
+                </div>
 
             </form>
         </div>
