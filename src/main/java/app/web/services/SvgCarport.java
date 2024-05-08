@@ -1,5 +1,6 @@
 package app.web.services;
 
+import app.util.UnitConversion;
 import app.web.entities.Plank;
 
 import java.util.ArrayList;
@@ -7,11 +8,13 @@ import java.util.List;
 import java.util.Locale;
 
 public class SvgCarport {
-    private List<Plank> testOrder = new ArrayList<>();
+    private static List<Plank> testOrder = new ArrayList<>();
     private static int id = 0;
+    private UnitConversion unitConversion = new UnitConversion(600,780);
+    private Svg carportSvg = new Svg(0,0,"0 0 900 700", "100%","auto");
 
 
-    public List<Plank> getTestOrder() {
+    public static List<Plank> getTestOrder() {
         testOrder.add(new Plank(id++,25,200,540,Plank.BOARD,0));
         testOrder.add(new Plank(id++,25,200,540,Plank.BOARD,0));
         testOrder.add(new Plank(id++,25,200,540,Plank.BOARD,0));
@@ -29,13 +32,12 @@ public class SvgCarport {
 
         testOrder.add(new Plank(id++,97,97,600,Plank.POST,0));
 
-        return this.testOrder;
+        return testOrder;
     }
 
-    public void drawCarport(List<Plank> Planks){
+    public String drawCarport(List<Plank> Planks){
         Locale.setDefault(new Locale("US"));
 //        outer svg setup
-        Svg carportSvg = new Svg(0,0,"0 0 900 700", "100%","auto");
         carportSvg.addRectangle(0,0,700,900,"stroke: #000000; stroke-width: 1px; fill: none");
         carportSvg.addArrow(50, 620,50,20);
         carportSvg.addArrow(80, 650,880,650);
@@ -45,14 +47,21 @@ public class SvgCarport {
 //        inner svg setup
         carportSvg.addSvg(80,20,"0 0 800 600", "800", "600");
         carportSvg.addRectangle(0,0,600,800,"stroke: #000000; stroke-width: 1px; fill: #ffffff");
+//        methods for drawing the actual carport
+        rafterDrawer();
+
+        return carportSvg.toString();
     }
 
-    public String rafterDrawer(List<Plank> Rafters){
-        StringBuilder raftersSvgSegment = new StringBuilder();
+    public void rafterDrawer(){
+        ArrayList<Plank> rafters = plankOrganiser(getTestOrder(),3);
 
+//        raftersSvgSegment.append(String.format(Svg.SVG_RECT_TEMPLATE, 0, 0, unitConversion.widthMmToDrawUnits(rafters.get(0).getLength()), unitConversion.widthMmToDrawUnits(rafters.get(0).getHeight()), "stroke: #000000; stroke-width: 1px; fill: #ffffff"));
+//        raftersSvgSegment.append(String.format(Svg.SVG_RECT_TEMPLATE, 700, 0, unitConversion.widthMmToDrawUnits(rafters.get(0).getLength()), unitConversion.widthMmToDrawUnits(rafters.get(0).getHeight()), "stroke: #000000; stroke-width: 1px; fill: #ffffff"));
 
+        System.out.println(unitConversion.widthMmToDrawUnits(45));
+        carportSvg.addRectangle(0,0,600,45,"stroke: #000000; stroke-width: 1px; fill: #ffffff");
 
-        return raftersSvgSegment.toString();
     }
 
     public String boardDrawer(List<Plank> Boards){
@@ -63,7 +72,7 @@ public class SvgCarport {
         return boardsSvgSegment.toString();
     }
 
-    public ArrayList<Plank> plaktOrganiser(List<Plank> planks, int type){
+    public ArrayList<Plank> plankOrganiser(List<Plank> planks, int type){
         ArrayList<Plank> plankArrayList = new ArrayList<>();
         switch (type) {
             case 0: //board
