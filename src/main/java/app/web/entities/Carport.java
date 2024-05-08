@@ -1,6 +1,6 @@
 package app.web.entities;
 
-import app.web.services.bom.BoardCalculator;
+import app.web.services.bom.PlankCalculator;
 import app.web.services.bom.ValidPlanks;
 
 public class Carport
@@ -18,12 +18,12 @@ public class Carport
     private Bom bom;
     
     
-    BoardCalculator boardCalculator;
+    PlankCalculator plankCalculator;
     ValidPlanks validPlanks;
     
-    public Carport( BoardCalculator boardCalculator, ValidPlanks validPlanks )
+    public Carport( PlankCalculator plankCalculator, ValidPlanks validPlanks )
     {
-        this.boardCalculator = boardCalculator;
+        this.plankCalculator = plankCalculator;
         this.validPlanks = validPlanks;
     }
     

@@ -1,10 +1,17 @@
 package app.web.entities;
 
 import app.util.UnitConversion;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Objects;
 
-public class Plank
+/**
+ * "Note: this class has a natural ordering that is
+ * inconsistent with equals."
+ **/
+public class Plank implements Comparable< Plank >
 {
     
     //Types
@@ -22,6 +29,7 @@ public class Plank
     private Integer amount = null;
     private Integer price = null;
     private BigDecimal pricePrMm = null;
+    private int polePrice = 0;
     
     
     public Plank()
@@ -112,9 +120,6 @@ public class Plank
     
     public BigDecimal getPricePrMm()
     {
-        if ( this.pricePrMm == null && this.price != null && this.length != null ) {
-            this.pricePrMm = new BigDecimal( this.price ).divide( new BigDecimal( this.length ) );
-        }
         return this.pricePrMm;
     }
     
@@ -123,24 +128,57 @@ public class Plank
         this.pricePrMm = pricePrMm;
     }
     
-   public double getDrawHeight( UnitConversion unitConversion ) {
-       
-       if ( this.type == Plank.BOARD ) {
-           return unitConversion.heightMmToDrawUnits( this.length );
-       }
+    public Integer getPolePrice()
+    {
+        return this.polePrice;
+    }
+    
+    public void setPolePrice( Integer polePrice )
+    {
+        this.polePrice = polePrice;
+    }
+    
+    public BigDecimal calcPricePrMm()
+    {
+        if ( this.price == null || this.length == null ) {
+            return null;
+        }
+        
+       BigDecimal totalPrice = new BigDecimal( this.price + this.polePrice );
+       BigDecimal length = new BigDecimal(this.length);
+        
+        this.pricePrMm = totalPrice.divide( length, RoundingMode.HALF_UP );
+        
+        return this.pricePrMm;
+    }
+    
+    public int getPriceWithPole()
+    {
+        return this.price + this.polePrice;
+    }
+    
+    
+    
+    public double getDrawHeight( UnitConversion unitConversion )
+    {
+        
+        if ( this.type == Plank.BOARD ) {
+            return unitConversion.heightMmToDrawUnits( this.length );
+        }
         
         if ( this.type == Plank.POST ) {
             return unitConversion.heightMmToDrawUnits( this.height );
         }
-       
-       if ( this.type == Plank.BEAM ) {
-           return unitConversion.heightMmToDrawUnits( this.width );
-       }
+        
+        if ( this.type == Plank.BEAM ) {
+            return unitConversion.heightMmToDrawUnits( this.width );
+        }
         
         return -1;
     }
     
-    public double getDrawWidth( UnitConversion unitConversion ) {
+    public double getDrawWidth( UnitConversion unitConversion )
+    {
         
         if ( this.type == Plank.BOARD ) {
             return unitConversion.heightMmToDrawUnits( this.width );
@@ -155,6 +193,77 @@ public class Plank
         }
         
         return -1;
+    }
+    
+    
+    @Override
+    public boolean equals( Object o )
+    {
+        if ( this == o ) {
+            return true;
+        }
+        if ( o == null || this.getClass() != o.getClass() ) {
+            return false;
+        }
+        
+        Plank plank = ( Plank ) o;
+        
+        if ( !Objects.equals( this.id, plank.id ) ) {
+            return false;
+        }
+        
+        if ( !Objects.equals( this.height, plank.height ) ) {
+            return false;
+        }
+        
+        if ( !Objects.equals( this.width, plank.width ) ) {
+            return false;
+        }
+        
+        if ( !Objects.equals( this.length, plank.length ) ) {
+            return false;
+        }
+        
+        if ( !Objects.equals( this.type, plank.type ) ) {
+            return false;
+        }
+        
+        if ( !Objects.equals( this.amount, plank.amount ) ) {
+            return false;
+        }
+        
+        if ( !Objects.equals( this.price, plank.price ) ) {
+            return false;
+        }
+        
+        if ( !Objects.equals( this.pricePrMm, plank.pricePrMm ) ) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public int compareTo( @NotNull Plank o )
+    {
+        return this.getPricePrMm().subtract( o.getPricePrMm() ).intValue();
+    }
+    
+    @Override
+    public String toString()
+    {
+        return "Plank{" +
+               "id=" + this.id +
+               ", height=" + this.height +
+               ", width=" + this.width +
+               ", length=" + this.length +
+               ", type=" + this.type +
+               ", amount=" + this.amount +
+               ", price=" + this.price +
+               ", pricePrMm=" + this.pricePrMm +
+               ", polePrice=" + this.polePrice +
+               ", PriceWithPole=" + this.getPriceWithPole() +
+               '}';
     }
     
 }

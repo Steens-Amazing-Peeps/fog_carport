@@ -1,5 +1,5 @@
-import app.web.services.bom.BoardCalculator;
-import app.web.services.bom.BoardCalculatorImpl;
+import app.web.services.bom.PlankCalculator;
+import app.web.services.bom.PlankCalculatorImpl;
 import app.web.services.bom.ValidPlanks;
 import app.web.services.bom.ValidPlanksImpl;
 import app.web.entities.Carport;
@@ -14,7 +14,7 @@ public class EntityCarport
 {
     
     private static ValidPlanks validPlanks = new ValidPlanksImpl();
-    private static BoardCalculator boardCalculator;
+    private static PlankCalculator plankCalculator;
     private static Carport carport;
     
     
@@ -24,7 +24,7 @@ public class EntityCarport
     static void beforeAll()
     {
         //Boards
-        Map< Integer,  Plank > boards = new TreeMap<>();
+        Map< Integer, Plank > boards = new TreeMap<>();
         boards.put( id++, new Plank( id, 25, 200, 500, Plank.BOARD, 200 ) );
         boards.put( id++, new Plank( id, 25, 200, 900, Plank.BOARD, 200 ) );
         boards.put( id++, new Plank( id, 25, 200, 1100, Plank.BOARD, 200 ) );
@@ -42,7 +42,7 @@ public class EntityCarport
         validPlanks.setBoards( boards );
         
         //Laths
-        Map< Integer,  Plank > laths = new TreeMap<>();
+        Map< Integer, Plank > laths = new TreeMap<>();
         laths.put( id++, new Plank( id, 38, 73, 500, Plank.LATH, 180 ) );
         laths.put( id++, new Plank( id, 38, 73, 900, Plank.LATH, 180 ) );
         laths.put( id++, new Plank( id, 38, 73, 1100, Plank.LATH, 180 ) );
@@ -61,7 +61,7 @@ public class EntityCarport
         validPlanks.setLaths( laths );
         
         //Beams
-        Map< Integer,  Plank > beams = new TreeMap<>();
+        Map< Integer, Plank > beams = new TreeMap<>();
         beams.put( id++, new Plank( id, 45, 95, 500, Plank.BEAM, 175 ) );
         beams.put( id++, new Plank( id, 45, 95, 900, Plank.BEAM, 175 ) );
         beams.put( id++, new Plank( id, 45, 95, 1100, Plank.BEAM, 175 ) );
@@ -81,7 +81,7 @@ public class EntityCarport
         
         
         //Rafters
-        Map< Integer,  Plank > rafters = new TreeMap<>();
+        Map< Integer, Plank > rafters = new TreeMap<>();
         rafters.put( id++, new Plank( id, 45, 195, 500, Plank.RAFTER, 225 ) );
         rafters.put( id++, new Plank( id, 45, 195, 900, Plank.RAFTER, 225 ) );
         rafters.put( id++, new Plank( id, 45, 195, 1100, Plank.RAFTER, 225 ) );
@@ -99,7 +99,7 @@ public class EntityCarport
         validPlanks.setRafters( rafters );
         
         //Posts
-        Map< Integer,  Plank > posts = new TreeMap<>();
+        Map< Integer, Plank > posts = new TreeMap<>();
         posts.put( id++, new Plank( id, 19, 100, 500, Plank.POST, 160 ) );
         posts.put( id++, new Plank( id, 19, 100, 900, Plank.POST, 160 ) );
         posts.put( id++, new Plank( id, 19, 100, 1100, Plank.POST, 160 ) );
@@ -117,10 +117,10 @@ public class EntityCarport
         validPlanks.setPosts( posts );
         
         //Calculator
-        boardCalculator = new BoardCalculatorImpl();
+        plankCalculator = new PlankCalculatorImpl();
         
         //Carport
-        carport = new Carport( boardCalculator, validPlanks );
+        carport = new Carport( plankCalculator, validPlanks );
     }
     
     @BeforeEach
@@ -154,7 +154,140 @@ public class EntityCarport
     
     }
     
-
+    @Test
+    void calcBeamsOnPosts()
+    {
+        int carportLength = 8000;
+        List< Plank > beams = plankCalculator.calcBeamsOnPosts( validPlanks.getBeams(), carportLength, 2, 10000 );
+        
+        System.out.println( "Amount of beams = " + beams.size() );
+        
+        int beamsTotalLength = 0;
+        
+        for ( Plank beam : beams ) {
+            System.out.println( beam );
+            beamsTotalLength = beamsTotalLength + beam.getLength();
+        }
+        
+        System.out.println();
+        System.out.println( plankCalculator );
+        
+        assertTrue( beamsTotalLength >= carportLength );
+        
+        assertTrue( plankCalculator.getBeamCheapestPrice() > 0 );
+        assertTrue( plankCalculator.getBeamLeastWastefulWaste() >= 0 );
+        
+        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getBeamLeastWastefulPrice() );
+        assertTrue( plankCalculator.getBeamLeastWastefulWaste() <= plankCalculator.getBeamCheapestWaste() );
+        
+        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMinPrice() );
+        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMaxPrice() );
+        
+        assertTrue( beams.size() <= plankCalculator.getMaxAmount() );
+        assertTrue( beams.size() >= plankCalculator.getMinAmount() );
+        
+        
+        
+        //.........................
+        
+        carportLength = 6950;
+        beams = plankCalculator.calcBeamsOnPosts( validPlanks.getBeams(), carportLength, 2, 10000 );
+        
+        System.out.println( "Amount of beams = " + beams.size() );
+        
+        beamsTotalLength = 0;
+        
+        for ( Plank beam : beams ) {
+            System.out.println( beam );
+            beamsTotalLength = beamsTotalLength + beam.getLength();
+        }
+        
+        System.out.println();
+        System.out.println( plankCalculator );
+        
+        assertTrue( beamsTotalLength >= carportLength );
+        
+        assertTrue( plankCalculator.getBeamCheapestPrice() > 0 );
+        assertTrue( plankCalculator.getBeamLeastWastefulWaste() >= 0 );
+        
+        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getBeamLeastWastefulPrice() );
+        assertTrue( plankCalculator.getBeamLeastWastefulWaste() <= plankCalculator.getBeamCheapestWaste() );
+        
+        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMinPrice() );
+        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMaxPrice() );
+        
+        assertTrue( beams.size() <= plankCalculator.getMaxAmount() );
+        assertTrue( beams.size() >= plankCalculator.getMinAmount() );
+        
+        //.........................
+        
+        plankCalculator.setMinimumBatchSize( validPlanks.getBeams().size() );
+        
+        //......................... Search every combination
+        
+        carportLength = 8000;
+        beams = plankCalculator.calcBeamsOnPosts( validPlanks.getBeams(), carportLength, 2, 10000 );
+        
+        System.out.println( "Amount of beams = " + beams.size() );
+        
+        beamsTotalLength = 0;
+        
+        for ( Plank beam : beams ) {
+            System.out.println( beam );
+            beamsTotalLength = beamsTotalLength + beam.getLength();
+        }
+        
+        System.out.println();
+        System.out.println( plankCalculator );
+        
+        assertTrue( beamsTotalLength >= carportLength );
+        
+        assertTrue( plankCalculator.getBeamCheapestPrice() > 0 );
+        assertTrue( plankCalculator.getBeamLeastWastefulWaste() >= 0 );
+        
+        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getBeamLeastWastefulPrice() );
+        assertTrue( plankCalculator.getBeamLeastWastefulWaste() <= plankCalculator.getBeamCheapestWaste() );
+        
+        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMinPrice() );
+        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMaxPrice() );
+        
+        assertTrue( beams.size() <= plankCalculator.getMaxAmount() );
+        assertTrue( beams.size() >= plankCalculator.getMinAmount() );
+        
+        //.........................
+        
+        carportLength = 6950;
+        beams = plankCalculator.calcBeamsOnPosts( validPlanks.getBeams(), carportLength, 2, 10000 );
+        
+        System.out.println( "Amount of beams = " + beams.size() );
+        
+        beamsTotalLength = 0;
+        
+        for ( Plank beam : beams ) {
+            System.out.println( beam );
+            beamsTotalLength = beamsTotalLength + beam.getLength();
+        }
+        
+        System.out.println();
+        System.out.println( plankCalculator );
+        
+        assertTrue( beamsTotalLength >= carportLength );
+        
+        assertTrue( plankCalculator.getBeamCheapestPrice() > 0 );
+        assertTrue( plankCalculator.getBeamLeastWastefulWaste() >= 0 );
+        
+        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getBeamLeastWastefulPrice() );
+        assertTrue( plankCalculator.getBeamLeastWastefulWaste() <= plankCalculator.getBeamCheapestWaste() );
+        
+        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMinPrice() );
+        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMaxPrice() );
+        
+        assertTrue( beams.size() <= plankCalculator.getMaxAmount() );
+        assertTrue( beams.size() >= plankCalculator.getMinAmount() );
+        
+    }
+    
+    
     
     
     
