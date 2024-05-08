@@ -14,10 +14,7 @@ import app.web.pageControllers.models.users.*;
 
 import app.web.persistence.ConnectionPool;
 import app.web.persistence.GetConnectionIf;
-import app.web.persistence.mappers.DataStore;
-import app.web.persistence.mappers.DataStoreImpl;
-import app.web.persistence.mappers.UserMapper;
-import app.web.persistence.mappers.UserMapperImpl;
+import app.web.persistence.mappers.*;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
@@ -60,6 +57,7 @@ public class Main
         
         //Mappers
         UserMapper userMapper = new UserMapperImpl( dataStore );
+        OrderMapper orderMapper = new OrderMapperImpl( dataStore );
         
         //Load Global Attributes
         WebGlobalAttributes.startUp( userMapper );
