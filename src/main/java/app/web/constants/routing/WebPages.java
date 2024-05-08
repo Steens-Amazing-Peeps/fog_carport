@@ -1,5 +1,7 @@
 package app.web.constants.routing;
 
+import app.web.constants.postRequest.WebFormParam;
+
 public interface WebPages
 {     //Alle vores websides sider, inklusiv 'send' sider, hvis du kan se det I browseren oppe i URL, så er det en side og skal være her :)
     
@@ -15,6 +17,7 @@ public interface WebPages
     String CREATE_ACCOUNT_POST_PAGE = CREATE_ACCOUNT_GET_PAGE;
 
     String CARPORT_GET_PAGE = "/carport";
+    String CARPORT_POST_PAGE = CARPORT_GET_PAGE + WebFormParam.carportSend;
     
     String HISTORY_GET_PAGE = "/order-history";
     
