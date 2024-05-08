@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class BoardCalculatorImpl implements BoardCalculator //TODO: Finish this
+public class  BoardCalculatorImpl implements BoardCalculator //TODO: Finish this
 {
     
     public Plank calcBeamsOnPosts( Map< Integer, Plank > validPlanks, int length, int rowAmount )
