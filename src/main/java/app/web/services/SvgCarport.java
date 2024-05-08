@@ -59,8 +59,8 @@ public class SvgCarport {
 //        raftersSvgSegment.append(String.format(Svg.SVG_RECT_TEMPLATE, 0, 0, unitConversion.widthMmToDrawUnits(rafters.get(0).getLength()), unitConversion.widthMmToDrawUnits(rafters.get(0).getHeight()), "stroke: #000000; stroke-width: 1px; fill: #ffffff"));
 //        raftersSvgSegment.append(String.format(Svg.SVG_RECT_TEMPLATE, 700, 0, unitConversion.widthMmToDrawUnits(rafters.get(0).getLength()), unitConversion.widthMmToDrawUnits(rafters.get(0).getHeight()), "stroke: #000000; stroke-width: 1px; fill: #ffffff"));
 
-        System.out.println(unitConversion.widthMmToDrawUnits(45));
-        carportSvg.addRectangle(0,0,600,45,"stroke: #000000; stroke-width: 1px; fill: #ffffff");
+        System.out.println(unitConversion.widthMmToDrawUnits(rafters.get(0).getHeight()));
+        carportSvg.addRectangle(0,0,600,unitConversion.widthMmToDrawUnits(rafters.get(0).getHeight()),"stroke: #000000; stroke-width: 1px; fill: #ffffff");
 
     }
 
