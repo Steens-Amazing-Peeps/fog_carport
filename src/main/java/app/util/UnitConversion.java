@@ -31,4 +31,12 @@ public class UnitConversion
     private double conversion(int mm, double unitsPrMm){
         return (mm * unitsPrMm) * 0.1;
     }
+
+    public int getCarportHeight() {
+        return this.carportHeight;
+    }
+
+    public int getCarportWidth() {
+        return this.carportWidth;
+    }
 }

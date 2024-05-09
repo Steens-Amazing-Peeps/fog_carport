@@ -3,7 +3,7 @@ package app.web.services;
 public class Svg {
 
     private static final String SVG_TEMPLATE = "<svg x=\"%d\" y=\"%d\" viewBox=\"%s\" width=\"%s\" height=\"%s\" preserveAspectRatio=\\\"xMinYMin\\\">";
-    public static final String SVG_RECT_TEMPLATE = "<rect x=\"%d\" y=\"%d\" height=\"%f\" width=\"%f\" style=\"%s\"/></rect>";
+    public static final String SVG_RECT_TEMPLATE = "<rect x=\"%f\" y=\"%f\" height=\"%f\" width=\"%f\" style=\"%s\"/></rect>";
     private static final String SVG_ARROW_DEFS = "<defs>\n" +
             "                <marker id=\"beginArrow\" markerWidth=\"12\" markerHeight=\"12\" refX=\"0\" refY=\"6\" orient=\"auto\"> <path d=\"M0,6 L12,0 L12,12 L0,6\" style=\"fill: #000000;\" /> </marker>\n" +
             "                <marker id=\"endArrow\" markerWidth=\"12\" markerHeight=\"12\" refX=\"12\" refY=\"6\" orient=\"auto\"> <path d=\"M0,0 L12,6 L0,12 L0,0 \" style=\"fill: #000000;\"/> </marker>\n" +
@@ -18,7 +18,7 @@ public class Svg {
         svg.append(String.format(SVG_TEMPLATE, x, y, viewBox, width, height));
         svg.append(SVG_ARROW_DEFS);
     }
-    public void addRectangle(int x, int y, double height, double width, String style){
+    public void addRectangle(double x, double y, double height, double width, String style){
         svg.append(String.format(SVG_RECT_TEMPLATE, x, y, height, width, style));
     }
     public void addLine(int x1, int y1, int x2, int y2, String style){
