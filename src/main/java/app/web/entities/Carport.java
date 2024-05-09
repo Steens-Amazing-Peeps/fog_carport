@@ -1,7 +1,8 @@
 package app.web.entities;
 
 import app.web.exceptions.WebInvalidInputException;
-import app.web.services.bom.planks.calculators.PlankCalculator;
+import app.web.services.bom.planks.ValidPlanksImpl;
+import app.web.services.bom.planks.calculators.*;
 import app.web.services.bom.planks.ValidPlanks;
 
 public class Carport
@@ -28,6 +29,12 @@ public class Carport
     PlankCalculator plankCalculator;
 
     ValidPlanks validPlanks;
+    
+    public Carport() //TODO:Use something better than this temp fix?
+    {
+        this.plankCalculator = new PlankCalculatorImpl( new PostCalculatorImpl(), new BeamCalculatorImpl(), new RafterCalculatorImpl() );
+        this.validPlanks = new ValidPlanksImpl();
+    }
     
     public Carport( PlankCalculator plankCalculator, ValidPlanks validPlanks )
     {
@@ -82,7 +89,7 @@ public class Carport
         return this.length;
     }
 
-    public void setLength( Integer lengthMm ) {
+    public void setLength( Integer length ) {
         this.length = length;
     }
 
