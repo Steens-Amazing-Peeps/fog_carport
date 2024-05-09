@@ -1,13 +1,12 @@
-import app.web.services.bom.PlankCalculator;
-import app.web.services.bom.PlankCalculatorImpl;
-import app.web.services.bom.ValidPlanks;
-import app.web.services.bom.ValidPlanksImpl;
+import app.web.services.bom.*;
 import app.web.entities.Carport;
 import app.web.entities.Plank;
 import org.junit.jupiter.api.*;
+import testClasses.services.SimpleBeamCalculator;
 
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EntityCarport
@@ -15,6 +14,8 @@ public class EntityCarport
     
     private static ValidPlanks validPlanks = new ValidPlanksImpl();
     private static PlankCalculator plankCalculator;
+    private BeamCalculator beamCalculator;
+    private SimpleBeamCalculator simpleBeamCalculator;
     private static Carport carport;
     
     
@@ -126,8 +127,10 @@ public class EntityCarport
     @BeforeEach
     void setUp()
     {
-    
-    
+        this.beamCalculator = new BeamCalculatorImpl();
+        this.simpleBeamCalculator = new SimpleBeamCalculator();
+        
+        
     }
     
     @AfterEach
@@ -149,6 +152,30 @@ public class EntityCarport
     }
     
     @Test
+    void calcPostRows()
+    {
+        int rowAmount;
+        
+        rowAmount = plankCalculator.calcPostRows( validPlanks.getPosts(), 5000 );
+        assertEquals( 3, rowAmount );
+        
+        rowAmount = plankCalculator.calcPostRows( validPlanks.getPosts(), 4000 );
+        assertEquals( 2, rowAmount );
+        
+        rowAmount = plankCalculator.calcPostRows( validPlanks.getPosts(), 8000 );
+        assertEquals( 4, rowAmount );
+        
+        rowAmount = plankCalculator.calcPostRows( validPlanks.getPosts(), 3000 );
+        assertEquals( 2, rowAmount );
+        
+        rowAmount = plankCalculator.calcPostRows( validPlanks.getPosts(), 0 );
+        assertEquals( 2, rowAmount );
+        
+        rowAmount = plankCalculator.calcPostRows( validPlanks.getPosts(), 7000 );
+        assertEquals( 3, rowAmount );
+    }
+    
+    @Test
     void calcPosts()
     {
     
@@ -157,133 +184,115 @@ public class EntityCarport
     @Test
     void calcBeamsOnPosts()
     {
+        System.out.println( "------CALC BEAMS ON POSTS------" );
+        
         int carportLength = 8000;
-        List< Plank > beams = plankCalculator.calcBeamsOnPosts( validPlanks.getBeams(), carportLength, 2, 10000 );
+        int rowAmount = 2;
+        int polePrice = 10000;
         
-        System.out.println( "Amount of beams = " + beams.size() );
-        
-        int beamsTotalLength = 0;
-        
-        for ( Plank beam : beams ) {
-            System.out.println( beam );
-            beamsTotalLength = beamsTotalLength + beam.getLength();
-        }
-        
-        System.out.println();
-        System.out.println( plankCalculator );
-        
-        assertTrue( beamsTotalLength >= carportLength );
-        
-        assertTrue( plankCalculator.getBeamCheapestPrice() > 0 );
-        assertTrue( plankCalculator.getBeamLeastWastefulWaste() >= 0 );
-        
-        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getBeamLeastWastefulPrice() );
-        assertTrue( plankCalculator.getBeamLeastWastefulWaste() <= plankCalculator.getBeamCheapestWaste() );
-        
-        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMinPrice() );
-        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMaxPrice() );
-        
-        assertTrue( beams.size() <= plankCalculator.getMaxAmount() );
-        assertTrue( beams.size() >= plankCalculator.getMinAmount() );
-        
+        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, beamCalculator );
         
         
         //.........................
         
         carportLength = 6950;
-        beams = plankCalculator.calcBeamsOnPosts( validPlanks.getBeams(), carportLength, 2, 10000 );
+        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, beamCalculator );
         
-        System.out.println( "Amount of beams = " + beams.size() );
-        
-        beamsTotalLength = 0;
-        
-        for ( Plank beam : beams ) {
-            System.out.println( beam );
-            beamsTotalLength = beamsTotalLength + beam.getLength();
-        }
-        
-        System.out.println();
-        System.out.println( plankCalculator );
-        
-        assertTrue( beamsTotalLength >= carportLength );
-        
-        assertTrue( plankCalculator.getBeamCheapestPrice() > 0 );
-        assertTrue( plankCalculator.getBeamLeastWastefulWaste() >= 0 );
-        
-        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getBeamLeastWastefulPrice() );
-        assertTrue( plankCalculator.getBeamLeastWastefulWaste() <= plankCalculator.getBeamCheapestWaste() );
-        
-        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMinPrice() );
-        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMaxPrice() );
-        
-        assertTrue( beams.size() <= plankCalculator.getMaxAmount() );
-        assertTrue( beams.size() >= plankCalculator.getMinAmount() );
         
         //.........................
         
-        plankCalculator.setMinimumBatchSize( validPlanks.getBeams().size() );
+        this.beamCalculator.setMinimumBatchSize( validPlanks.getBeams().size() );
         
         //......................... Search every combination
         
         carportLength = 8000;
-        beams = plankCalculator.calcBeamsOnPosts( validPlanks.getBeams(), carportLength, 2, 10000 );
+        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, beamCalculator );
         
-        System.out.println( "Amount of beams = " + beams.size() );
-        
-        beamsTotalLength = 0;
-        
-        for ( Plank beam : beams ) {
-            System.out.println( beam );
-            beamsTotalLength = beamsTotalLength + beam.getLength();
-        }
-        
-        System.out.println();
-        System.out.println( plankCalculator );
-        
-        assertTrue( beamsTotalLength >= carportLength );
-        
-        assertTrue( plankCalculator.getBeamCheapestPrice() > 0 );
-        assertTrue( plankCalculator.getBeamLeastWastefulWaste() >= 0 );
-        
-        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getBeamLeastWastefulPrice() );
-        assertTrue( plankCalculator.getBeamLeastWastefulWaste() <= plankCalculator.getBeamCheapestWaste() );
-        
-        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMinPrice() );
-        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMaxPrice() );
-        
-        assertTrue( beams.size() <= plankCalculator.getMaxAmount() );
-        assertTrue( beams.size() >= plankCalculator.getMinAmount() );
         
         //.........................
         
         carportLength = 6950;
-        beams = plankCalculator.calcBeamsOnPosts( validPlanks.getBeams(), carportLength, 2, 10000 );
+        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, beamCalculator );
         
-        System.out.println( "Amount of beams = " + beams.size() );
+    }
+    
+    private static void beamTests( Map< Integer, Plank > validPlanksMap, int carportLength, int rowAmount, int polePrice, BeamCalculator beamCalculator )
+    {
         
-        beamsTotalLength = 0;
+        SimpleBeamCalculator simpleBeamCalculator = new SimpleBeamCalculator();
+        simpleBeamCalculator.calcBeamsOnPosts( validPlanksMap, carportLength, rowAmount, polePrice );
         
-        for ( Plank beam : beams ) {
-            System.out.println( beam );
-            beamsTotalLength = beamsTotalLength + beam.getLength();
+        List< Plank > cheapestBeams = beamCalculator.calcBeamsOnPosts( validPlanksMap, carportLength, rowAmount, polePrice );
+        
+        int prioritizeLeastWasteAtPriceDiff = beamCalculator.getPrioritizeLeastWasteAtPriceDiff();
+        beamCalculator.setPrioritizeLeastWasteAtPriceDiff( 0 );
+        List< Plank > leastWastefulBeams = beamCalculator.calcBeamsOnPosts( validPlanksMap, carportLength, rowAmount, polePrice );
+        beamCalculator.setPrioritizeLeastWasteAtPriceDiff( prioritizeLeastWasteAtPriceDiff );
+        
+        int cheapestLength = 0;
+        
+        int cheapestBeamsWaste;
+        int cheapestBeamsPrice = 0;
+        
+        for ( Plank beam : cheapestBeams ) {
+            cheapestLength = cheapestLength + beam.getLength();
+            cheapestBeamsPrice = cheapestBeamsPrice + beam.getPriceWithPole();
         }
         
+        cheapestBeamsWaste = cheapestLength - carportLength;
+        
+        int leastWastefulLength = 0;
+        
+        int leastWastefulBeamsWaste;
+        int leastWastefulBeamsPrice = 0;
+        
+        for ( Plank beam : leastWastefulBeams ) {
+            leastWastefulLength = leastWastefulLength + beam.getLength();
+            leastWastefulBeamsPrice = leastWastefulBeamsPrice + beam.getPriceWithPole();
+        }
+        
+        leastWastefulBeamsWaste = leastWastefulLength - carportLength;
+        
+        //Console Printer
+        
         System.out.println();
-        System.out.println( plankCalculator );
+        System.out.println();
+        System.out.println( "--CHEAPEST BEAMS--" );
+        System.out.println( "Price = " + cheapestBeamsPrice );
+        System.out.println( "Waste = " + cheapestBeamsWaste );
+        for ( Plank beam : cheapestBeams ) {
+            System.out.println( beam );
+        }
         
-        assertTrue( beamsTotalLength >= carportLength );
         
-        assertTrue( plankCalculator.getBeamCheapestPrice() > 0 );
-        assertTrue( plankCalculator.getBeamLeastWastefulWaste() >= 0 );
+        System.out.println();
+        System.out.println( "--LEAST WASTEFUL BEAMS--" );
+        System.out.println( "Price = " + leastWastefulBeamsPrice );
+        System.out.println( "Waste = " + leastWastefulBeamsWaste );
+        for ( Plank beam : leastWastefulBeams ) {
+            System.out.println( beam );
+        }
         
-        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getBeamLeastWastefulPrice() );
-        assertTrue( plankCalculator.getBeamLeastWastefulWaste() <= plankCalculator.getBeamCheapestWaste() );
         
-        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMinPrice() );
-        assertTrue( plankCalculator.getBeamCheapestPrice() <= plankCalculator.getMaxPrice() );
+        //Automated Tests
+        assertTrue( cheapestLength >= carportLength );
+        assertTrue( leastWastefulLength >= carportLength );
         
-        assertTrue( beams.size() <= plankCalculator.getMaxAmount() );
-        assertTrue( beams.size() >= plankCalculator.getMinAmount() );
+        assertTrue( cheapestBeamsPrice > 0 );
+        assertTrue( cheapestBeamsWaste >= 0 );
+        
+        assertTrue( cheapestBeamsPrice <= leastWastefulBeamsPrice );
+        assertTrue( leastWastefulBeamsWaste <= cheapestBeamsWaste );
+        
+        assertTrue( cheapestBeamsPrice <= simpleBeamCalculator.getMinPrice() );
+        assertTrue( cheapestBeamsPrice <= simpleBeamCalculator.getMaxPrice() );
+        
+        assertTrue( cheapestBeams.size() <= simpleBeamCalculator.getMaxAmount() );
+        assertTrue( cheapestBeams.size() >= simpleBeamCalculator.getMinAmount() );
+        
+        assertTrue( leastWastefulBeams.size() <= simpleBeamCalculator.getMaxAmount() );
+        assertTrue( leastWastefulBeams.size() >= simpleBeamCalculator.getMinAmount() );
+        
         
     }
     
