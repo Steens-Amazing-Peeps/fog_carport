@@ -180,7 +180,7 @@ public class EntityCarport
     @Test
     void happyPath()
     {
-        System.out.println(carport.getBom().getPlanks());
+        
     }
     
     @Test
