@@ -4,7 +4,7 @@ public class Roof
 {
     private Integer roofId;
     private Integer carportId;
-    private String material;
+    private Integer material;   // TODO convert since its a string in DB
     private Integer tiltInDegrees;
     
     
@@ -26,11 +26,11 @@ public class Roof
         this.carportId = carportId;
     }
 
-    public String getMaterial() {
+    public Integer getMaterial() {
         return this.material;
     }
 
-    public void setMaterial(String material) {
+    public void setMaterial(Integer material) {
         this.material = material;
     }
 

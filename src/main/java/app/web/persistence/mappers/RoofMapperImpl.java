@@ -139,7 +139,7 @@ public final class RoofMapperImpl implements RoofMapper
             roof = new Roof();
             roof.setRoofId( rs.getInt( "roof_id" ) );
             roof.setCarportId( rs.getInt( "carport_id" ) );
-            roof.setMaterial( rs.getString( "material" ) );
+            roof.setMaterial( rs.getInt( "material" ) );       // TODO remember conversion
             roof.setTiltInDegrees( rs.getInt( "tilt_in_degrees" ) );
 
             return roof;
@@ -156,7 +156,7 @@ public final class RoofMapperImpl implements RoofMapper
                 roof = new Roof();
                 roof.setRoofId( rs.getInt( "roof_id" ) );
                 roof.setCarportId( rs.getInt( "carport_id" ) );
-                roof.setMaterial( rs.getString( "material" ) );
+                roof.setMaterial( rs.getInt( "material" ) ); // TODO ditto
                 roof.setTiltInDegrees( rs.getInt( "tilt_in_degrees" ) );
 
                 roofMap.put( roof.getRoofId(), roof );
