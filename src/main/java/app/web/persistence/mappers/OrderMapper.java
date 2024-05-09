@@ -21,6 +21,6 @@ public interface OrderMapper
 
     int update( Order order ) throws DatabaseException, UnexpectedResultDbException;
 
-    int delete( Integer id ) throws DatabaseException, UnexpectedResultDbException;
+    int delete( Integer order_id ) throws DatabaseException, UnexpectedResultDbException;
 
 }
