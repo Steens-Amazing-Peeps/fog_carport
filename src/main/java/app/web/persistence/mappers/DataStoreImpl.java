@@ -8,7 +8,6 @@ import app.web.persistence.GetConnectionIf;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -59,12 +58,12 @@ public final class DataStoreImpl implements DataStore
         try ( Connection connection = this.connectionPool.getConnection() ) {
             try ( PreparedStatement ps = connection.prepareStatement( checkedSql, Statement.RETURN_GENERATED_KEYS ) ) {
                 for ( int i = 0; i < parametersForSql.length; i++ ) {
-                    if ( parametersForSql[ i ] instanceof Date ) {
-                        ps.setDate( i + 1, new java.sql.Date( ( ( Date ) parametersForSql[ i ] ).getTime() ) );
-                        
-                    } else {
+//                    if ( parametersForSql[ i ] instanceof Date ) {
+//                        ps.setDate( i + 1, new java.sql.Date( ( ( Date ) parametersForSql[ i ] ).getTime() ) );
+//
+//                    } else {
                         ps.setObject( i + 1, parametersForSql[ i ] );
-                    }
+//                    }
                 }
                 
                 boolean shouldBeFalse = ps.execute();
@@ -220,12 +219,12 @@ public final class DataStoreImpl implements DataStore
         try ( Connection connection = this.connectionPool.getConnection() ) {
             try ( PreparedStatement ps = connection.prepareStatement( checkedSql, Statement.RETURN_GENERATED_KEYS ) ) {
                 for ( int i = 0; i < parametersForSql.length; i++ ) {
-                    if ( parametersForSql[ i ] instanceof Date ) {
-                        ps.setDate( i + 1, new java.sql.Date( ( ( Date ) parametersForSql[ i ] ).getTime() ) );
-                        
-                    } else {
+//                    if ( parametersForSql[ i ] instanceof Date ) {
+//                        ps.setDate( i + 1, new java.sql.Date( ( ( Date ) parametersForSql[ i ] ).getTime() ) );
+//
+//                    } else {
                         ps.setObject( i + 1, parametersForSql[ i ] );
-                    }
+//                    }
                 }
                 
                 resRowsAffected = ps.executeUpdate();
