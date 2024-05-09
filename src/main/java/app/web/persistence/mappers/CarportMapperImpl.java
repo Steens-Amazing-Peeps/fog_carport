@@ -41,9 +41,9 @@ public final class CarportMapperImpl implements CarportMapper
 
         Object[] parametersForSql = new Object[ 4 ];
         parametersForSql[ 0 ] = carport.getOrderId();
-        parametersForSql[ 1 ] = carport.getHeightMm();
-        parametersForSql[ 2 ] = carport.getLengthMm();
-        parametersForSql[ 3 ] = carport.getWidthMm();
+        parametersForSql[ 1 ] = carport.getHeight();
+        parametersForSql[ 2 ] = carport.getLength();
+        parametersForSql[ 3 ] = carport.getWidth();
 
         return this.dataStore.create( sql, carport, parametersForSql, ENTITY_CREATOR );
     }
@@ -101,9 +101,9 @@ public final class CarportMapperImpl implements CarportMapper
 
         Object[] parametersForSql = new Object[ 5 ];
         parametersForSql[ 0 ] = carport.getOrderId();
-        parametersForSql[ 1 ] = carport.getHeightMm();
-        parametersForSql[ 2 ] = carport.getLengthMm();
-        parametersForSql[ 3 ] = carport.getWidthMm();
+        parametersForSql[ 1 ] = carport.getHeight();
+        parametersForSql[ 2 ] = carport.getLength();
+        parametersForSql[ 3 ] = carport.getWidth();
         parametersForSql[ 4 ] = carport.getOrderId();
 
 
@@ -141,9 +141,9 @@ public final class CarportMapperImpl implements CarportMapper
             carport = new Carport();
             carport.setCarportId( rs.getInt( "carport_id" ) );
             carport.setOrderId( rs.getInt( "order_id" ) );
-            carport.setHeightMm( rs.getInt( "height_in_mm" ) );
-            carport.setLengthMm( rs.getInt( "length_in_mm" ) );
-            carport.setWidthMm( rs.getInt( "width_in_mm" ) );
+            carport.setHeight( rs.getInt( "height_in_mm" ) );
+            carport.setLength( rs.getInt( "length_in_mm" ) );
+            carport.setWidth( rs.getInt( "width_in_mm" ) );
 
             return carport;
 
@@ -159,9 +159,9 @@ public final class CarportMapperImpl implements CarportMapper
                 carport = new Carport();
                 carport.setCarportId( rs.getInt( "carport_id" ) );
                 carport.setOrderId( rs.getInt( "order_id" ) );
-                carport.setHeightMm( rs.getInt( "height_in_mm" ) );
-                carport.setLengthMm( rs.getInt( "length_in_mm" ) );
-                carport.setWidthMm( rs.getInt( "width_in_mm" ) );
+                carport.setHeight( rs.getInt( "height_in_mm" ) );
+                carport.setLength( rs.getInt( "length_in_mm" ) );
+                carport.setWidth( rs.getInt( "width_in_mm" ) );
 
                 carportMap.put( carport.getCarportId(), carport );
             }

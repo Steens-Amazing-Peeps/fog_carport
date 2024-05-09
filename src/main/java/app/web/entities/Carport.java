@@ -5,12 +5,14 @@ import app.web.services.bom.ValidPlanks;
 
 public class Carport
 {
+    private Integer price;
+
     private Integer carportId;
     private Integer orderId;
 
-    private Integer heightMm;
-    private Integer lengthMm;
-    private Integer widthMm;
+    private Integer height;
+    private Integer length;
+    private Integer width;
 
 
     //TODO check where these are used and if they are in the right place
@@ -38,8 +40,16 @@ public class Carport
 
     //Getters and Setters
 
+    public Integer getPrice() {
+        return this.price;
+    }
+
     public Integer getCarportId() {
         return this.carportId;
+    }
+
+    public void setPrice( Integer price ) {
+        this.price = price;
     }
 
     public void setCarportId( Integer carportId ) {
@@ -54,28 +64,28 @@ public class Carport
         this.orderId = orderId;
     }
 
-    public Integer getHeightMm() {
-        return this.heightMm;
+    public Integer getHeight() {
+        return this.height;
     }
 
-    public void setHeightMm( Integer heightMm ) {
-        this.heightMm = heightMm;
+    public void setHeight( Integer height ) {
+        this.height = height;
     }
 
-    public Integer getLengthMm() {
-        return this.lengthMm;
+    public Integer getLength() {
+        return this.length;
     }
 
-    public void setLengthMm( Integer lengthMm ) {
-        this.lengthMm = lengthMm;
+    public void setLength( Integer lengthMm ) {
+        this.length = length;
     }
 
-    public Integer getWidthMm() {
-        return this.widthMm;
+    public Integer getWidth() {
+        return this.width;
     }
 
-    public void setWidthMm( Integer widthMm ) {
-        this.widthMm = widthMm;
+    public void setWidth( Integer width ) {
+        this.width = width;
     }
 
 
