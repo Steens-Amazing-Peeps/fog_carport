@@ -1,6 +1,9 @@
-import app.web.services.bom.*;
+import app.web.entities.Bom;
 import app.web.entities.Carport;
 import app.web.entities.Plank;
+import app.web.exceptions.WebInvalidInputException;
+import app.web.services.bom.planks.*;
+import app.web.services.bom.planks.calculators.*;
 import org.junit.jupiter.api.*;
 import testClasses.services.SimpleBeamCalculator;
 
@@ -12,11 +15,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class EntityCarport
 {
     
-    private static ValidPlanks validPlanks = new ValidPlanksImpl();
-    private static PlankCalculator plankCalculator;
+    private static final ValidPlanks validPlanks = new ValidPlanksImpl();
+    
+    private PlankCalculator plankCalculator;
+    private PostCalculator postCalculator;
     private BeamCalculator beamCalculator;
+    private RafterCalculator rafterCalculator;
+    
     private SimpleBeamCalculator simpleBeamCalculator;
-    private static Carport carport;
+    private Carport carport;
     
     
     private static int id = 0;
@@ -96,6 +103,10 @@ public class EntityCarport
         rafters.put( id++, new Plank( id, 45, 195, 2900, Plank.RAFTER, 225 ) );
         rafters.put( id++, new Plank( id, 45, 195, 3200, Plank.RAFTER, 225 ) );
         rafters.put( id++, new Plank( id, 45, 195, 3400, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 3700, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 3900, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 4000, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 4100, Plank.RAFTER, 225 ) );
         
         validPlanks.setRafters( rafters );
         
@@ -114,23 +125,44 @@ public class EntityCarport
         posts.put( id++, new Plank( id, 19, 100, 2900, Plank.POST, 160 ) );
         posts.put( id++, new Plank( id, 19, 100, 3200, Plank.POST, 160 ) );
         posts.put( id++, new Plank( id, 19, 100, 3400, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 3700, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 3900, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 4100, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 4200, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 5000, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 5100, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 5200, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 5400, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 5500, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 19, 100, 5700, Plank.POST, 190 ) );
+        posts.put( id++, new Plank( id, 19, 100, 5900, Plank.POST, 200 ) );
+        posts.put( id++, new Plank( id, 19, 100, 6000, Plank.POST, 300 ) );
+        posts.put( id++, new Plank( id, 19, 100, 9000, Plank.POST, 400 ) );
         
         validPlanks.setPosts( posts );
         
-        //Calculator
-        plankCalculator = new PlankCalculatorImpl();
         
-        //Carport
-        carport = new Carport( plankCalculator, validPlanks );
     }
     
     @BeforeEach
     void setUp()
     {
+        //Calculator
+        this.postCalculator = new PostCalculatorImpl();
+        
         this.beamCalculator = new BeamCalculatorImpl();
         this.simpleBeamCalculator = new SimpleBeamCalculator();
         
+        this.rafterCalculator = new RafterCalculatorImpl();
         
+        
+        this.plankCalculator = new PlankCalculatorImpl( this.postCalculator, this.beamCalculator, this.rafterCalculator );
+        
+        //Carport
+        this.carport = new Carport( this.plankCalculator, validPlanks );
+        this.carport.setHeight( 5000 );
+        this.carport.setLength( 9000 );
+        this.carport.setWidth( 7000 );
     }
     
     @AfterEach
@@ -156,22 +188,22 @@ public class EntityCarport
     {
         int rowAmount;
         
-        rowAmount = plankCalculator.calcPostRows( validPlanks.getPosts(), 5000 );
+        rowAmount = this.plankCalculator.calcPostRows( validPlanks.getPosts(), 5000 );
         assertEquals( 3, rowAmount );
         
-        rowAmount = plankCalculator.calcPostRows( validPlanks.getPosts(), 4000 );
+        rowAmount = this.plankCalculator.calcPostRows( validPlanks.getPosts(), 4000 );
         assertEquals( 2, rowAmount );
         
-        rowAmount = plankCalculator.calcPostRows( validPlanks.getPosts(), 8000 );
+        rowAmount = this.plankCalculator.calcPostRows( validPlanks.getPosts(), 8000 );
         assertEquals( 4, rowAmount );
         
-        rowAmount = plankCalculator.calcPostRows( validPlanks.getPosts(), 3000 );
+        rowAmount = this.plankCalculator.calcPostRows( validPlanks.getPosts(), 3000 );
         assertEquals( 2, rowAmount );
         
-        rowAmount = plankCalculator.calcPostRows( validPlanks.getPosts(), 0 );
+        rowAmount = this.plankCalculator.calcPostRows( validPlanks.getPosts(), 0 );
         assertEquals( 2, rowAmount );
         
-        rowAmount = plankCalculator.calcPostRows( validPlanks.getPosts(), 7000 );
+        rowAmount = this.plankCalculator.calcPostRows( validPlanks.getPosts(), 7000 );
         assertEquals( 3, rowAmount );
     }
     
@@ -190,13 +222,13 @@ public class EntityCarport
         int rowAmount = 2;
         int polePrice = 10000;
         
-        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, beamCalculator );
+        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, this.beamCalculator );
         
         
         //.........................
         
         carportLength = 6950;
-        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, beamCalculator );
+        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, this.beamCalculator );
         
         
         //.........................
@@ -206,13 +238,13 @@ public class EntityCarport
         //......................... Search every combination
         
         carportLength = 8000;
-        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, beamCalculator );
+        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, this.beamCalculator );
         
         
         //.........................
         
         carportLength = 6950;
-        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, beamCalculator );
+        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, this.beamCalculator );
         
     }
     
@@ -293,6 +325,27 @@ public class EntityCarport
         assertTrue( leastWastefulBeams.size() <= simpleBeamCalculator.getMaxAmount() );
         assertTrue( leastWastefulBeams.size() >= simpleBeamCalculator.getMinAmount() );
         
+        
+    }
+    
+    @Test
+    void calcRafters()
+    {
+    
+    }
+    
+    @Test
+    void calcBom()
+    {
+        Bom bom = null;
+        try {
+            bom = this.carport.calcBom();
+            
+        } catch ( WebInvalidInputException e ) {
+            throw new RuntimeException( e );
+        }
+        
+        System.out.println( bom );
         
     }
     

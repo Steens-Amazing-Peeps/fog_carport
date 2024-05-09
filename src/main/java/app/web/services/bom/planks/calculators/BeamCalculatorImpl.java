@@ -1,4 +1,4 @@
-package app.web.services.bom;
+package app.web.services.bom.planks.calculators;
 
 import app.util.MapManipulator;
 import app.web.constants.Config;
@@ -19,7 +19,7 @@ public class BeamCalculatorImpl implements BeamCalculator
     
     
     @Override
-    public List< Plank > calcBeamsOnPosts( Map< Integer, Plank > validPlanks, int carportLength, int rowAmount, int polePrice )
+    public List< Plank > calcBeamsOnPosts( Map< Integer, Plank > validBeams, int carportLength, int rowAmount, int postPrice )
     {
 
 //        int totalLength = carportLength * rowAmount;
@@ -44,11 +44,11 @@ public class BeamCalculatorImpl implements BeamCalculator
         
         
         //Calc Price, Max Amount and Min Amount
-        for ( Plank plank : validPlanks.values() ) {
+        for ( Plank plank : validBeams.values() ) {
             
             if ( plank != null ) {
                 
-                plank.setPolePrice( polePrice );
+                plank.setPostPrice( postPrice );
                 plank.calcPricePrMm();
                 
                 //Amount
@@ -80,14 +80,14 @@ public class BeamCalculatorImpl implements BeamCalculator
             
         } //End - Initial fori
         
-        plankArraySortedByPrice = MapManipulator.sortByValuePlankPricePrMmToArray( validPlanks );
+        plankArraySortedByPrice = MapManipulator.sortByValuePlankPricePrMmToArray( validBeams );
         
         int timesRun = 0;
         int runBatchUntil;
         if ( this.MinimumBatchSize != 0 ) {
             runBatchUntil = this.MinimumBatchSize;
         } else {
-            runBatchUntil = validPlanks.size();
+            runBatchUntil = validBeams.size();
         }
         
         int currentPrice;
@@ -119,7 +119,7 @@ public class BeamCalculatorImpl implements BeamCalculator
             currentPrice = 0;
             currentPlankArrayList = new ArrayList<>();
             
-            if ( firstIndex < validPlanks.size() ) {
+            if ( firstIndex < validBeams.size() ) {
                 for ( int i = 0; i < maxAmount; i++ ) {
                     
                     //Sum up length
@@ -212,14 +212,14 @@ public class BeamCalculatorImpl implements BeamCalculator
                 }
                 
                 //We have run out combinations and need more to find a valid result
-                if ( runBatchUntil + 1 < validPlanks.size() ) {
+                if ( runBatchUntil + 1 < validBeams.size() ) {
                     runBatchUntil = runBatchUntil + 1;
                 } else {
-                    runBatchUntil = validPlanks.size() - 1;
+                    runBatchUntil = validBeams.size() - 1;
                 }
                 
                 //We have run out of combinations and just gotta return the best result
-                if ( firstIndex >= validPlanks.size() ) {
+                if ( firstIndex >= validBeams.size() ) {
                     if ( leastWastefulPrice - cheapestPrice <= this.prioritizeLeastWasteAtPriceDiff || this.prioritizeLeastWasteAtPriceDiff == 0 ) {
                         resList = leastWastefulPlankArrayList;
                     } else {

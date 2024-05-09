@@ -10,6 +10,13 @@ import java.util.Map;
 
 public class MapManipulator
 {
+    public static Plank[] sortByValuePlankLengthToArray( Map< Integer, Plank > map )
+    {
+        ArrayList< Plank > arrayList = new ArrayList<>( map.values() );
+        arrayList.sort( new Plank.compareByLength() );
+        
+        return arrayList.toArray( new Plank[ 0 ] );
+    }
     
     public static Plank[] sortByValuePlankPricePrMmToArray( Map< Integer, Plank > map )
     {

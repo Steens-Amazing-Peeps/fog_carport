@@ -3,7 +3,6 @@ package testClasses.services;
 import app.util.MapManipulator;
 import app.web.entities.Plank;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +46,7 @@ public class SimpleBeamCalculator
             
             if ( plank != null ) {
                 
-                plank.setPolePrice( polePrice );
+                plank.setPostPrice( polePrice );
                 plank.calcPricePrMm();
                 
                 //Amount

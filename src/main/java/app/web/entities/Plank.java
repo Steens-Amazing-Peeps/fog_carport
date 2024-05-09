@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -29,7 +30,7 @@ public class Plank implements Comparable< Plank >
     private Integer amount = null;
     private Integer price = null;
     private BigDecimal pricePrMm = null;
-    private int polePrice = 0;
+    private int postPrice = 0;
     
     
     public Plank()
@@ -128,14 +129,14 @@ public class Plank implements Comparable< Plank >
         this.pricePrMm = pricePrMm;
     }
     
-    public Integer getPolePrice()
+    public Integer getPostPrice()
     {
-        return this.polePrice;
+        return this.postPrice;
     }
     
-    public void setPolePrice( Integer polePrice )
+    public void setPostPrice( Integer postPrice )
     {
-        this.polePrice = polePrice;
+        this.postPrice = postPrice;
     }
     
     public BigDecimal calcPricePrMm()
@@ -144,8 +145,8 @@ public class Plank implements Comparable< Plank >
             return null;
         }
         
-       BigDecimal totalPrice = new BigDecimal( this.price + this.polePrice );
-       BigDecimal length = new BigDecimal(this.length);
+        BigDecimal totalPrice = new BigDecimal( this.price + this.postPrice );
+        BigDecimal length = new BigDecimal( this.length );
         
         this.pricePrMm = totalPrice.divide( length, RoundingMode.HALF_UP );
         
@@ -154,7 +155,7 @@ public class Plank implements Comparable< Plank >
     
     public int getPriceWithPole()
     {
-        return this.price + this.polePrice;
+        return this.price + this.postPrice;
     }
     
     
@@ -261,9 +262,17 @@ public class Plank implements Comparable< Plank >
                ", amount=" + this.amount +
                ", price=" + this.price +
                ", pricePrMm=" + this.pricePrMm +
-               ", polePrice=" + this.polePrice +
+               ", polePrice=" + this.postPrice +
                ", PriceWithPole=" + this.getPriceWithPole() +
                '}';
+    }
+    public static class compareByLength implements Comparator< Plank >
+    {
+        @Override
+        public int compare( Plank o1, Plank o2 )
+        {
+            return o1.length - o2.length;
+        }
     }
     
 }

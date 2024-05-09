@@ -1,4 +1,4 @@
-package app.web.services.bom;
+package app.web.services.bom.planks.calculators;
 
 import app.web.entities.Plank;
 
