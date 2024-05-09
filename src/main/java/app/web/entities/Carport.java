@@ -1,7 +1,8 @@
 package app.web.entities;
 
-import app.web.services.bom.BoardCalculator;
-import app.web.services.bom.ValidPlanks;
+import app.web.exceptions.WebInvalidInputException;
+import app.web.services.bom.planks.calculators.PlankCalculator;
+import app.web.services.bom.planks.ValidPlanks;
 
 public class Carport
 {
@@ -18,14 +19,22 @@ public class Carport
     private Bom bom;
     
     
-    BoardCalculator boardCalculator;
+    PlankCalculator plankCalculator;
     ValidPlanks validPlanks;
     
-    public Carport( BoardCalculator boardCalculator, ValidPlanks validPlanks )
+    public Carport( PlankCalculator plankCalculator, ValidPlanks validPlanks )
     {
-        this.boardCalculator = boardCalculator;
+        this.plankCalculator = plankCalculator;
         this.validPlanks = validPlanks;
     }
+    
+    //Bom Calculation
+    public Bom calcBom() throws WebInvalidInputException
+    {
+        this.bom = this.plankCalculator.calcBom( this.validPlanks, this );
+        return this.bom;
+    }
+    
     
     //Getters and Setters
     public Integer getPrice()
