@@ -60,6 +60,7 @@ public class Main
         OrderMapper orderMapper = new OrderMapperImpl( dataStore );
         CarportMapper carportMapper = new CarportMapperImpl( dataStore );
         ShedMapper shedMapper = new ShedMapperImpl( dataStore );
+        RoofMapper roofMapper = new RoofMapperImpl( dataStore );
         
         //Load Global Attributes
         WebGlobalAttributes.startUp( userMapper );
