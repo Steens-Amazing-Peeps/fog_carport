@@ -41,8 +41,8 @@ public final class ShedMapperImpl implements ShedMapper
 
         Object[] parametersForSql = new Object[ 5 ];
         parametersForSql[ 0 ] = shed.getCarportId();
-        parametersForSql[ 1 ] = shed.getLengthMm();
-        parametersForSql[ 2 ] = shed.getWidthMm();
+        parametersForSql[ 1 ] = shed.getLength();
+        parametersForSql[ 2 ] = shed.getWidth();
         parametersForSql[ 3 ] = shed.getFloor();
         parametersForSql[ 4 ] = shed.getWallCladding();
 
@@ -102,8 +102,8 @@ public final class ShedMapperImpl implements ShedMapper
 
         Object[] parametersForSql = new Object[ 6 ];
         parametersForSql[ 0 ] = shed.getCarportId();
-        parametersForSql[ 1 ] = shed.getLengthMm();
-        parametersForSql[ 2 ] = shed.getWidthMm();
+        parametersForSql[ 1 ] = shed.getLength();
+        parametersForSql[ 2 ] = shed.getWidth();
         parametersForSql[ 3 ] = shed.getFloor();
         parametersForSql[ 4 ] = shed.getWallCladding();
         parametersForSql[ 5 ] = shed.getShedId();
@@ -143,10 +143,10 @@ public final class ShedMapperImpl implements ShedMapper
             shed = new Shed();
             shed.setShedId( rs.getInt( "shed_id" ) );
             shed.setCarportId( rs.getInt( "carport_id" ) );
-            shed.setLengthMm( rs.getInt( "length_in_mm" ) );
-            shed.setWidthMm( rs.getInt( "width_in_mm" ) );
-            shed.setFloor( rs.getString( "floor" ) );
-            shed.setWallCladding( rs.getString( "wall_cladding" ) );
+            shed.setLength( rs.getInt( "length_in_mm" ) );
+            shed.setWidth( rs.getInt( "width_in_mm" ) );
+            shed.setFloor( rs.getInt( "floor" ));
+            shed.setWallCladding( rs.getInt( "wall_cladding" ));
 
             return shed;
 
@@ -162,10 +162,10 @@ public final class ShedMapperImpl implements ShedMapper
                 shed = new Shed();
                 shed.setShedId( rs.getInt( "shed_id" ) );
                 shed.setCarportId( rs.getInt( "carport_id" ) );
-                shed.setLengthMm( rs.getInt( "length_in_mm" ) );
-                shed.setWidthMm( rs.getInt( "width_in_mm" ) );
-                shed.setFloor( rs.getString( "floor" ) );
-                shed.setWallCladding( rs.getString( "wall_cladding" ) );
+                shed.setLength( rs.getInt( "length_in_mm" ) );
+                shed.setWidth( rs.getInt( "width_in_mm" ) );
+                shed.setFloor( rs.getInt( "floor" ));
+                shed.setWallCladding( rs.getInt( "wall_cladding" ) );
 
                 shedMap.put( shed.getShedId(), shed );
             }

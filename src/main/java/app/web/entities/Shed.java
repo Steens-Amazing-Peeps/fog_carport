@@ -4,10 +4,11 @@ public class Shed
 {
     private Integer shedId;
     private Integer carportId;
-    private Integer lengthMm;
-    private Integer widthMm;
-    private String floor;
-    private String wallCladding;
+    private Integer length;
+    private Integer width;
+    private Integer depth;
+    private Integer floor;   // TODO conversion for floor and wall as they are strings in DB
+    private Integer wallCladding;
 
     
     //Getters and Setters
@@ -28,35 +29,43 @@ public class Shed
         this.carportId = carportId;
     }
 
-    public Integer getLengthMm() {
-        return this.lengthMm;
+    public Integer getLength() {
+        return this.length;
     }
 
-    public void setLengthMm(Integer lengthMm) {
-        this.lengthMm = lengthMm;
+    public void setLength(Integer length) {
+        this.length = length;
     }
 
-    public Integer getWidthMm() {
-        return this.widthMm;
+    public Integer getWidth() {
+        return this.width;
     }
 
-    public void setWidthMm(Integer widthMm) {
-        this.widthMm = widthMm;
+    public void setWidth(Integer width) {
+        this.width = width;
     }
 
-    public String getFloor() {
+    public Integer getDepth() {
+        return this.depth;
+    }
+
+    public void setDepth(Integer depth) {
+        this.depth = depth;
+    }
+
+    public Integer getFloor() {
         return this.floor;
     }
 
-    public void setFloor(String floor) {
+    public void setFloor(Integer floor) {
         this.floor = floor;
     }
 
-    public String getWallCladding() {
+    public Integer getWallCladding() {
         return this.wallCladding;
     }
 
-    public void setWallCladding(String wallCladding) {
+    public void setWallCladding(Integer wallCladding) {
         this.wallCladding = wallCladding;
     }
 
