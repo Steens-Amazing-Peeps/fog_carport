@@ -172,7 +172,11 @@ public class Plank implements Comparable< Plank >
         }
         
         if ( this.type == Plank.BEAM ) {
-            return unitConversion.heightMmToDrawUnits( this.width );
+            return unitConversion.heightMmToDrawUnits( this.height );
+        }
+
+        if ( this.type == Plank.RAFTER ) {
+            return unitConversion.heightMmToDrawUnits( this.length );
         }
         
         return -1;
@@ -182,15 +186,19 @@ public class Plank implements Comparable< Plank >
     {
         
         if ( this.type == Plank.BOARD ) {
-            return unitConversion.heightMmToDrawUnits( this.width );
+            return unitConversion.widthMmToDrawUnits( this.width );
         }
         
         if ( this.type == Plank.POST ) {
-            return unitConversion.heightMmToDrawUnits( this.width );
+            return unitConversion.widthMmToDrawUnits( this.width );
         }
         
         if ( this.type == Plank.BEAM ) {
-            return unitConversion.heightMmToDrawUnits( this.length );
+            return unitConversion.widthMmToDrawUnits( this.length );
+        }
+
+        if ( this.type == Plank.RAFTER ) {
+            return unitConversion.widthMmToDrawUnits( this.height );
         }
         
         return -1;
