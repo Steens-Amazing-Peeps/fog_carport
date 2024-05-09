@@ -5,19 +5,24 @@ import app.web.services.bom.ValidPlanks;
 
 public class Carport
 {
-    private Integer price;
-    
-    private Integer height;
-    private Integer width;
-    private Integer length;
+    private Integer carportId;
+    private Integer orderId;
+
+    private Integer heightMm;
+    private Integer lengthMm;
+    private Integer widthMm;
+
+
+    //TODO check where these are used and if they are in the right place
     private boolean isOpen;
-    
+
     private Shed shed;
     private Roof roof;
     
     private Bom bom;
-    
-    
+
+
+
     BoardCalculator boardCalculator;
     ValidPlanks validPlanks;
     
@@ -26,47 +31,55 @@ public class Carport
         this.boardCalculator = boardCalculator;
         this.validPlanks = validPlanks;
     }
-    
+
+    public Carport() {
+
+    }
+
     //Getters and Setters
-    public Integer getPrice()
-    {
-        return this.price;
+
+    public Integer getCarportId() {
+        return this.carportId;
     }
-    
-    public void setPrice( Integer price )
-    {
-        this.price = price;
+
+    public void setCarportId( Integer carportId ) {
+        this.carportId = carportId;
     }
-    
-    public Integer getHeight()
-    {
-        return this.height;
+
+    public Integer getOrderId() {
+        return this.orderId;
     }
-    
-    public void setHeight( Integer height )
-    {
-        this.height = height;
+
+    public void setOrderId( Integer orderId ) {
+        this.orderId = orderId;
     }
-    
-    public Integer getWidth()
-    {
-        return this.width;
+
+    public Integer getHeightMm() {
+        return this.heightMm;
     }
-    
-    public void setWidth( Integer width )
-    {
-        this.width = width;
+
+    public void setHeightMm( Integer heightMm ) {
+        this.heightMm = heightMm;
     }
-    
-    public Integer getLength()
-    {
-        return this.length;
+
+    public Integer getLengthMm() {
+        return this.lengthMm;
     }
-    
-    public void setLength( Integer length )
-    {
-        this.length = length;
+
+    public void setLengthMm( Integer lengthMm ) {
+        this.lengthMm = lengthMm;
     }
+
+    public Integer getWidthMm() {
+        return this.widthMm;
+    }
+
+    public void setWidthMm( Integer widthMm ) {
+        this.widthMm = widthMm;
+    }
+
+
+    // TODO check if/when/where below getters and setters are needed
     
     public boolean isOpen()
     {
