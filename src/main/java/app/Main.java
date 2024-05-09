@@ -58,9 +58,11 @@ public class Main
         //Mappers
         UserMapper userMapper = new UserMapperImpl( dataStore );
         OrderMapper orderMapper = new OrderMapperImpl( dataStore );
+
         CarportMapper carportMapper = new CarportMapperImpl( dataStore );
         ShedMapper shedMapper = new ShedMapperImpl( dataStore );
         RoofMapper roofMapper = new RoofMapperImpl( dataStore );
+        BomMapper bomMapper = new BomMapperImpl( dataStore );
         
         //Load Global Attributes
         WebGlobalAttributes.startUp( userMapper );
