@@ -2,51 +2,62 @@ package app.web.entities;
 
 public class Shed
 {
-    private Integer width;
-    private Integer depth;
-    private Integer floor;
-    private Integer wallCladding;
-    
+    private Integer shedId;
+    private Integer carportId;
+    private Integer lengthMm;
+    private Integer widthMm;
+    private String floor;
+    private String wallCladding;
+
     
     //Getters and Setters
-    public Integer getWidth()
-    {
-        return this.width;
+
+    public Integer getShedId() {
+        return this.shedId;
     }
-    
-    public void setWidth( Integer width )
-    {
-        this.width = width;
+
+    public void setShedId(Integer shedId) {
+        this.shedId = shedId;
     }
-    
-    public Integer getDepth()
-    {
-        return this.depth;
+
+    public Integer getCarportId() {
+        return this.carportId;
     }
-    
-    public void setDepth( Integer depth )
-    {
-        this.depth = depth;
+
+    public void setCarportId(Integer carportId) {
+        this.carportId = carportId;
     }
-    
-    public Integer getFloor()
-    {
+
+    public Integer getLengthMm() {
+        return this.lengthMm;
+    }
+
+    public void setLengthMm(Integer lengthMm) {
+        this.lengthMm = lengthMm;
+    }
+
+    public Integer getWidthMm() {
+        return this.widthMm;
+    }
+
+    public void setWidthMm(Integer widthMm) {
+        this.widthMm = widthMm;
+    }
+
+    public String getFloor() {
         return this.floor;
     }
-    
-    public void setFloor( Integer floor )
-    {
+
+    public void setFloor(String floor) {
         this.floor = floor;
     }
-    
-    public Integer getWallCladding()
-    {
+
+    public String getWallCladding() {
         return this.wallCladding;
     }
-    
-    public void setWallCladding( Integer wallCladding )
-    {
+
+    public void setWallCladding(String wallCladding) {
         this.wallCladding = wallCladding;
     }
-    
+
 }
