@@ -1,6 +1,6 @@
 package app.web.entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Order
 {
@@ -8,9 +8,9 @@ public class Order
     private Integer userId;
     private Integer priceSuggested;
     private Integer priceActual;
-    private Date dateRequested;
-    private Date dateApproved;
-    private Date dateFinished;
+    private LocalDateTime dateRequested;
+    private LocalDateTime dateApproved;
+    private LocalDateTime dateFinished;
     private String status;
 
     private Carport carport;
@@ -50,27 +50,27 @@ public class Order
         this.priceActual = priceActual;
     }
 
-    public Date getDateRequested() {
+    public LocalDateTime getDateRequested() {
         return this.dateRequested;
     }
 
-    public void setDateRequested(Date dateRequested) {
+    public void setDateRequested(LocalDateTime dateRequested) {
         this.dateRequested = dateRequested;
     }
 
-    public Date getDateApproved() {
+    public LocalDateTime getDateApproved() {
         return this.dateApproved;
     }
 
-    public void setDateApproved(Date dateApproved) {
+    public void setDateApproved(LocalDateTime dateApproved) {
         this.dateApproved = dateApproved;
     }
 
-    public Date getDateFinished() {
+    public LocalDateTime getDateFinished() {
         return this.dateFinished;
     }
 
-    public void setDateFinished(Date dateFinished) {
+    public void setDateFinished(LocalDateTime dateFinished) {
         this.dateFinished = dateFinished;
     }
 
