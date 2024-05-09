@@ -12,7 +12,7 @@ import java.util.*;
 
 
 public final class BomMapperImpl implements BomMapper
-{
+{ //TODO: Make this thing work like backend needs it to
 
 
     private DataStore dataStore = null;
