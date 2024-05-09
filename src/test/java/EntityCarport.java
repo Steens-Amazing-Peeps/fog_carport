@@ -180,7 +180,7 @@ public class EntityCarport
     @Test
     void happyPath()
     {
-    
+        
     }
     
     @Test
