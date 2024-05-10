@@ -11,11 +11,6 @@ import java.util.Map;
 
 public interface PlankCalculator
 {
-    
-    int calcPostRows( Map<Integer, Plank > validPlanks, int width );
-    
-    
-    
     Bom calcBom( ValidPlanks validPlanks, Carport carport ) throws WebInvalidInputException;
     
 }

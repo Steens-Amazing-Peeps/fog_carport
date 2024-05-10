@@ -12,6 +12,8 @@ import java.util.Map;
 public class RafterCalculatorImpl implements RafterCalculator
 {
     
+    private int minimumDistanceBetweenPolesCarportWidth = Config.Bom.MINIMUM_DISTANCE_BETWEEN_POLES_CARPORT_WIDTH;
+    
     @Override
     public Plank findShortestUsableRafter( Map< Integer, Plank > validRafters, int carportSegmentWidth ) throws WebInvalidInputException
     {
@@ -36,7 +38,7 @@ public class RafterCalculatorImpl implements RafterCalculator
         List< Plank > chosenRafters = new ArrayList<>();
         
         while ( true ) {
-            if ( carportWidth > ( maxSegmentWidth + Config.Bom.MINIMUM_DISTANCE_BETWEEN_POLES_CARPORT_WIDTH ) ) {
+            if ( carportWidth > ( maxSegmentWidth + this.minimumDistanceBetweenPolesCarportWidth ) ) {
                 carportWidth = carportWidth - maxSegmentWidth;
                 chosenRafters.add( this.findShortestUsableRafter( validRafters, maxSegmentWidth ) );
             } else {

@@ -17,10 +17,10 @@ public class EntityCarport
     
     private static final ValidPlanks validPlanks = new ValidPlanksImpl();
     
-    private PlankCalculator plankCalculator;
-    private PostCalculator postCalculator;
-    private BeamCalculator beamCalculator;
-    private RafterCalculator rafterCalculator;
+    private PlankCalculatorImpl plankCalculatorImpl;
+    private PostCalculatorImpl postCalculatorImpl;
+    private BeamCalculatorImpl beamCalculatorImpl;
+    private RafterCalculatorImpl rafterCalculatorImpl;
     
     private SimpleBeamCalculator simpleBeamCalculator;
     private Carport carport;
@@ -148,18 +148,18 @@ public class EntityCarport
     void setUp()
     {
         //Calculator
-        this.postCalculator = new PostCalculatorImpl();
+        this.postCalculatorImpl = new PostCalculatorImpl();
         
-        this.beamCalculator = new BeamCalculatorImpl();
+        this.beamCalculatorImpl = new BeamCalculatorImpl();
         this.simpleBeamCalculator = new SimpleBeamCalculator();
         
-        this.rafterCalculator = new RafterCalculatorImpl();
+        this.rafterCalculatorImpl = new RafterCalculatorImpl();
         
         
-        this.plankCalculator = new PlankCalculatorImpl( this.postCalculator, this.beamCalculator, this.rafterCalculator );
+        this.plankCalculatorImpl = new PlankCalculatorImpl( this.postCalculatorImpl, this.beamCalculatorImpl, this.rafterCalculatorImpl );
         
         //Carport
-        this.carport = new Carport( this.plankCalculator, validPlanks );
+        this.carport = new Carport( this.plankCalculatorImpl, validPlanks );
         this.carport.setHeight( 5000 );
         this.carport.setLength( 9000 );
         this.carport.setWidth( 7000 );
@@ -188,22 +188,22 @@ public class EntityCarport
     {
         int rowAmount;
         
-        rowAmount = this.plankCalculator.calcPostRows( validPlanks.getPosts(), 5000 );
+        rowAmount = this.plankCalculatorImpl.calcPostRows( validPlanks.getPosts(), 5000 );
         assertEquals( 3, rowAmount );
         
-        rowAmount = this.plankCalculator.calcPostRows( validPlanks.getPosts(), 4000 );
+        rowAmount = this.plankCalculatorImpl.calcPostRows( validPlanks.getPosts(), 4000 );
         assertEquals( 2, rowAmount );
         
-        rowAmount = this.plankCalculator.calcPostRows( validPlanks.getPosts(), 8000 );
+        rowAmount = this.plankCalculatorImpl.calcPostRows( validPlanks.getPosts(), 8000 );
         assertEquals( 4, rowAmount );
         
-        rowAmount = this.plankCalculator.calcPostRows( validPlanks.getPosts(), 3000 );
+        rowAmount = this.plankCalculatorImpl.calcPostRows( validPlanks.getPosts(), 3000 );
         assertEquals( 2, rowAmount );
         
-        rowAmount = this.plankCalculator.calcPostRows( validPlanks.getPosts(), 0 );
+        rowAmount = this.plankCalculatorImpl.calcPostRows( validPlanks.getPosts(), 0 );
         assertEquals( 2, rowAmount );
         
-        rowAmount = this.plankCalculator.calcPostRows( validPlanks.getPosts(), 7000 );
+        rowAmount = this.plankCalculatorImpl.calcPostRows( validPlanks.getPosts(), 7000 );
         assertEquals( 3, rowAmount );
     }
     
@@ -222,44 +222,44 @@ public class EntityCarport
         int rowAmount = 2;
         int polePrice = 10000;
         
-        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, this.beamCalculator );
+        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, this.beamCalculatorImpl );
         
         
         //.........................
         
         carportLength = 6950;
-        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, this.beamCalculator );
+        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, this.beamCalculatorImpl );
         
         
         //.........................
         
-        this.beamCalculator.setMinimumBatchSize( validPlanks.getBeams().size() );
+        this.beamCalculatorImpl.setMinimumBatchSize( validPlanks.getBeams().size() );
         
         //......................... Search every combination
         
         carportLength = 8000;
-        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, this.beamCalculator );
+        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, this.beamCalculatorImpl );
         
         
         //.........................
         
         carportLength = 6950;
-        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, this.beamCalculator );
+        beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, this.beamCalculatorImpl );
         
     }
     
-    private static void beamTests( Map< Integer, Plank > validPlanksMap, int carportLength, int rowAmount, int polePrice, BeamCalculator beamCalculator )
+    private static void beamTests( Map< Integer, Plank > validPlanksMap, int carportLength, int rowAmount, int polePrice, BeamCalculatorImpl beamCalculatorImpl )
     {
         
         SimpleBeamCalculator simpleBeamCalculator = new SimpleBeamCalculator();
         simpleBeamCalculator.calcBeamsOnPosts( validPlanksMap, carportLength, rowAmount, polePrice );
         
-        List< Plank > cheapestBeams = beamCalculator.calcBeamsOnPosts( validPlanksMap, carportLength, rowAmount, polePrice );
+        List< Plank > cheapestBeams = beamCalculatorImpl.calcBeamsOnPosts( validPlanksMap, carportLength, rowAmount, polePrice );
         
-        int prioritizeLeastWasteAtPriceDiff = beamCalculator.getPrioritizeLeastWasteAtPriceDiff();
-        beamCalculator.setPrioritizeLeastWasteAtPriceDiff( 0 );
-        List< Plank > leastWastefulBeams = beamCalculator.calcBeamsOnPosts( validPlanksMap, carportLength, rowAmount, polePrice );
-        beamCalculator.setPrioritizeLeastWasteAtPriceDiff( prioritizeLeastWasteAtPriceDiff );
+        int prioritizeLeastWasteAtPriceDiff = beamCalculatorImpl.getPrioritizeLeastWasteAtPriceDiff();
+        beamCalculatorImpl.setPrioritizeLeastWasteAtPriceDiff( 0 );
+        List< Plank > leastWastefulBeams = beamCalculatorImpl.calcBeamsOnPosts( validPlanksMap, carportLength, rowAmount, polePrice );
+        beamCalculatorImpl.setPrioritizeLeastWasteAtPriceDiff( prioritizeLeastWasteAtPriceDiff );
         
         int cheapestLength = 0;
         

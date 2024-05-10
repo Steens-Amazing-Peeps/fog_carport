@@ -11,12 +11,18 @@ import java.util.*;
 
 public class PlankCalculatorImpl implements PlankCalculator  //TODO: Finish this
 {
+    //Below exists purely for testing reasons------------------------------------
+    //'constants'
+    //This middleman instant variable exists to make tests easier
+    private int splitCarportSegmentIntoTwoSegmentsAtThisWidth = Config.Bom.SPLIT_CARPORT_SEGMENT_INTO_TWO_SEGMENTS_AT_THIS_WIDTH;
+    private int minimumDistanceBetweenPolesCarportWidth = Config.Bom.MINIMUM_DISTANCE_BETWEEN_POLES_CARPORT_WIDTH;
     
-    int splitCarportSegmentIntoTwoSegmentsAtThisWidth = Config.Bom.SPLIT_CARPORT_SEGMENT_INTO_TWO_SEGMENTS_AT_THIS_WIDTH;
+    //End of purely for testing reasons------------------------------------
     
     PostCalculator postCalculator;
     BeamCalculator beamCalculator;
     RafterCalculator rafterCalculator;
+
     
     public PlankCalculatorImpl( PostCalculator postCalculator, BeamCalculator beamCalculator, RafterCalculator rafterCalculator )
     {
@@ -25,12 +31,12 @@ public class PlankCalculatorImpl implements PlankCalculator  //TODO: Finish this
         this.rafterCalculator = rafterCalculator;
     }
     
-    @Override
-    public int calcPostRows( Map< Integer, Plank > validPlanks, int carportWidth )
+
+    public int calcPostRows( Map< Integer, Plank > validRafters, int carportWidth )
     {
         int rowAmount = 2;
         
-        while ( carportWidth > ( this.splitCarportSegmentIntoTwoSegmentsAtThisWidth + Config.Bom.MINIMUM_DISTANCE_BETWEEN_POLES_CARPORT_WIDTH ) ) {
+        while ( carportWidth > ( this.splitCarportSegmentIntoTwoSegmentsAtThisWidth + this.minimumDistanceBetweenPolesCarportWidth ) ) {
             rowAmount++;
             carportWidth = carportWidth - this.splitCarportSegmentIntoTwoSegmentsAtThisWidth;
         }
@@ -44,6 +50,11 @@ public class PlankCalculatorImpl implements PlankCalculator  //TODO: Finish this
     {
         Bom bom = new Bom();
         
+        //Row Amount
+        int rowAmount = this.calcPostRows( validPlanks.getRafters(), carport.getWidth() );
+        
+        bom.setRowAmount( rowAmount );
+        
         //Posts
         Plank post = this.postCalculator.findShortestUsablePost( validPlanks.getPosts(), carport.getHeight() );
         
@@ -51,10 +62,10 @@ public class PlankCalculatorImpl implements PlankCalculator  //TODO: Finish this
             throw new WebInvalidInputException( "Carportens højden er for høj!" );
         }
         
-        int rowAmount = this.calcPostRows( validPlanks.getRafters(), carport.getWidth() );
-        
+        //Beams
         List< Plank > beams = this.beamCalculator.calcBeamsOnPosts( validPlanks.getBeams(), carport.getLength(), rowAmount, post.getPrice() );
         
+        //Back to posts, we needed to know the amount of beams pr. row
         int postsPrRow = ( beams.size() + 1 );
         int postsAmount = postsPrRow * rowAmount;
         
@@ -108,6 +119,26 @@ public class PlankCalculatorImpl implements PlankCalculator  //TODO: Finish this
         return bom;
     }
     
+    //Below exists purely for testing reasons------------------------------------
+    //Getters and Setters
+    public int getSplitCarportSegmentIntoTwoSegmentsAtThisWidth()
+    {
+        return this.splitCarportSegmentIntoTwoSegmentsAtThisWidth;
+    }
     
+    public void setSplitCarportSegmentIntoTwoSegmentsAtThisWidth( int splitCarportSegmentIntoTwoSegmentsAtThisWidth )
+    {
+        this.splitCarportSegmentIntoTwoSegmentsAtThisWidth = splitCarportSegmentIntoTwoSegmentsAtThisWidth;
+    }
+    
+    public int getMinimumDistanceBetweenPolesCarportWidth()
+    {
+        return this.minimumDistanceBetweenPolesCarportWidth;
+    }
+    
+    public void setMinimumDistanceBetweenPolesCarportWidth( int minimumDistanceBetweenPolesCarportWidth )
+    {
+        this.minimumDistanceBetweenPolesCarportWidth = minimumDistanceBetweenPolesCarportWidth;
+    }
     
 }

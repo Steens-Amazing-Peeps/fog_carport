@@ -12,7 +12,7 @@ import java.util.*;
 
 
 public final class RoofMapperImpl implements RoofMapper
-{
+{ //TODO: Maybe 'roof' table in DB should just be a part of 'carport' table?
 
 
     private DataStore dataStore = null;

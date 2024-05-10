@@ -12,7 +12,7 @@ import java.util.*;
 
 
 public final class ShedMapperImpl implements ShedMapper
-{
+{ //TODO: Maybe 'shed' table in DB should just be a part of 'carport' table?
 
 
     private DataStore dataStore = null;
