@@ -348,7 +348,10 @@ public class EntityCarport
         }
         
         System.out.println( bom );
-        
+        System.out.println(bom.getBeams().values().stream().toList());
+//        for (Plank plank : bom.getBeams().values()) {
+//            System.out.println(plank);
+//        }
     }
     
     
