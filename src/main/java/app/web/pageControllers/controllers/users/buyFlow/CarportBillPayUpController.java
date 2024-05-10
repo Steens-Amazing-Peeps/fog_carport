@@ -22,7 +22,9 @@ public class CarportBillPayUpController
     {
 
         app.get( WebPages.CARPORT_BILL_PAY_UP_GET_PAGE, ctx -> getPage( ctx ) );
-        app.post( WebPages.CARPORT_BILL_PAY_UP_BACK_POST_PAGE, ctx -> post( ctx ) );
+        
+        app.post( WebPages.CARPORT_BILL_PAY_UP_BACK_POST_PAGE, ctx -> postBack( ctx ) );
+        app.post( WebPages.CARPORT_BILL_PAY_UP_CONFIRM_POST_PAGE, ctx -> postConfirm( ctx ) );
 
     }
     
@@ -43,10 +45,17 @@ public class CarportBillPayUpController
     {//TODO
         render( ctx );
     }
-
-    private static void post( Context ctx )
+    
+    private static void postBack( Context ctx )
+    {//TODO
+        Carport5ReceiptController.redirect( ctx );
+        
+    }
+    
+    private static void postConfirm( Context ctx )
     {//TODO
 
+    
     }
 
 }
