@@ -1,17 +1,5 @@
-select {
-    border-radius: 4px;
-}
-
 label {
     font-weight: bold;
-}
-
-.dropdown-label {
-    margin-bottom: 4px;
-}
-
-label[for=consent] {
-    font-weight: normal;
 }
 
 .carport-form {
@@ -60,11 +48,16 @@ label[for=consent] {
     -webkit-text-stroke-color: black;
 }
 
+
 .carport-remarks {
     border-bottom: solid 2px dimgrey;
 
     /*margin-bottom: 10px;*/
     padding-bottom: 10px;
+}
+
+.dropdown-label {
+    margin-bottom: 4px;
 }
 
 textarea {
@@ -102,3 +95,13 @@ input[type=text] {
 input::placeholder {
     font-size: 0.9rem;
 }
+
+
+
+
+
+
+
+
+
+

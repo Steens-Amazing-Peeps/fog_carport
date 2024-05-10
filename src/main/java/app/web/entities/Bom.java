@@ -119,6 +119,11 @@ public class Bom
         stringBuilder.append( "------BOM------" ).append( System.lineSeparator() );
         
         stringBuilder.append( System.lineSeparator() );
+        stringBuilder.append( "--Misc Info--" ).append( System.lineSeparator() );
+        
+        stringBuilder.append( "Amount of Rows = " ).append( this.rowAmount ).append( System.lineSeparator() );
+        
+        stringBuilder.append( System.lineSeparator() );
         stringBuilder.append( "--Planks--" ).append( System.lineSeparator() );
         
         for ( Plank plank : this.planks ) {
