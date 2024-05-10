@@ -1,11 +1,9 @@
 import app.web.entities.User;
 import app.web.exceptions.DatabaseException;
-import app.web.exceptions.NoIdKeyReturnedException;
 import app.web.exceptions.UnexpectedResultDbException;
 import app.web.exceptions.WebInvalidInputException;
-import app.web.pageControllers.models.users.CreateAccountModelImpl;
-import app.web.pageControllers.models.users.LoginModel;
-import app.web.pageControllers.models.users.LoginModelImpl;
+import app.web.pageControllers.models.users.account.LoginModel;
+import app.web.pageControllers.models.users.account.LoginModelImpl;
 import org.junit.jupiter.api.*;
 import testClasses.mappers.UserMapperTest;
 

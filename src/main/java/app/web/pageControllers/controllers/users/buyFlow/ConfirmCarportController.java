@@ -1,9 +1,9 @@
-package app.web.pageControllers.controllers.users;
+package app.web.pageControllers.controllers.users.buyFlow;
 
 
 import app.web.constants.routing.WebHtml;
 import app.web.constants.routing.WebPages;
-import app.web.pageControllers.models.users.ConfirmCarportModel;
+import app.web.pageControllers.models.users.buyFlow.ConfirmCarportModel;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 

@@ -1,11 +1,7 @@
-.login {
+.create {
     display: flex;
     justify-content: center;
     align-content: center;
-}
-
-#intro-text {
-    text-align: center;
 }
 
 form{
@@ -14,11 +10,11 @@ form{
 
     justify-content: flex-start;
     align-content: center;
+    align-items: center;
 }
 
-.login-div {
+.create-div {
     display: flex;
-    align-self: center;
 
     width: 270px;
     margin-bottom: 15px;
@@ -33,12 +29,12 @@ form{
     background-color: cornflowerblue;
 }
 
-.login-div i {
+.create-div i {
     padding: 8px 16px;
     color: #0CD6A8;
 }
 
-.login-div input {
+.create-div input {
     border: 0px solid #C1C1C1;
     /*border-radius: 16px;*/
     border-top-right-radius: 14px;
@@ -46,8 +42,8 @@ form{
 
     margin-left: 5px;
     margin-top: -3px;
-    margin-bottom: -3px;
     /*margin-top: 5px;*/
+    margin-bottom: -3px;
     padding-left: 5px;
 
     width: 100%;
@@ -59,7 +55,7 @@ form{
 }
 
 .user-icon {
-    background: url("../../images/user-icon.png");
+    background: url("../../../images/user-icon.png");
 
     padding: 10px;
     margin-left: 3px;
@@ -71,7 +67,7 @@ form{
 }
 
 .password-icon {
-    background: url("../../images/password-icon.png");
+    background: url("../../../images/password-icon.png");
 
     padding: 10px;
 
@@ -82,16 +78,16 @@ form{
     text-align: center;
 }
 
-#login-button {
+#create-button {
     display: flex;
     justify-content: center;
+
+    margin-bottom: 50px;
 }
 
 .create-account-div {
     display: flex;
     justify-content: center;
-
-    margin-bottom: 50px;
 
     font-size: 1.3rem;
     font-family: Arial, serif;

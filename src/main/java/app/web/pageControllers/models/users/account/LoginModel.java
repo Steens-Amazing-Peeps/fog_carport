@@ -1,4 +1,4 @@
-package app.web.pageControllers.models.users;
+package app.web.pageControllers.models.users.account;
 
 import app.web.entities.User;
 import app.web.exceptions.DatabaseException;

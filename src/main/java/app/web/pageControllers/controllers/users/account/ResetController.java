@@ -1,9 +1,9 @@
-package app.web.pageControllers.controllers.users;
+package app.web.pageControllers.controllers.users.account;
 
 
 import app.web.constants.routing.WebHtml;
 import app.web.constants.routing.WebPages;
-import app.web.pageControllers.models.users.ResetModel;
+import app.web.pageControllers.models.users.account.ResetModel;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
