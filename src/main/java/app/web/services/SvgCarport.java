@@ -1,6 +1,7 @@
 package app.web.services;
 
 import app.util.UnitConversion;
+import app.web.entities.Bom;
 import app.web.entities.Plank;
 
 import java.util.ArrayList;
@@ -15,14 +16,19 @@ public class SvgCarport {
 
     private final String rectStandardStyle = "stroke: #000000; stroke-width: 1px; fill: #ffffff";
 
-    private ArrayList<Plank> rafters = plankOrganiser(getTestOrder(),Plank.RAFTER);
-    private ArrayList<Plank> beams = plankOrganiser(getTestOrder(),Plank.BEAM);
-    private ArrayList<Plank> posts = plankOrganiser(getTestOrder(),Plank.POST);
-    private ArrayList<Plank> boards = plankOrganiser(getTestOrder(),Plank.BOARD);
+    private Bom bom;
+//    private List<Plank> rafters = plankOrganiser(getTestOrder(),Plank.RAFTER);
+//    private List<Plank> beams = plankOrganiser(getTestOrder(),Plank.BEAM);
+//    private List<Plank> posts = plankOrganiser(getTestOrder(),Plank.POST);
+    private List<Plank> rafters = bom.getRafters().values().stream().toList();
+    private List<Plank> beams = bom.getBeams().values().stream().toList();
+    private List<Plank> posts = bom.getPosts().values().stream().toList();
     private double beamToOtherMath;
     private double beamToPostLength;
 
-
+    public SvgCarport(Bom bom) {
+        this.bom = bom;
+    }
 
     public static List<Plank> getTestOrder() {
         Plank beam = new Plank(id++,25,200,4200,Plank.BEAM,0);
@@ -44,7 +50,7 @@ public class SvgCarport {
         return testOrder;
     }
 
-    public String drawCarport(List<Plank> Planks){
+    public String drawCarport(){
         Locale.setDefault(new Locale("US"));
 //        outer svg setup
         carportSvg.addRectangle(0,0,700,900,"stroke: #000000; stroke-width: 1px; fill: none");
@@ -83,30 +89,30 @@ public class SvgCarport {
     }
 
     public void beamDrawer(){
-        double totalDrawLength = beams.get(0).getAmount() * beams.get(0).getDrawWidth(unitConversion); //4 is a placeholder for the amount
+        double boardDrawingFillLength = (unitConversion.DRAW_WIDTH - (rafters.get(0).getDrawWidth(unitConversion) * 2));
+        double totalDrawLength = beams.get(0).getAmount() * beams.get(0).getDrawWidth(unitConversion);
+//        double totalDrawLength;
+
+
+
         System.out.println(beams.get(0).getAmount());
         System.out.println(beams.get(0).getLength());
         System.out.println("usable length in total: "+totalDrawLength);
         System.out.println("usable length for each side: "+totalDrawLength/2);
         System.out.println("length needing to be filled for each board side: "+(unitConversion.DRAW_WIDTH - (rafters.get(0).getDrawWidth(unitConversion) * 2)));
-        double boardDrawingFillLength = (unitConversion.DRAW_WIDTH - (rafters.get(0).getDrawWidth(unitConversion) * 2));
         System.out.println("extra length: "+((totalDrawLength / 2) - boardDrawingFillLength));
-        beamToOtherMath = boardDrawingFillLength;
-        beamToPostLength = beams.get(0).getDrawWidth(unitConversion);
 
         if ((totalDrawLength / 2) >= (unitConversion.DRAW_WIDTH - (rafters.get(0).getDrawWidth(unitConversion) * 2))){
         carportSvg.addRectangle(rafters.get(0).getDrawWidth(unitConversion),50,beams.get(0).getDrawHeight(unitConversion),boardDrawingFillLength,rectStandardStyle);
         carportSvg.addRectangle(rafters.get(0).getDrawWidth(unitConversion),550,beams.get(0).getDrawHeight(unitConversion),boardDrawingFillLength,rectStandardStyle);
-            System.out.println("success for board");
         }
 
-
+        beamToOtherMath = boardDrawingFillLength;
+        beamToPostLength = beams.get(0).getDrawWidth(unitConversion);
     }
 
     public void postDrawer(){
         double postCheckerThing = beamToOtherMath / beamToPostLength;
-        System.out.println(postCheckerThing);
-        System.out.println(postCheckerThing+2);
 
         carportSvg.addRectangle(50 + rafters.get(0).getDrawWidth(unitConversion),50 - (1.5 * beams.get(0).getDrawHeight(unitConversion)), posts.get(0).getDrawHeight(unitConversion),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
         carportSvg.addRectangle(750 - rafters.get(0).getDrawWidth(unitConversion),50 - (1.5 * beams.get(0).getDrawHeight(unitConversion)), posts.get(0).getDrawHeight(unitConversion),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
