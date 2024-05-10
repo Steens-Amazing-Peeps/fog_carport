@@ -7,7 +7,13 @@ public interface WebPages
 //    String INDEX_POST_PAGE = ;
     
     //Header only
+
     String LOGOUT_POST_PAGE = "/logout/";
+  
+    //Feedback
+    String FEEDBACK_GET_PAGE = "/feedback";
+    String FEEDBACK_POST_PAGE = FEEDBACK_GET_PAGE;
+
     
     
     //Account

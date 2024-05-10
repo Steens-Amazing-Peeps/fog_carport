@@ -8,6 +8,8 @@ public interface WebFormParam
     String repeatPassword = "verify-password";
 
     String carportSend = "carportSend";
+
+    String feedbackSend = "feedbackSend";
     
 
 

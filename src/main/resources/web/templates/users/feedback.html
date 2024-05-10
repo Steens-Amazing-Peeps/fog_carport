@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:replace="~{fragments :: head('Feedback','users/feedback')}"></div>
+
+<body>
+
+<div class="page" id="page">
+
+    <div th:replace="~{fragments :: header}"></div>
+
+    <div class="content" id="content">
+
+        <form class="feedback-form">
+
+            <div class="welcome-info">
+                <p>Hej
+                    <span th:text="${session.currentUser.email}"
+                          th:if="${session.currentUser} != null"><b>Email</b></span>
+                    <span th:if="${session.currentUser} == null"><b>besøgende</b></span>
+                    her kan du give os værdifuld feedback. Er der noget du mener vi kan gøre bedre, så skriv det
+                    endelig!
+                </p>
+                <p>Din feedback vil være anonym hvis du ikke er logget ind.</p>
+            </div>
+
+            <div class="feedback">
+                <label class="feedback-label">Besked:</label>
+                <div class="wrap">
+                    <textarea required class="Message-box" name="Message" id="Message"></textarea>
+                </div>
+            </div>
+
+            <nav>
+                <div class="underline-animation" id="send">
+                    <form method="get" action="/send-feedback" class="inline">
+                        <button type="submit" class="link-button">Indsend</button>
+                    </form>
+                </div>
+            </nav>
+
+        </form>
+
+    </div>
+
+</div>
+
+</div>
+
+</body>
+</html>
