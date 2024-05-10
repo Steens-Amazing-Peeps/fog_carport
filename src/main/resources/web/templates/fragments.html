@@ -49,7 +49,7 @@
 
                 <div class="underline-animation">
                     <!--            Looks nicer than a link-->
-                    <form method="get" action="/reset" class="inline" th:if="${session.currentUser} == null">
+                    <form method="get" action="/reset-account-password" class="inline" th:if="${session.currentUser} == null">
                         <button type="submit" class="link-button" th:if="${session.currentUser} == null">Glemt kodeord
                         </button>
                     </form>
@@ -62,7 +62,7 @@
 
                 <div class="underline-animation">
                     <!--            Looks nicer than a link-->
-                    <form method="get" action="../order-history" class="inline" th:if="${session.currentUser} != null">
+                    <form method="get" action="../carport/order-history" class="inline" th:if="${session.currentUser} != null">
                         <button type="submit" class="link-button" th:if="${session.currentUser} != null">Ordrehistorik
                         </button>
                     </form>
