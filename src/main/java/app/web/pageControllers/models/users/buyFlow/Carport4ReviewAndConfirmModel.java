@@ -1,6 +1,6 @@
 package app.web.pageControllers.models.users.buyFlow;
 
-public interface CarportModel
+public interface Carport4ReviewAndConfirmModel
 {
 
 }

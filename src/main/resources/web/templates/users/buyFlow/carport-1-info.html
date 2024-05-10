@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<div th:replace="~{fragments :: head('Carport','users/buyFlow/carport')}"></div>
+<div th:replace="~{fragments :: head('Carport','users/buyFlow/carport-1-info')}"></div>
 
 <body>
 
@@ -224,7 +224,7 @@
 
                     <nav>
                         <div class="underline-animation" id="confirm">
-                            <form method="get" action="/confirm-carport" class="inline">
+                            <form method="get" action="/carport/drawing" class="inline">
                                 <button type="submit" class="link-button">Bestil carport</button>
                             </form>
                         </div>
