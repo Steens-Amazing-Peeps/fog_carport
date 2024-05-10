@@ -18,6 +18,8 @@ import app.web.pageControllers.models.IndexModelImpl;
 
 import app.web.pageControllers.models.admins.EditBuildingMaterialsModel;
 import app.web.pageControllers.models.admins.EditBuildingMaterialsModelImpl;
+import app.web.pageControllers.models.users.FeedbackModel;
+import app.web.pageControllers.models.users.FeedbackModelImpl;
 import app.web.pageControllers.models.users.account.*;
 import app.web.pageControllers.models.users.buyFlow.*;
 import app.web.persistence.ConnectionPool;
@@ -49,6 +51,9 @@ public class Main
         
         //Header Only
         HeaderController.addRoutes( app );
+
+        //Feedback
+        FeedbackController.addRoutes( app );
         
         //Account
         CreateAccountController.addRoutes( app );
@@ -90,6 +95,9 @@ public class Main
         
         //Models----------------------------------------------------------------
         IndexModel indexModel = new IndexModelImpl();
+
+        //Feedback
+        FeedbackModel feedbackModel = new FeedbackModelImpl();
         
         //Account
         CreateAccountModel createAccountModel = new CreateAccountModelImpl( userMapper );
@@ -115,6 +123,9 @@ public class Main
         
         //Header Only
         HeaderController.startUp();
+
+        //Feedback
+        FeedbackController.startUp( feedbackModel );
         
         //Account
         CreateAccountController.startUp( createAccountModel );

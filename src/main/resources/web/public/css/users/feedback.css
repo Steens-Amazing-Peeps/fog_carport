@@ -1,0 +1,51 @@
+.welcome-info {
+    font-size: 1.2rem;
+
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+span {
+    font-weight: bold;
+}
+
+label {
+    font-weight: bold;
+}
+
+.feedback-label {
+    margin-bottom: 4px;
+}
+
+.feedback-form {
+    padding-top: 1px;
+    margin-top: 20px;
+}
+
+.feedback {
+    border-bottom: solid 2px dimgrey;
+
+    padding-bottom: 10px;
+
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+textarea {
+    display: flex;
+    flex-grow: 1;
+
+    margin-top: 4px;
+
+    width: 99%;
+    min-width: 10rem;
+
+    max-height: 4.8rem;
+    min-height: 3rem;
+
+    border-radius: 4px;
+}
+
+#send {
+    margin-left: 4%;
+}
