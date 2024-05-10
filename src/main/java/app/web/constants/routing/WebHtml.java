@@ -4,6 +4,8 @@ public interface WebHtml
 {     //Alle vores HTML filer's path, bruges I controller.
     
     String INDEX_HTML = "index.html";
+
+    //Users
     String FEEDBACK_HTML = PathParts.USERS + "feedback.html";
     
     //Account
