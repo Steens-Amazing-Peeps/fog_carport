@@ -5,7 +5,7 @@
     <title th:text="${title}"></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link  th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
     <link th:href="@{/css/{cs}(cs=${customStyle}+'.css')}" rel="stylesheet"/>
 </head>
 
@@ -32,7 +32,7 @@
 
                 <div class="underline-animation">
                     <!--            Looks nicer than a link-->
-                    <form method="get" action="/create-account" class="inline"
+                    <form method="get" action="/create-account/" class="inline"
                           th:if="${session.currentUser} == null">
                         <button type="submit" class="link-button" th:if="${session.currentUser} == null">Opret
                         </button>
@@ -41,7 +41,7 @@
 
                 <div class="underline-animation">
                     <!--            Looks nicer than a link-->
-                    <form method="get" action="/login" class="inline" th:if="${session.currentUser} == null">
+                    <form method="get" action="/login/" class="inline" th:if="${session.currentUser} == null">
                         <button type="submit" class="link-button" th:if="${session.currentUser} == null">Fog Konto
                         </button>
                     </form>
@@ -49,7 +49,8 @@
 
                 <div class="underline-animation">
                     <!--            Looks nicer than a link-->
-                    <form method="get" action="/reset-account-password" class="inline" th:if="${session.currentUser} == null">
+                    <form method="get" action="/reset-account-password/" class="inline"
+                          th:if="${session.currentUser} == null">
                         <button type="submit" class="link-button" th:if="${session.currentUser} == null">Glemt kodeord
                         </button>
                     </form>
@@ -62,7 +63,8 @@
 
                 <div class="underline-animation">
                     <!--            Looks nicer than a link-->
-                    <form method="get" action="../carport/order-history" class="inline" th:if="${session.currentUser} != null">
+                    <form method="get" action="/carport/order-history/" class="inline"
+                          th:if="${session.currentUser} != null">
                         <button type="submit" class="link-button" th:if="${session.currentUser} != null">Ordrehistorik
                         </button>
                     </form>
@@ -70,7 +72,7 @@
 
                 <div class="underline-animation">
                     <!--            Looks nicer than a link-->
-                    <form method="post" action="/logout" class="inline" th:if="${session.currentUser} != null">
+                    <form method="post" action="/logout/" class="inline" th:if="${session.currentUser} != null">
                         <button type="submit" class="link-button" th:if="${session.currentUser} != null">Log Ud
                         </button>
                     </form>
@@ -83,10 +85,28 @@
 </header>
 
 
+<!--Back and forth Buttons-->
+
+<nav class="buy-flow-nav" th:fragment="buy-flow-nav (backText, confirmText)">
+    <div class="underline-animation" id="back">
+        <button type="submit" class="link-button"
+                formmethod="post" formaction="back"
+                th:text="${backText}"> SET BACK TEXT
+        </button>
+    </div>
+
+    <div class="underline-animation" id="confirm">
+        <button type="submit" class="link-button"
+                formmethod="post" formaction="confirm"
+                th:text="${confirmText}"> SET CONFIRM TEXT
+        </button>
+    </div>
+</nav>
+
 <footer class="footer-content" th:fragment="footer">
     <h3>Hos Fog værdsætter vi din holdning. Er der noget vi kan gøre bedre? Så giv os besked!</h3>
     <div class="underline-animation">
-        <form method="get" action="/feedback" class="inline">
+        <form method="get" action="/feedback/" class="inline">
             <button type="submit" class="link-button">Giv feedback</button>
         </form>
     </div>

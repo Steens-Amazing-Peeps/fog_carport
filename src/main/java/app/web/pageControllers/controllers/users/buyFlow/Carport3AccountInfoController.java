@@ -22,7 +22,7 @@ public class Carport3AccountInfoController
     {
 
         app.get( WebPages.CARPORT_3_ACCOUNT_INFO_GET_PAGE, ctx -> getPage( ctx ) );
-        app.post( WebPages.CARPORT_3_ACCOUNT_INFO_POST_PAGE, ctx -> post( ctx ) );
+        app.post( WebPages.CARPORT_3_ACCOUNT_INFO_BACK_POST_PAGE, ctx -> post( ctx ) );
         
     }
     
