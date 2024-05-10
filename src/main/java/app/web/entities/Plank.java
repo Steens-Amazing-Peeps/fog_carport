@@ -186,7 +186,7 @@ public class Plank implements Comparable< Plank >
     {
         
         if ( this.type == Plank.BOARD ) {
-            return unitConversion.widthMmToDrawUnits( this.width );
+            return unitConversion.widthMmToDrawUnits( this.height );
         }
         
         if ( this.type == Plank.POST ) {
