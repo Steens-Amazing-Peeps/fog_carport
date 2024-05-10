@@ -22,7 +22,9 @@ public class Carport5ReceiptController
     {
 
         app.get( WebPages.CARPORT_5_RECEIPT_GET_PAGE, ctx -> getPage( ctx ) );
-        app.post( WebPages.CARPORT_5_RECEIPT_BACK_POST_PAGE, ctx -> post( ctx ) );
+        
+        app.post( WebPages.CARPORT_5_RECEIPT_BACK_POST_PAGE, ctx -> postBack( ctx ) );
+        app.post( WebPages.CARPORT_5_RECEIPT_CONFIRM_POST_PAGE, ctx -> postConfirm( ctx ) );
 
     }
     
@@ -43,10 +45,16 @@ public class Carport5ReceiptController
     {//TODO
         render( ctx );
     }
-
-    private static void post( Context ctx )
+    
+    private static void postBack( Context ctx )
     {//TODO
-
+        Carport4ReviewAndConfirmController.redirect( ctx );
+        
     }
-
+    
+    private static void postConfirm( Context ctx )
+    {//TODO
+        CarportBillPayUpController.redirect( ctx );
+        
+    }
 }
