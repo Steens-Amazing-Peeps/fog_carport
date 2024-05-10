@@ -1,15 +1,12 @@
-package app.web.pageControllers.controllers.users;
+package app.web.pageControllers.controllers.users.buyFlow;
 
 
 import app.web.constants.routing.WebHtml;
 import app.web.constants.routing.WebPages;
-import app.web.pageControllers.models.users.CarportModel;
-import app.web.services.Svg;
+import app.web.pageControllers.models.users.buyFlow.CarportModel;
 import app.web.services.SvgCarport;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-
-import java.util.Locale;
 
 
 public class CarportController
