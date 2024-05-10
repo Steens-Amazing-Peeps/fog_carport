@@ -22,7 +22,7 @@ public class Carport5ReceiptController
     {
 
         app.get( WebPages.CARPORT_5_RECEIPT_GET_PAGE, ctx -> getPage( ctx ) );
-        app.post( WebPages.CARPORT_5_RECEIPT_POST_PAGE, ctx -> post( ctx ) );
+        app.post( WebPages.CARPORT_5_RECEIPT_BACK_POST_PAGE, ctx -> post( ctx ) );
 
     }
     

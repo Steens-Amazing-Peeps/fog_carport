@@ -11,6 +11,16 @@
 
     <div class="content" id="content">
 
+        <form>
+            <div class="carport-svg-topview">
+
+                <div th:utext="${svg}"></div>
+
+            </div>
+
+            <div th:replace="~{fragments :: buy-flow-nav ('Til Carport Mål', 'Til Bestillings Info')}"></div>
+
+        </form>
 
 
     </div>
