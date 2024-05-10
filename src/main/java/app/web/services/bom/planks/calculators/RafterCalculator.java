@@ -9,7 +9,7 @@ import java.util.Map;
 public interface RafterCalculator
 {
     
-    Plank findShortestUsableRafter( Map< Integer, Plank > validPlanks, int carportSegmentWidth ) throws WebInvalidInputException;
+    Plank findShortestUsableRafter( Map< Integer, Plank > validRafters, int carportSegmentWidth ) throws WebInvalidInputException;
     
     List< Plank > findShortestUsableRafter( Map< Integer, Plank> rafters, Integer width, int rowAmount, int splitCarportSegmentIntoTwoSegmentsAtThisWidth ) throws WebInvalidInputException;
     

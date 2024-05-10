@@ -3,6 +3,7 @@ package app.web.services.bom.planks.calculators;
 import app.util.MapManipulator;
 import app.web.constants.Config;
 import app.web.entities.Plank;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,45 +12,39 @@ import java.util.Map;
 public class BeamCalculatorImpl implements BeamCalculator
 {
     
+    //Below exists purely for testing reasons------------------------------------
     //'constants'
+    //These middleman instant variable exists to make tests easier
     private int MinimumBatchSize = Config.Bom.MINIMUM_BATCH_SIZE;
     private int amountOfAcceptableWasteInMm = Config.Bom.AMOUNT_OF_WASTE_ACCEPTABLE_IN_MM;
     
     private int prioritizeLeastWasteAtPriceDiff = Config.Bom.USE_LEAST_WASTEFUL_OPTION_AT_PRICE_DIFFERENCE;
     
     
+    //End of purely for testing reasons------------------------------------
+    
+    //Calculations
     @Override
     public List< Plank > calcBeamsOnPosts( Map< Integer, Plank > validBeams, int carportLength, int rowAmount, int postPrice )
     {
 
 //        int totalLength = carportLength * rowAmount;
-        int totalLength = carportLength;
+        int totalLength = carportLength; //TODO: Should we output a finished list or a more row one like atm?
+        //TODO: Use rowAmount or remove it from input
         
         int amount;
         int totalPrice;
         
         int maxAmount = -1;
         int maxPrice = -1;
-        int maxPriceId = -1;
         
-        int minAmount = -1;
-        int minPrice = -1;
-        
-        int leftOver;
-        int smallestLeftOverAmount = totalLength;
-        Plank smallestLeftOverPlank = null;
-        
-        Plank[] plankArraySortedByPrice;
-        
-        
-        
-        //Calc Price, Max Amount and Min Amount
-        for ( Plank plank : validBeams.values() ) {
+        //Calc Price, Max Price and Max Amount
+        for ( Plank plank : validBeams.values() ) { //TODO: Figure out a way to skip this loop
             
             if ( plank != null ) {
                 
                 plank.setPostPrice( postPrice );
-                plank.calcPricePrMm();
+                plank.calcPricePrMm();  //TODO: Where can this happen, if not in a preliminary loop? Maybe when we sort by price?... no probably wouldn't work
                 
                 //Amount
                 amount = totalLength / plank.getLength();
@@ -58,31 +53,31 @@ public class BeamCalculatorImpl implements BeamCalculator
                 }
                 
                 if ( amount > maxAmount ) {
-                    maxAmount = amount;
-                }
-                
-                if ( minAmount == -1 || amount < minAmount ) {
-                    minAmount = amount;
+                    maxAmount = amount; //TODO: Can just use an arrayList in calcBeamsOnPostsLogic instead, but if we have this loop anyway, this might be better?
                 }
                 
                 //Price
                 totalPrice = plank.getPriceWithPole() * amount;
                 
                 if ( totalPrice > maxPrice ) {
-                    maxPrice = totalPrice;
-                }
-                
-                if ( minPrice == -1 || totalPrice < minPrice ) {
-                    minPrice = totalPrice;
+                    maxPrice = totalPrice;  //TODO: Can just use the first plank as a starting point in calcBeamsOnPostsLogic instead, but if we have this loop anyway, this might be better?
                 }
                 
             }
             
         } //End - Initial fori
         
-        plankArraySortedByPrice = MapManipulator.sortByValuePlankPricePrMmToArray( validBeams );
+        List< Plank > resList = this.calcBeamsOnPostsLogic( validBeams, maxAmount, maxPrice, totalLength );
         
-        int timesRun = 0;
+        return resList;
+    }
+    
+    @NotNull
+    public List< Plank > calcBeamsOnPostsLogic( Map< Integer, Plank > validBeams, int maxAmount, int maxPrice, int totalLength )
+    {
+        //Initialize variables needed for the real logic
+        Plank[] plankArraySortedByPrice = MapManipulator.sortByValuePlankPricePrMmToArray( validBeams );
+        
         int runBatchUntil;
         if ( this.MinimumBatchSize != 0 ) {
             runBatchUntil = this.MinimumBatchSize;
@@ -113,7 +108,7 @@ public class BeamCalculatorImpl implements BeamCalculator
         List< Plank > resList;
         
         
-        
+        //The Real Logic
         while ( true ) {
             currentLength = 0;
             currentPrice = 0;
@@ -180,7 +175,7 @@ public class BeamCalculatorImpl implements BeamCalculator
             //Is this the least wasteful option?
             //Option 1, this is the least wasteful option
             //Option 2, this is equally least wasteful as the leastwasteful, but also cheaper
-            if ( currentWaste < leastWastefulWaste || ( currentWaste == leastWastefulWaste && currentPrice < leastWastefulPrice  ) ) {
+            if ( currentWaste < leastWastefulWaste || ( currentWaste == leastWastefulWaste && currentPrice < leastWastefulPrice ) ) {
                 leastWastefulPlankArrayList = currentPlankArrayList;
                 leastWastefulPrice = currentPrice;
                 leastWastefulWaste = currentWaste;
@@ -232,9 +227,7 @@ public class BeamCalculatorImpl implements BeamCalculator
             
             
             //Run again until a ResCheck passes
-            timesRun++;
         }
-        
         return resList;
     }
     
@@ -249,38 +242,39 @@ public class BeamCalculatorImpl implements BeamCalculator
     }
     
     
+    //Below exists purely for testing reasons------------------------------------
     //Getters and Setters----------------------------------
-    @Override
+
     public int getMinimumBatchSize()
     {
         return this.MinimumBatchSize;
     }
     
-    @Override
+
     public void setMinimumBatchSize( int minimumBatchSize )
     {
         this.MinimumBatchSize = minimumBatchSize;
     }
     
-    @Override
+   
     public int getAmountOfAcceptableWasteInMm()
     {
         return this.amountOfAcceptableWasteInMm;
     }
     
-    @Override
+   
     public void setAmountOfAcceptableWasteInMm( int amountOfAcceptableWasteInMm )
     {
         this.amountOfAcceptableWasteInMm = amountOfAcceptableWasteInMm;
     }
     
-    @Override
+   
     public int getPrioritizeLeastWasteAtPriceDiff()
     {
         return this.prioritizeLeastWasteAtPriceDiff;
     }
     
-    @Override
+  
     public void setPrioritizeLeastWasteAtPriceDiff( int prioritizeLeastWasteAtPriceDiff )
     {
         this.prioritizeLeastWasteAtPriceDiff = prioritizeLeastWasteAtPriceDiff;

@@ -7,17 +7,18 @@ import java.util.Map;
 
 public class Bom
 {
-    private Integer bomId;
-    private Integer carportId;
-    private Integer variantId;
-    private Integer amount;
+    private Integer bomId; //TODO: Remove this
+    private Integer carportId; //TODO: Remove this
+    private Integer variantId; //TODO: Remove this
+    private Integer amount; //TODO: Remove this
 
-    //TODO check where/if this is used
-    private List< Plank > planks = new ArrayList<>();
+
+    private List< Plank > planks = new ArrayList<>();     //TODO check where/if this is used
     
     private Map< Integer, Plank > posts = new LinkedHashMap<>();
     private Map< Integer, Plank > beams = new LinkedHashMap<>();
     private Map< Integer, Plank > rafters = new LinkedHashMap<>();
+    private int rowAmount = 2;
     
     
     
@@ -55,7 +56,7 @@ public class Bom
         this.amount = amount;
     }
 
-    // TODO check if/when/where below getters and setters are needed
+
 
     public List< Plank > getPlanks()
     {
@@ -66,6 +67,9 @@ public class Bom
     {
         this.planks = planks;
     }
+    
+    
+    //Actually used stuff
     
     public Map< Integer, Plank > getPosts()
     {
@@ -95,6 +99,16 @@ public class Bom
     public void setRafters( Map< Integer, Plank > rafters )
     {
         this.rafters = rafters;
+    }
+    
+    public int getRowAmount()
+    {
+        return this.rowAmount;
+    }
+    
+    public void setRowAmount( int rowAmount )
+    {
+        this.rowAmount = rowAmount;
     }
     
     @Override
