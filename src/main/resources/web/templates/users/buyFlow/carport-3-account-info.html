@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<div th:replace="~{fragments :: head('Leverings Info','users/buyFlow/carport-3-account-info')}"></div>
+<div th:replace="~{fragments :: head('Leverings Info','users/buyFlow/carport-1-2-forms')}"></div>
 
 <body>
 
@@ -11,6 +11,75 @@
 
     <div class="content" id="content">
 
+        <div class="carport-form">
+
+            <div class="form-header">
+                <p>
+                    <b>Kontaktoplysninger:</b>
+                </p>
+            </div>
+
+            <form>
+
+                <div class="carport-dropdown-form">
+
+                    <div class="contact-info">
+                        <label for="fullname" class="dropdown-label">Navn*</label>
+                        <div class="text-field">
+                            <input type="text" id="fullname" name="fullname" placeholder="Fornavn og efternavn"><br>
+                        </div>
+                    </div>
+
+                    <div class="contact-info">
+                        <label for="address" class="dropdown-label">Adresse*</label>
+                        <div class="text-field">
+                            <input type="text" id="address" name="address" placeholder="Adresse (vej + nummer)"><br>
+                        </div>
+                    </div>
+
+                    <div class="contact-info">
+                        <label for="zip-code" class="dropdown-label">Postnummer*</label>
+                        <div class="text-field">
+                            <input type="text" id="zip-code" name="zip-code" placeholder="Postnummer"><br>
+                        </div>
+                    </div>
+
+                    <div class="contact-info">
+                        <label for="city" class="dropdown-label">By*</label>
+                        <div class="text-field">
+                            <input type="text" id="city" name="city" placeholder="Bynavn"><br>
+                        </div>
+                    </div>
+
+                    <div class="contact-info">
+                        <label for="phone" class="dropdown-label">Telefon*</label>
+                        <div class="text-field">
+                            <input type="text" id="phone" name="phone" placeholder="Telefon nummer"><br>
+                        </div>
+                    </div>
+
+                    <div class="contact-info">
+                        <label for="email" class="dropdown-label">Email*</label>
+                        <div class="text-field">
+                            <input type="text" id="email" name="email" placeholder="Din email adresse"><br>
+                        </div>
+                    </div>
+
+                    <div class="checkbox">
+                        <p>
+                            <b>Kontakt samtykke</b>
+                        </p>
+                        <input type="checkbox" id="consent" name="consent" value="Contact">
+                        <label for="consent">Fog må benytte de afgivne oplysninger til at kontakte mig i forbindelse
+                            med tilbud på QuickByg carport*</label>
+                    </div>
+                </div>
+
+                <div th:replace="~{fragments :: buy-flow-nav ('Til Tegning', 'Til Bekræftelse')}"></div>
+
+            </form>
+
+        </div>
 
 
     </div>
