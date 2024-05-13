@@ -83,6 +83,7 @@ public class Main
         //Mappers------------------------------------------------------------------------
         UserMapper userMapper = new UserMapperImpl( dataStore );
         OrderMapper orderMapper = new OrderMapperImpl( dataStore );
+        ContactMapper contactMapper = new ContactMapperImpl( dataStore );
 
         CarportMapper carportMapper = new CarportMapperImpl( dataStore );
         ShedMapper shedMapper = new ShedMapperImpl( dataStore );
