@@ -18,7 +18,7 @@ public class PostCalculatorImpl implements PostCalculator
         for ( Plank plank : planksSortedLength ) {
             if ( plank.getLength() >= carportHeight ) {
                 pickedPole = plank;
-                return pickedPole;
+                return new Plank( pickedPole );
             }
         }
         
