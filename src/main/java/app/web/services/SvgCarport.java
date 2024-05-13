@@ -23,12 +23,11 @@ public class SvgCarport {
     private List<Plank> posts;
     private double beamToOtherMath;
 
-    public SvgCarport(Carport carport) {
-        try {
-            this.bom = carport.calcBom();
-        } catch (WebInvalidInputException e) {
-            throw new RuntimeException(e); //TODO: make this a better error and fix up stuff for the new input
-        }
+    public SvgCarport(Carport carport) throws WebInvalidInputException {
+
+        this.bom = carport.calcBom();
+        System.out.println(bom);
+
         unitConversion.setCarportHeight(carport.getWidth());
         unitConversion.setCarportWidth(carport.getLength());
         rafters = bom.getRafters().values().stream().toList();
@@ -73,7 +72,7 @@ public class SvgCarport {
     }
 
     public void beamDrawer(){
-        double boardDrawingFillLength = (unitConversion.DRAW_WIDTH - (rafters.get(0).getDrawWidth(unitConversion) * 2));
+        double boardDrawingFillLength = (unitConversion.DRAW_WIDTH - (rafters.get(0).getDrawWidth(unitConversion) * 2)); //TODO: fix this so it isn't a constant
         double totalDrawLength = 0;
 
         for (Plank beam : beams) {

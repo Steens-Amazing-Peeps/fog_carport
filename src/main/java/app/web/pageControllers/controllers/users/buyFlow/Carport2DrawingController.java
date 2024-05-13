@@ -59,8 +59,15 @@ public class Carport2DrawingController
         }
 
         Order order = ctx.sessionAttribute(WebSessionAttributes.currentOrder);
-        String svgCarportDrawing = carport2DrawingModel.drawCarport(order.getCarport());
-        ctx.attribute("svg", svgCarportDrawing);
+        try {
+            String svgCarportDrawing = carport2DrawingModel.drawCarport(order.getCarport());
+            ctx.attribute("svg", svgCarportDrawing);
+            ctx.attribute( WebAttributes.msg, "" );
+        } catch (WebInvalidInputException e) {
+            ctx.attribute( WebAttributes.msg, e.getUserMessage() );
+            render( ctx );
+            return;
+        }
 
 
         render( ctx );
