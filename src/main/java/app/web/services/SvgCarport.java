@@ -2,7 +2,9 @@ package app.web.services;
 
 import app.util.UnitConversion;
 import app.web.entities.Bom;
+import app.web.entities.Carport;
 import app.web.entities.Plank;
+import app.web.exceptions.WebInvalidInputException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +23,14 @@ public class SvgCarport {
     private List<Plank> posts;
     private double beamToOtherMath;
 
-    public SvgCarport(Bom bom) {
-        this.bom = bom;
+    public SvgCarport(Carport carport) {
+        try {
+            this.bom = carport.calcBom();
+        } catch (WebInvalidInputException e) {
+            throw new RuntimeException(e); //TODO: make this a better error and fix up stuff for the new input
+        }
+        unitConversion.setCarportHeight(carport.getWidth());
+        unitConversion.setCarportWidth(carport.getLength());
         rafters = bom.getRafters().values().stream().toList();
         beams = bom.getBeams().values().stream().toList();
         posts = bom.getPosts().values().stream().toList();
