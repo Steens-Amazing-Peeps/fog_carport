@@ -39,4 +39,12 @@ public class UnitConversion
     public int getCarportWidth() {
         return this.carportWidth;
     }
+
+    public void setCarportHeight(int carportHeight) {
+        this.carportHeight = carportHeight;
+    }
+
+    public void setCarportWidth(int carportWidth) {
+        this.carportWidth = carportWidth;
+    }
 }

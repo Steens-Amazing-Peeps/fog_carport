@@ -52,20 +52,13 @@ public class Carport2DrawingController
     { //TODO
 
         if ( ctx.sessionAttribute( WebSessionAttributes.currentOrder ) == null ) {
-        Carport1InfoController.redirect( ctx );
-        return;
-    }
-
-        SvgCarport svgCarport;
-        Order order = ctx.sessionAttribute(WebSessionAttributes.currentOrder);
-        try {
-            svgCarport = new SvgCarport(order.getCarport().calcBom());
-            ctx.attribute("svg", svgCarport.drawCarport());
-            ctx.attribute( WebAttributes.msg, "" );
-        } catch (WebInvalidInputException e) {
-            //TODO: make a better error pop up
-            ctx.attribute(WebAttributes.msg,e.getUserMessage());
+            Carport1InfoController.redirect( ctx );
+            return;
         }
+
+        Order order = ctx.sessionAttribute(WebSessionAttributes.currentOrder);
+        String svgCarportDrawing = carport2DrawingModel.drawCarport(order.getCarport());
+        ctx.attribute("svg", svgCarportDrawing);
 
         render( ctx );
     }
