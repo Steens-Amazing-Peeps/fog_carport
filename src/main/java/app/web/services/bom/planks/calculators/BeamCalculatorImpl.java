@@ -176,14 +176,7 @@ public class BeamCalculatorImpl implements BeamCalculator
             //Option 1, this is the least wasteful option
             //Option 2, this is equally least wasteful as the leastwasteful, but also cheaper
             if ( currentWaste < leastWastefulWaste || ( currentWaste == leastWastefulWaste && currentPrice < leastWastefulPrice ) ) {
-                
-                List< Plank > copyArrayList = new ArrayList<>();
-                
-                for ( Plank plank : currentPlankArrayList ) {
-                    copyArrayList.add( new Plank( plank ) );
-                }
-                
-                leastWastefulPlankArrayList = copyArrayList;
+                leastWastefulPlankArrayList = currentPlankArrayList;
                 leastWastefulPrice = currentPrice;
                 leastWastefulWaste = currentWaste;
             }
@@ -192,15 +185,7 @@ public class BeamCalculatorImpl implements BeamCalculator
             //Option 1, this is the cheapest option
             //Option 2, this is equally cheap as the cheapest, but also less wasteful
             if ( currentPrice < cheapestPrice || ( currentPrice == cheapestPrice && currentWaste < cheapestWaste ) ) {
-                
-                List< Plank > copyArrayList = new ArrayList<>();
-                
-                for ( Plank plank : currentPlankArrayList ) {
-                    copyArrayList.add( new Plank( plank ) );
-                }
-                
-                
-                cheapestPlankArrayList = copyArrayList;
+                cheapestPlankArrayList = currentPlankArrayList;
                 cheapestPrice = currentPrice;
                 cheapestWaste = currentWaste;
             }
@@ -243,7 +228,15 @@ public class BeamCalculatorImpl implements BeamCalculator
             
             //Run again until a ResCheck passes
         }
-        return resList;
+        
+        List< Plank > copyResList = new ArrayList<>();
+        
+        for ( Plank plank : resList ) {
+            copyResList.add( new Plank( plank ) );
+        }
+        
+        
+        return copyResList;
     }
     
     @Override
