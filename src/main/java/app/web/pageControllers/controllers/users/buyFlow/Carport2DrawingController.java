@@ -1,7 +1,9 @@
 package app.web.pageControllers.controllers.users.buyFlow;
 
 
+
 import app.web.constants.attributes.WebAttributes;
+
 import app.web.constants.attributes.WebSessionAttributes;
 import app.web.constants.routing.WebHtml;
 import app.web.constants.routing.WebPages;
@@ -59,6 +61,7 @@ public class Carport2DrawingController
         Order order = ctx.sessionAttribute(WebSessionAttributes.currentOrder);
         String svgCarportDrawing = carport2DrawingModel.drawCarport(order.getCarport());
         ctx.attribute("svg", svgCarportDrawing);
+
 
         render( ctx );
     }
