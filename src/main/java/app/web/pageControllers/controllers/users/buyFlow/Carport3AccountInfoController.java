@@ -1,8 +1,11 @@
 package app.web.pageControllers.controllers.users.buyFlow;
 
 
+import app.web.constants.attributes.WebSessionAttributes;
 import app.web.constants.routing.WebHtml;
 import app.web.constants.routing.WebPages;
+import app.web.entities.Order;
+import app.web.pageControllers.models.users.buyFlow.Carport1InfoModelImpl;
 import app.web.pageControllers.models.users.buyFlow.Carport3AccountInfoModel;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -42,7 +45,17 @@ public class Carport3AccountInfoController
     
     
     private static void getPage( Context ctx )
-    {//TODO
+    { // TODO
+        Order order = ctx.sessionAttribute( WebSessionAttributes.currentOrder );
+
+        if ( ctx.sessionAttribute( WebSessionAttributes.currentOrder ) == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+
+        assert order != null;
+        order.getCarport();
+
         render( ctx );
     }
     
