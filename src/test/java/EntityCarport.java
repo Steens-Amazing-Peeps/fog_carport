@@ -108,7 +108,8 @@ public class EntityCarport
         rafters.put( id++, new Plank( id, 45, 195, 3900, Plank.RAFTER, 225 ) );
         rafters.put( id++, new Plank( id, 45, 195, 4000, Plank.RAFTER, 225 ) );
         rafters.put( id++, new Plank( id, 45, 195, 4100, Plank.RAFTER, 225 ) );
-        rafters.put( id++, new Plank( id, 45, 195, 6000, Plank.RAFTER, 225 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 6000, Plank.RAFTER, 300 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 9000, Plank.RAFTER, 400 ) );
 
         validPlanks.setRafters( rafters );
         
