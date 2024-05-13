@@ -11,6 +11,9 @@ import app.web.entities.Order;
 import app.web.exceptions.DatabaseException;
 import app.web.exceptions.UnexpectedResultDbException;
 import app.web.exceptions.WebInvalidInputException;
+import app.web.exceptions.carport1Info.CarportHeightException;
+import app.web.exceptions.carport1Info.CarportLengthException;
+import app.web.exceptions.carport1Info.CarportWidthException;
 import app.web.pageControllers.controllers.IndexController;
 import app.web.pageControllers.models.users.buyFlow.Carport1InfoModel;
 import io.javalin.Javalin;
@@ -58,6 +61,30 @@ public class Carport1InfoController
     
     private static void postBack( Context ctx )
     {//TODO
+        Order order = ctx.sessionAttribute( WebSessionAttributes.currentOrder );
+        
+        if ( order == null ) {
+            order = new Order();
+        }
+        
+        String carportHeight = ctx.formParam( WebFormParam.carportHeight );
+        String carportWidth = ctx.formParam( WebFormParam.carportWidth );
+        String carportLength = ctx.formParam( WebFormParam.carportLength );
+        
+//        try {
+            Carport carport = carport1InfoModel.checkBackInfo( order.getCarport(), carportHeight, carportWidth, carportLength );
+            order.setCarport( carport );
+            ctx.sessionAttribute( WebSessionAttributes.currentOrder, order );
+            ctx.attribute( WebAttributes.msg, "" );
+            
+//        } catch ( WebInvalidInputException e ) {
+//
+//            ctx.attribute( WebAttributes.msg, e.getUserMessage() );
+//            render( ctx );
+//            return;
+//
+//        }
+        
         IndexController.redirect( ctx );
         
     }
@@ -87,10 +114,26 @@ public class Carport1InfoController
             render( ctx );
             return;
             
+        } catch ( CarportWidthException e ) {
+            
+            ctx.attribute( WebAttributes.msg, e.getUserMessage() );
+            render( ctx );
+            return;
+            
+        } catch ( CarportLengthException e ) {
+            
+            ctx.attribute( WebAttributes.msg, e.getUserMessage() );
+            render( ctx );
+            return;
+            
+        } catch ( CarportHeightException e ) {
+            
+            ctx.attribute( WebAttributes.msg, e.getUserMessage() );
+            render( ctx );
+            return;
         }
         
         Carport2DrawingController.redirect( ctx );
-        
     }
     
 }
