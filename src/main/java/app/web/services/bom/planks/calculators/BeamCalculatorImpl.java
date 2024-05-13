@@ -176,7 +176,14 @@ public class BeamCalculatorImpl implements BeamCalculator
             //Option 1, this is the least wasteful option
             //Option 2, this is equally least wasteful as the leastwasteful, but also cheaper
             if ( currentWaste < leastWastefulWaste || ( currentWaste == leastWastefulWaste && currentPrice < leastWastefulPrice ) ) {
-                leastWastefulPlankArrayList = currentPlankArrayList;
+                
+                List< Plank > copyArrayList = new ArrayList<>();
+                
+                for ( Plank plank : currentPlankArrayList ) {
+                    copyArrayList.add( new Plank( plank ) );
+                }
+                
+                leastWastefulPlankArrayList = copyArrayList;
                 leastWastefulPrice = currentPrice;
                 leastWastefulWaste = currentWaste;
             }
@@ -185,7 +192,15 @@ public class BeamCalculatorImpl implements BeamCalculator
             //Option 1, this is the cheapest option
             //Option 2, this is equally cheap as the cheapest, but also less wasteful
             if ( currentPrice < cheapestPrice || ( currentPrice == cheapestPrice && currentWaste < cheapestWaste ) ) {
-                cheapestPlankArrayList = currentPlankArrayList;
+                
+                List< Plank > copyArrayList = new ArrayList<>();
+                
+                for ( Plank plank : currentPlankArrayList ) {
+                    copyArrayList.add( new Plank( plank ) );
+                }
+                
+                
+                cheapestPlankArrayList = copyArrayList;
                 cheapestPrice = currentPrice;
                 cheapestWaste = currentWaste;
             }
@@ -244,37 +259,37 @@ public class BeamCalculatorImpl implements BeamCalculator
     
     //Below exists purely for testing reasons------------------------------------
     //Getters and Setters----------------------------------
-
+    
     public int getMinimumBatchSize()
     {
         return this.MinimumBatchSize;
     }
     
-
+    
     public void setMinimumBatchSize( int minimumBatchSize )
     {
         this.MinimumBatchSize = minimumBatchSize;
     }
     
-   
+    
     public int getAmountOfAcceptableWasteInMm()
     {
         return this.amountOfAcceptableWasteInMm;
     }
     
-   
+    
     public void setAmountOfAcceptableWasteInMm( int amountOfAcceptableWasteInMm )
     {
         this.amountOfAcceptableWasteInMm = amountOfAcceptableWasteInMm;
     }
     
-   
+    
     public int getPrioritizeLeastWasteAtPriceDiff()
     {
         return this.prioritizeLeastWasteAtPriceDiff;
     }
     
-  
+    
     public void setPrioritizeLeastWasteAtPriceDiff( int prioritizeLeastWasteAtPriceDiff )
     {
         this.prioritizeLeastWasteAtPriceDiff = prioritizeLeastWasteAtPriceDiff;

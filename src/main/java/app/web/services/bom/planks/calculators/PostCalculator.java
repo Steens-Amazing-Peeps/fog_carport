@@ -7,6 +7,6 @@ import java.util.Map;
 public interface PostCalculator
 {
     
-    Plank findShortestUsablePost( Map< Integer, Plank > validPlanks, int carportHeight );
+    Plank findShortestUsablePost( Map< Integer, Plank > validPosts, int carportHeight );
     
 }
