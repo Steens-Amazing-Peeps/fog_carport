@@ -8,7 +8,7 @@ import java.util.Map;
 public interface BeamCalculator
 {
     
-    List< Plank > calcBeamsOnPosts( Map< Integer, Plank > validPlanks, int carportLength, int rowAmount, int polePrice );
+    List< Plank > calcBeamsOnPosts( Map< Integer, Plank > validBeams, int carportLength, int rowAmount, int polePrice );
     
   
 }

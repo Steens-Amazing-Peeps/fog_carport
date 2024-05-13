@@ -29,6 +29,7 @@ public class Plank implements Comparable< Plank >
     private Integer type = null;
     private Integer amount = null;
     private Integer price = null;
+    
     private BigDecimal pricePrMm = null;
     private int postPrice = 0;
     
@@ -45,6 +46,18 @@ public class Plank implements Comparable< Plank >
         this.length = length;
         this.type = type;
         this.price = pricePrMm * length;
+    }
+    
+    public Plank( Plank plankToCopy ){
+        this.id = plankToCopy.id;
+        this.height = plankToCopy.height;
+        this.width = plankToCopy.width;
+        this.length = plankToCopy.length;
+        this.type = plankToCopy.type;
+        this.amount = plankToCopy.amount;
+        this.price = plankToCopy.price;
+        this.pricePrMm = plankToCopy.pricePrMm;
+        this.postPrice = plankToCopy.postPrice;
     }
     
     //Getters and Setters
@@ -211,44 +224,45 @@ public class Plank implements Comparable< Plank >
         if ( this == o ) {
             return true;
         }
+
         if ( o == null || this.getClass() != o.getClass() ) {
             return false;
         }
-        
+
         Plank plank = ( Plank ) o;
-        
+
         if ( !Objects.equals( this.id, plank.id ) ) {
             return false;
         }
-        
+
         if ( !Objects.equals( this.height, plank.height ) ) {
             return false;
         }
-        
+
         if ( !Objects.equals( this.width, plank.width ) ) {
             return false;
         }
-        
+
         if ( !Objects.equals( this.length, plank.length ) ) {
             return false;
         }
-        
+
         if ( !Objects.equals( this.type, plank.type ) ) {
             return false;
         }
-        
+
         if ( !Objects.equals( this.amount, plank.amount ) ) {
             return false;
         }
-        
+
         if ( !Objects.equals( this.price, plank.price ) ) {
             return false;
         }
-        
+
         if ( !Objects.equals( this.pricePrMm, plank.pricePrMm ) ) {
             return false;
         }
-        
+
         return true;
     }
     
