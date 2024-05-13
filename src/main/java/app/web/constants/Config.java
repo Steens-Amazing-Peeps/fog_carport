@@ -48,4 +48,16 @@ public interface Config
     
     }
     
+    
+    public static interface Carport {
+        int MINIMUM_HEIGHT_IN_MM = 2000;
+        int MAXIMUM_HEIGHT_IN_MM = 5000;
+        
+        int MINIMUM_LENGTH_IN_MM = 1000;
+        int MAXIMUM_LENGTH_IN_MM = 50000;
+        
+        int MINIMUM_WIDTH_IN_MM = 1000;
+        int MAXIMUM_WIDTH_IN_MM = 6000;
+
+    }
 }

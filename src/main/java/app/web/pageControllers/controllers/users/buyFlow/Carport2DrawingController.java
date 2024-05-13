@@ -1,6 +1,7 @@
 package app.web.pageControllers.controllers.users.buyFlow;
 
 
+import app.web.constants.attributes.WebSessionAttributes;
 import app.web.constants.routing.WebHtml;
 import app.web.constants.routing.WebPages;
 import app.web.entities.Bom;
@@ -46,6 +47,7 @@ public class Carport2DrawingController
     
     private static void getPage( Context ctx )
     { //TODO
+        
         Bom bom = new Bom();
         SvgCarport svgCarport = new SvgCarport(bom);
         
