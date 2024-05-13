@@ -1,5 +1,6 @@
 package app.web.entities;
 
+import app.web.constants.attributes.WebGlobalAttributes;
 import app.web.exceptions.WebInvalidInputException;
 import app.web.services.bom.planks.ValidPlanksImpl;
 import app.web.services.bom.planks.calculators.*;
@@ -33,7 +34,7 @@ public class Carport
     public Carport() //TODO:Use something better than this temp fix?
     {
         this.plankCalculator = new PlankCalculatorImpl( new PostCalculatorImpl(), new BeamCalculatorImpl(), new RafterCalculatorImpl() );
-        this.validPlanks = new ValidPlanksImpl();
+        this.validPlanks = WebGlobalAttributes.VALID_PLANKS;
     }
     
     public Carport( PlankCalculator plankCalculator, ValidPlanks validPlanks )

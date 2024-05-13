@@ -84,15 +84,11 @@ public class PlankCalculatorImpl implements PlankCalculator  //TODO: Finish this
         
         int currentAmount;
         for ( Plank beam : beams ) {
-            System.out.println();
-            System.out.println(System.identityHashCode( beam ));
-            System.out.println(beam);
             if ( beamsWithAmounts.putIfAbsent( beam.getId(), beam ) != null ) {
                 currentAmount = beamsWithAmounts.get( beam.getId() ).getAmount();
                 beam.setAmount( currentAmount + beam.getAmount() );
                 beamsWithAmounts.put( beam.getId(), beam );
             }
-            System.out.println( beam );
         }
         
         bom.setBeams( beamsWithAmounts );
@@ -116,8 +112,7 @@ public class PlankCalculatorImpl implements PlankCalculator  //TODO: Finish this
         }
         
         bom.setRafters( raftersWithAmounts );
-        
-        System.out.println( rowAmount );
+
         
         return bom;
     }
