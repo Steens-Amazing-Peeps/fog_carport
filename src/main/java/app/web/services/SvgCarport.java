@@ -16,9 +16,6 @@ public class SvgCarport {
     private final String rectStandardStyle = "stroke: #000000; stroke-width: 1px; fill: #ffffff";
 
     private Bom bom;
-//    private List<Plank> rafters = plankOrganiser(getTestOrder(),Plank.RAFTER);
-//    private List<Plank> beams = plankOrganiser(getTestOrder(),Plank.BEAM);
-//    private List<Plank> posts = plankOrganiser(getTestOrder(),Plank.POST);
     private List<Plank> rafters;
     private List<Plank> beams;
     private List<Plank> posts;
