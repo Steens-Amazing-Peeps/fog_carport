@@ -378,8 +378,8 @@ public class EntityCarport
             this.carport.setHeight(2200);
             this.carport.setWidth(6000);
             this.carport.setLength(7800);
-            this.plankCalculatorImpl.setMinimumDistanceBetweenPolesCarportWidth(0);
-            this.plankCalculatorImpl.setSplitCarportSegmentIntoTwoSegmentsAtThisWidth(6000);
+            this.plankCalculatorImpl.setMinimumDistanceBetweenPolesCarportWidthInMm(0);
+            this.plankCalculatorImpl.setSplitCarportSegmentIntoTwoSegmentsAtThisWidthInMm(6000);
             bom = this.carport.calcBom();
             
         } catch ( WebInvalidInputException e ) {
@@ -387,14 +387,7 @@ public class EntityCarport
         }
         
         System.out.println( bom );
-<<<<<<< bom-input
-        SvgCarport svgCarport = new SvgCarport(bom);
-        svgCarport.drawCarport();
-//        System.out.println(bom.getBeams().values().stream().toList());
-//        for (Plank plank : bom.getBeams().values()) {
-//            System.out.println(plank);
-//        }
-=======
+
         System.out.println( "height = " + height );
         System.out.println( "length = " + length );
         System.out.println( "width = " + width );
@@ -408,7 +401,7 @@ public class EntityCarport
         
         System.out.println( "Beam sum length = " + sumLength );
         
->>>>>>> master
+
     }
     
     
