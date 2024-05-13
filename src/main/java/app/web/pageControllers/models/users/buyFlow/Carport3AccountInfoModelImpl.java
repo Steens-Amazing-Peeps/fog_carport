@@ -6,7 +6,7 @@ import app.web.exceptions.DatabaseException;
 import app.web.exceptions.NoIdKeyReturnedException;
 import app.web.exceptions.UnexpectedResultDbException;
 import app.web.exceptions.WebInvalidInputException;
-import app.web.persistence.mappers.ContactInfoMapper;
+import app.web.persistence.mappers.ContactMapper;
 
 
 public class Carport3AccountInfoModelImpl implements Carport3AccountInfoModel
@@ -18,23 +18,29 @@ public class Carport3AccountInfoModelImpl implements Carport3AccountInfoModel
         this.contactMapper = contactMapper;
     }
 
-    @Override
-    public ContactInfo createContactInfo( String fullName, String address, Integer zip, String city, Integer phoneNumber, String email, Integer user ) throws WebInvalidInputException
-    {
-        ContactInfo contactInfo = new ContactInfo();
-        user.setEmail( email );
-        user.setPassword( password );
-        user.setRole( role );
+    public Carport3AccountInfoModelImpl() {
 
-        this.userMapper.create( user );
-
-        globalUserMap.put( user.getUserId(), user );
-
-        return user;
     }
 
     @Override
-    public ContactInfo createContactInfo( String fullName, String address, Integer zip, String city, Integer phoneNumber, String email ) throws WebInvalidInputException
+    public ContactInfo createContactInfo( String fullName, String address, Integer zip, String city, Integer phoneNumber, String email, Integer user ) throws DatabaseException, WebInvalidInputException, NoIdKeyReturnedException, UnexpectedResultDbException
+    {
+        ContactInfo contactInfo = new ContactInfo();
+        contactInfo.setFullName( fullName );
+        contactInfo.setAddress( address );
+        contactInfo.setZip( zip );
+        contactInfo.setCity( city );
+        contactInfo.setPhoneNumber( phoneNumber );
+        contactInfo.setEmail( email );
+        contactInfo.setUser( user );
+
+        this.contactMapper.create( contactInfo );
+
+        return contactInfo;
+    }
+
+    @Override
+    public ContactInfo createContactInfo( String fullName, String address, Integer zip, String city, Integer phoneNumber, String email ) throws DatabaseException, WebInvalidInputException, NoIdKeyReturnedException, UnexpectedResultDbException
     {
         return this.createContactInfo( fullName, address, zip, city, phoneNumber, email, null );
     }
