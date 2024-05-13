@@ -1,9 +1,13 @@
 package app.web.pageControllers.controllers.users.buyFlow;
 
 
+import app.web.constants.attributes.WebAttributes;
+import app.web.constants.attributes.WebSessionAttributes;
 import app.web.constants.routing.WebHtml;
 import app.web.constants.routing.WebPages;
 import app.web.entities.Bom;
+import app.web.entities.Order;
+import app.web.exceptions.WebInvalidInputException;
 import app.web.pageControllers.controllers.IndexController;
 import app.web.pageControllers.models.users.buyFlow.Carport2DrawingModel;
 import app.web.services.SvgCarport;
@@ -46,11 +50,23 @@ public class Carport2DrawingController
     
     private static void getPage( Context ctx )
     { //TODO
-        Bom bom = new Bom();
-        SvgCarport svgCarport = new SvgCarport(bom);
-        
-        ctx.attribute("svg", svgCarport.drawCarport());
-        
+
+        if ( ctx.sessionAttribute( WebSessionAttributes.currentOrder ) == null ) {
+        Carport1InfoController.redirect( ctx );
+        return;
+    }
+
+        SvgCarport svgCarport;
+        Order order = ctx.sessionAttribute(WebSessionAttributes.currentOrder);
+        try {
+            svgCarport = new SvgCarport(order.getCarport().calcBom());
+            ctx.attribute("svg", svgCarport.drawCarport());
+            ctx.attribute( WebAttributes.msg, "" );
+        } catch (WebInvalidInputException e) {
+            //TODO: make a better error pop up
+            ctx.attribute(WebAttributes.msg,e.getUserMessage());
+        }
+
         render( ctx );
     }
     
