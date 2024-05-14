@@ -7,6 +7,12 @@ public interface WebFormParam
     String password = "password";
     String repeatPassword = "verify-password";
 
+    String fullName = "fullName";
+    String address = "address";
+    String zip = "zip";
+    String city = "city";
+    String phoneNumber = "phoneNumber";
+
     String carportSend = "carportSend";
 
     String feedbackSend = "feedbackSend";

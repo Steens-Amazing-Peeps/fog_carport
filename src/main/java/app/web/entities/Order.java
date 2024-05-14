@@ -14,6 +14,7 @@ public class Order
     private String status;
 
     private Carport carport;
+    private ContactInfo contactInfo;
 
 
     //Getters and Setters
@@ -88,5 +89,13 @@ public class Order
 
     public void setCarport(Carport carport) {
         this.carport = carport;
+    }
+
+    public ContactInfo getContactInfo() {
+        return this.contactInfo;
+    }
+
+    public void setContactInfo(ContactInfo contactInfo) {
+        this.contactInfo = contactInfo;
     }
 }

@@ -8,6 +8,6 @@ import app.web.exceptions.WebInvalidInputException;
 
 public interface Carport3AccountInfoModel
 {
-    ContactInfo createContactInfo( String fullName, String address, Integer zip, String city, Integer phoneNumber, String email, Integer user ) throws DatabaseException, WebInvalidInputException, UnexpectedResultDbException, NoIdKeyReturnedException;
+    ContactInfo createContactInfo( ContactInfo contactInfo, String fullName, String address, String zip, String city, String phoneNumber, String email, String user ) throws DatabaseException, WebInvalidInputException, UnexpectedResultDbException, NoIdKeyReturnedException;
 
 }
