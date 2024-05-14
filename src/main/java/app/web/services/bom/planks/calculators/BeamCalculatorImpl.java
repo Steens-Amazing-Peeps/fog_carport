@@ -228,7 +228,15 @@ public class BeamCalculatorImpl implements BeamCalculator
             
             //Run again until a ResCheck passes
         }
-        return resList;
+        
+        List< Plank > copyResList = new ArrayList<>();
+        
+        for ( Plank plank : resList ) {
+            copyResList.add( new Plank( plank ) );
+        }
+        
+        
+        return copyResList;
     }
     
     @Override
@@ -244,37 +252,37 @@ public class BeamCalculatorImpl implements BeamCalculator
     
     //Below exists purely for testing reasons------------------------------------
     //Getters and Setters----------------------------------
-
+    
     public int getMinimumBatchSize()
     {
         return this.MinimumBatchSize;
     }
     
-
+    
     public void setMinimumBatchSize( int minimumBatchSize )
     {
         this.MinimumBatchSize = minimumBatchSize;
     }
     
-   
+    
     public int getAmountOfAcceptableWasteInMm()
     {
         return this.amountOfAcceptableWasteInMm;
     }
     
-   
+    
     public void setAmountOfAcceptableWasteInMm( int amountOfAcceptableWasteInMm )
     {
         this.amountOfAcceptableWasteInMm = amountOfAcceptableWasteInMm;
     }
     
-   
+    
     public int getPrioritizeLeastWasteAtPriceDiff()
     {
         return this.prioritizeLeastWasteAtPriceDiff;
     }
     
-  
+    
     public void setPrioritizeLeastWasteAtPriceDiff( int prioritizeLeastWasteAtPriceDiff )
     {
         this.prioritizeLeastWasteAtPriceDiff = prioritizeLeastWasteAtPriceDiff;

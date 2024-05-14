@@ -2,6 +2,7 @@ import app.web.entities.Bom;
 import app.web.entities.Carport;
 import app.web.entities.Plank;
 import app.web.exceptions.WebInvalidInputException;
+import app.web.services.SvgCarport;
 import app.web.services.bom.planks.*;
 import app.web.services.bom.planks.calculators.*;
 import org.junit.jupiter.api.*;
@@ -107,9 +108,9 @@ public class EntityCarport
         rafters.put( id++, new Plank( id, 45, 195, 3900, Plank.RAFTER, 225 ) );
         rafters.put( id++, new Plank( id, 45, 195, 4000, Plank.RAFTER, 225 ) );
         rafters.put( id++, new Plank( id, 45, 195, 4100, Plank.RAFTER, 225 ) );
-        rafters.put( id++, new Plank( id, 45, 195, 6000, Plank.RAFTER, 260 ) );
+        rafters.put( id++, new Plank( id, 45, 195, 6000, Plank.RAFTER, 300 ) );
         rafters.put( id++, new Plank( id, 45, 195, 9000, Plank.RAFTER, 400 ) );
-        
+
         validPlanks.setRafters( rafters );
         
         //Posts
@@ -153,13 +154,17 @@ public class EntityCarport
         this.postCalculatorImpl = new PostCalculatorImpl();
         
         this.beamCalculatorImpl = new BeamCalculatorImpl();
+        this.beamCalculatorImpl.setMinimumBatchSize( 5 );
+        this.beamCalculatorImpl.setPrioritizeLeastWasteAtPriceDiff( 1000 );
+        this.beamCalculatorImpl.setAmountOfAcceptableWasteInMm( 50 );
+        
         this.simpleBeamCalculator = new SimpleBeamCalculator();
         
         this.rafterCalculatorImpl = new RafterCalculatorImpl();
         
-        
         this.plankCalculatorImpl = new PlankCalculatorImpl( this.postCalculatorImpl, this.beamCalculatorImpl, this.rafterCalculatorImpl );
-        
+        this.plankCalculatorImpl.setMinimumDistanceBetweenPolesCarportWidthInMm( 1000 );
+        this.plankCalculatorImpl.setSplitCarportSegmentIntoTwoSegmentsAtThisWidthInMm( 3000 );
         //Carport
         this.carport = new Carport( this.plankCalculatorImpl, validPlanks );
         this.carport.setHeight( 5000 );
@@ -212,7 +217,19 @@ public class EntityCarport
     @Test
     void calcPosts()
     {
-    
+        Plank post;
+        
+        this.carport.setHeight( 1000 );
+        post = this.postCalculatorImpl.findShortestUsablePost( validPlanks.getPosts(), this.carport.getHeight() );
+        assertEquals( 1100, post.getLength() );
+        
+        this.carport.setHeight( 2000 );
+        post = this.postCalculatorImpl.findShortestUsablePost( validPlanks.getPosts(), this.carport.getHeight() );
+        assertEquals( 2000, post.getLength() );
+        
+        this.carport.setHeight( 3201 );
+        post = this.postCalculatorImpl.findShortestUsablePost( validPlanks.getPosts(), this.carport.getHeight() );
+        assertEquals( 3400, post.getLength() );
     }
     
     @Test
@@ -333,14 +350,36 @@ public class EntityCarport
     @Test
     void calcRafters()
     {
-    
+        List< Plank > rafters;
+        this.carport.setWidth( 1000 );
+        try {
+            rafters = this.rafterCalculatorImpl.findShortestUsableRafter( validPlanks.getRafters(), this.carport.getWidth(), 3, this.plankCalculatorImpl.getSplitCarportSegmentIntoTwoSegmentsAtThisWidthInMm() );
+        } catch ( WebInvalidInputException e ) {
+            throw new RuntimeException( e );
+        }
+        
     }
     
     @Test
     void calcBom()
     {
+        this.carport.setLength( 7800 );
+        
+        int height;
+        int length;
+        int width;
+        
+        height = this.carport.getHeight();
+        length = this.carport.getLength();
+        width = this.carport.getWidth();
+        
         Bom bom = null;
         try {
+            this.carport.setHeight(2200);
+            this.carport.setWidth(6000);
+            this.carport.setLength(7800);
+            this.plankCalculatorImpl.setMinimumDistanceBetweenPolesCarportWidthInMm(0);
+            this.plankCalculatorImpl.setSplitCarportSegmentIntoTwoSegmentsAtThisWidthInMm(6000);
             bom = this.carport.calcBom();
             
         } catch ( WebInvalidInputException e ) {
@@ -348,7 +387,21 @@ public class EntityCarport
         }
         
         System.out.println( bom );
+
+        System.out.println( "height = " + height );
+        System.out.println( "length = " + length );
+        System.out.println( "width = " + width );
         
+        int sumLength = 0;
+        for ( Plank beam : bom.getBeams().values() ) {
+            sumLength = sumLength + ( beam.getLength() * beam.getAmount() );
+        }
+        
+        sumLength = sumLength / bom.getRowAmount();
+        
+        System.out.println( "Beam sum length = " + sumLength );
+        
+
     }
     
     

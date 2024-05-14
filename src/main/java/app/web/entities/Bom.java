@@ -150,6 +150,17 @@ public class Bom
         for ( Plank plank : this.rafters.values() ) {
             stringBuilder.append( plank.toString() ).append( System.lineSeparator() );
         }
+
+        int sumLength = 0;
+        for ( Plank beam : this.getBeams().values() ) {
+            sumLength = sumLength + ( beam.getLength() * beam.getAmount() );
+        }
+
+        sumLength = sumLength / this.getRowAmount();
+
+        stringBuilder.append(System.lineSeparator());
+        stringBuilder.append("Beam sum length = ").append(sumLength);
+        stringBuilder.append(System.lineSeparator());
         
         return stringBuilder.toString();
     }
