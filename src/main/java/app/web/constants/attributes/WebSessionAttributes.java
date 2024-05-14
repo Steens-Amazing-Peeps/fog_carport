@@ -6,7 +6,6 @@ public interface WebSessionAttributes
     String currentUser = "currentUser";
     String currentOrder = "currentOrder";
 
-
     
     
     
