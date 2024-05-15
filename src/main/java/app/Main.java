@@ -26,6 +26,7 @@ import app.web.persistence.ConnectionPool;
 import app.web.persistence.GetConnectionIf;
 import app.web.persistence.mappers.*;
 import io.javalin.Javalin;
+import io.javalin.config.JavalinConfig;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
 public class Main
@@ -42,7 +43,7 @@ public class Main
             config.jetty.modifyServletContextHandler( handler -> handler.setSessionHandler( SessionConfig.sessionConfig() ) );
             config.fileRenderer( new JavalinThymeleaf( ThymeleafConfig.templateEngine() ) );
             
-            setUpWebServer( CONNECTION_POOL );
+            setUpWebServer( config, CONNECTION_POOL );
         } ).start( Config.General.PORT );
         
         // Routing
@@ -75,7 +76,7 @@ public class Main
 
     }
     
-    private static void setUpWebServer( GetConnectionIf connectionPool )
+    private static void setUpWebServer( JavalinConfig config, GetConnectionIf connectionPool )
     {
         //DataStore-------------------------------------------------------------
         DataStore dataStore = new DataStoreImpl( connectionPool );
@@ -92,7 +93,7 @@ public class Main
         BomMapper bomMapper = new BomMapperImpl( dataStore );
         
         //Load Global Attributes--------------------------------------------------------
-        WebGlobalAttributes.startUp( userMapper );
+        WebGlobalAttributes.startUp( config, userMapper );
         
         //Models----------------------------------------------------------------
         IndexModel indexModel = new IndexModelImpl();

@@ -2,42 +2,84 @@ package app.web.constants.attributes;
 
 
 
+import app.util.MetricConversion;
+import app.web.constants.Config;
 import app.web.entities.Plank;
 import app.web.entities.User;
 import app.web.exceptions.DatabaseException;
 import app.web.persistence.mappers.UserMapper;
 import app.web.services.bom.planks.ValidPlanks;
 import app.web.services.bom.planks.ValidPlanksImpl;
+import io.javalin.config.JavalinConfig;
+import io.javalin.config.Key;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 public interface WebGlobalAttributes
 {
-
+    
     //Should be global but we suck
     String userMap = "userMap";
     Map< Integer, User > USER_MAP = new LinkedHashMap<>();
+    
     ValidPlanks VALID_PLANKS = new ValidPlanksImpl();
-
-
-
-
-
-
-
-    static void startUp( UserMapper userMapper )
+    
+    
+    //Carport1Info
+    Key< BigDecimal >  minimumHeightInM = new Key< BigDecimal >( "minimumHeightInM" );
+    BigDecimal MINIMUM_HEIGHT_IN_M = MetricConversion.mmToM( Config.Carport.MINIMUM_HEIGHT_IN_MM ).setScale( MetricConversion.COMMA_DIGITS_IN_STRING_M, RoundingMode.HALF_UP );
+    
+    Key< BigDecimal > maximumHeightInM = new Key< BigDecimal >( "maximumHeightInM" );
+    BigDecimal MAXIMUM_HEIGHT_IN_M = MetricConversion.mmToM( Config.Carport.MAXIMUM_HEIGHT_IN_MM ).setScale( MetricConversion.COMMA_DIGITS_IN_STRING_M, RoundingMode.HALF_UP );
+    
+    Key< BigDecimal >  minimumLengthInM = new Key< BigDecimal >( "minimumLengthInM" );
+    BigDecimal MINIMUM_LENGTH_IN_M = MetricConversion.mmToM( Config.Carport.MINIMUM_LENGTH_IN_MM ).setScale( MetricConversion.COMMA_DIGITS_IN_STRING_M, RoundingMode.HALF_UP );
+    
+    Key< BigDecimal >  maximumLengthInM = new Key< BigDecimal >( "maximumLengthInM" );
+    BigDecimal MAXIMUM_LENGTH_IN_M = MetricConversion.mmToM( Config.Carport.MAXIMUM_LENGTH_IN_MM ).setScale( MetricConversion.COMMA_DIGITS_IN_STRING_M, RoundingMode.HALF_UP );
+    
+    Key< BigDecimal >  minimumWidthInM = new Key< BigDecimal >( "minimumWidthInM" );
+    BigDecimal MINIMUM_WIDTH_IN_M = MetricConversion.mmToM( Config.Carport.MINIMUM_WIDTH_IN_MM ).setScale( MetricConversion.COMMA_DIGITS_IN_STRING_M, RoundingMode.HALF_UP );
+    
+    Key< BigDecimal >  maximumWidthInM = new Key< BigDecimal >( "maximumWidthInM" );
+    BigDecimal MAXIMUM_WIDTH_IN_M = MetricConversion.mmToM( Config.Carport.MAXIMUM_WIDTH_IN_MM ).setScale( MetricConversion.COMMA_DIGITS_IN_STRING_M, RoundingMode.HALF_UP );
+    
+    
+    
+    
+    static void startUp( JavalinConfig config, UserMapper userMapper )
     {
         try {
             USER_MAP.putAll( userMapper.readAll() );
-
+            
         } catch ( DatabaseException e ) {
             throw new RuntimeException( e );
         }
+        
+        tempValidPlanksSetup();
+
+        //Carport1Info
+        config.appData( minimumHeightInM, MINIMUM_HEIGHT_IN_M );
+        config.appData( maximumHeightInM, MAXIMUM_HEIGHT_IN_M );
+        
+        config.appData( minimumLengthInM, MINIMUM_LENGTH_IN_M );
+        config.appData( maximumLengthInM, MAXIMUM_LENGTH_IN_M );
+        
+        config.appData( minimumWidthInM, MINIMUM_WIDTH_IN_M );
+        config.appData( maximumWidthInM, MAXIMUM_WIDTH_IN_M );
+        
+        
+    }
+    
+    private static void tempValidPlanksSetup()
+    {
         int id = 0;
         //Boards
-        Map< Integer, Plank> boards = new TreeMap<>();
+        Map< Integer, Plank > boards = new TreeMap<>();
         boards.put( id++, new Plank( id, 25, 200, 500, Plank.BOARD, 200 ) );
         boards.put( id++, new Plank( id, 25, 200, 900, Plank.BOARD, 200 ) );
         boards.put( id++, new Plank( id, 25, 200, 1100, Plank.BOARD, 200 ) );
@@ -51,9 +93,9 @@ public interface WebGlobalAttributes
         boards.put( id++, new Plank( id, 25, 200, 2900, Plank.BOARD, 200 ) );
         boards.put( id++, new Plank( id, 25, 200, 3200, Plank.BOARD, 200 ) );
         boards.put( id++, new Plank( id, 25, 200, 3400, Plank.BOARD, 200 ) );
-
+        
         VALID_PLANKS.setBoards( boards );
-
+        
         //Laths
         Map< Integer, Plank > laths = new TreeMap<>();
         laths.put( id++, new Plank( id, 38, 73, 500, Plank.LATH, 180 ) );
@@ -69,10 +111,10 @@ public interface WebGlobalAttributes
         laths.put( id++, new Plank( id, 38, 73, 2900, Plank.LATH, 180 ) );
         laths.put( id++, new Plank( id, 38, 73, 3200, Plank.LATH, 180 ) );
         laths.put( id++, new Plank( id, 38, 73, 3400, Plank.LATH, 180 ) );
-
-
+        
+        
         VALID_PLANKS.setLaths( laths );
-
+        
         //Beams
         Map< Integer, Plank > beams = new TreeMap<>();
         beams.put( id++, new Plank( id, 45, 95, 500, Plank.BEAM, 175 ) );
@@ -88,11 +130,11 @@ public interface WebGlobalAttributes
         beams.put( id++, new Plank( id, 45, 95, 2900, Plank.BEAM, 175 ) );
         beams.put( id++, new Plank( id, 45, 95, 3200, Plank.BEAM, 175 ) );
         beams.put( id++, new Plank( id, 45, 95, 3400, Plank.BEAM, 175 ) );
-
+        
         VALID_PLANKS.setBeams( beams );
-
-
-
+        
+        
+        
         //Rafters
         Map< Integer, Plank > rafters = new TreeMap<>();
         rafters.put( id++, new Plank( id, 45, 195, 500, Plank.RAFTER, 225 ) );
@@ -114,9 +156,9 @@ public interface WebGlobalAttributes
         rafters.put( id++, new Plank( id, 45, 195, 4100, Plank.RAFTER, 225 ) );
         rafters.put( id++, new Plank( id, 45, 195, 6000, Plank.RAFTER, 300 ) );
         rafters.put( id++, new Plank( id, 45, 195, 9000, Plank.RAFTER, 400 ) );
-
+        
         VALID_PLANKS.setRafters( rafters );
-
+        
         //Posts
         Map< Integer, Plank > posts = new TreeMap<>();
         posts.put( id++, new Plank( id, 19, 100, 500, Plank.POST, 160 ) );
@@ -145,9 +187,8 @@ public interface WebGlobalAttributes
         posts.put( id++, new Plank( id, 19, 100, 5900, Plank.POST, 200 ) );
         posts.put( id++, new Plank( id, 19, 100, 6000, Plank.POST, 300 ) );
         posts.put( id++, new Plank( id, 19, 100, 9000, Plank.POST, 400 ) );
-
+        
         VALID_PLANKS.setPosts( posts );
-
     }
     
 }
