@@ -72,54 +72,63 @@ public class SvgCarport {
     }
 
     public void beamDrawer(){
-        double boardDrawingFillLength = ((unitConversion.getCarportWidth() / 10) - (rafters.get(0).getDrawWidth(unitConversion) * 2)); //TODO: fix this so it isn't a constant
-        double totalDrawLength = 0;
+        double beamDrawingFillLength = ((unitConversion.getCarportWidth() / 10) - (rafters.get(0).getDrawWidth(unitConversion) * 2)); //TODO: fix this so it isn't a constant
+        double totalUsableLength = 0;
+        double totalFillingLength = unitConversion.DRAW_WIDTH - (rafters.get(0).getDrawWidth(unitConversion) * 2);
 
         for (Plank beam : beams) {
             for (int i = 0; i < beam.getAmount(); i++) {
-                totalDrawLength = totalDrawLength + beam.getDrawWidth(unitConversion);
+                totalUsableLength = totalUsableLength + beam.getDrawWidth(unitConversion);
             }
         }
 
-        System.out.println("usable length in total: "+totalDrawLength);
-        System.out.println("usable length for each side: "+totalDrawLength/2);
-        System.out.println("length needing to be filled for each board side: " + boardDrawingFillLength);
-        System.out.println("extra length per side: "+((totalDrawLength / 2) - boardDrawingFillLength));
+        System.out.println("usable length in total: "+totalUsableLength);
+        System.out.println("usable length for each side: "+totalUsableLength/2);
+        System.out.println("length needing to be filled for each beam side: " + beamDrawingFillLength);
+        System.out.println("filler length: "+totalFillingLength);
+        System.out.println("extra length per side: "+((totalUsableLength / 2) - beamDrawingFillLength));
 
-        if ((totalDrawLength / 2) >= (unitConversion.DRAW_WIDTH - (rafters.get(0).getDrawWidth(unitConversion) * 2))){
-        carportSvg.addRectangle(rafters.get(0).getDrawWidth(unitConversion),50,beams.get(0).getDrawHeight(unitConversion),boardDrawingFillLength,rectStandardStyle);
-        carportSvg.addRectangle(rafters.get(0).getDrawWidth(unitConversion),550,beams.get(0).getDrawHeight(unitConversion),boardDrawingFillLength,rectStandardStyle);
+        if ((totalUsableLength / 2) >= beamDrawingFillLength){
+        carportSvg.addRectangle(rafters.get(0).getDrawWidth(unitConversion),50,beams.get(0).getDrawHeight(unitConversion),totalFillingLength,rectStandardStyle);
+        carportSvg.addRectangle(rafters.get(0).getDrawWidth(unitConversion),550,beams.get(0).getDrawHeight(unitConversion),totalFillingLength,rectStandardStyle);
         }
 
-        beamToOtherMath = boardDrawingFillLength;
+        beamToOtherMath = totalFillingLength;
     }
 
     public void postDrawer(){
 
-        carportSvg.addRectangle(50 + rafters.get(0).getDrawWidth(unitConversion),50 - (1.5 * beams.get(0).getDrawHeight(unitConversion)), posts.get(0).getDrawHeight(unitConversion),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
-        carportSvg.addRectangle(750 - rafters.get(0).getDrawWidth(unitConversion),50 - (1.5 * beams.get(0).getDrawHeight(unitConversion)), posts.get(0).getDrawHeight(unitConversion),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
-        carportSvg.addRectangle(50 + rafters.get(0).getDrawWidth(unitConversion),550 - (1.5 * beams.get(0).getDrawHeight(unitConversion)), posts.get(0).getDrawHeight(unitConversion),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
-        carportSvg.addRectangle(750 - rafters.get(0).getDrawWidth(unitConversion),550 - (1.5 * beams.get(0).getDrawHeight(unitConversion)), posts.get(0).getDrawHeight(unitConversion),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
+        carportSvg.addRectangle(50 + rafters.get(0).getDrawWidth(unitConversion),50 - (0.75 * beams.get(0).getDrawHeight(unitConversion)), posts.get(0).getDrawHeight(unitConversion),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
+        carportSvg.addRectangle(750 - rafters.get(0).getDrawWidth(unitConversion),50 - (0.75 * beams.get(0).getDrawHeight(unitConversion)), posts.get(0).getDrawHeight(unitConversion),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
+        carportSvg.addRectangle(50 + rafters.get(0).getDrawWidth(unitConversion),550 - (0.75 * beams.get(0).getDrawHeight(unitConversion)), posts.get(0).getDrawHeight(unitConversion),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
+        carportSvg.addRectangle(750 - rafters.get(0).getDrawWidth(unitConversion),550 - (0.75 * beams.get(0).getDrawHeight(unitConversion)), posts.get(0).getDrawHeight(unitConversion),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
         posts.get(0).setAmount(posts.get(0).getAmount()-4);
 
         //TODO: check if it places them correctly on an actual drawing
+        double postLoopOffset = 0;
+        int iValue = 0;
         for (Plank beam : beams) {
-            for (int i = 1; i < beam.getAmount()+1; i++) {
-                    if (0 < beamToOtherMath - (unitConversion.widthMmToDrawUnits(beam.getLength()) * i) + rafters.get(0).getDrawWidth(unitConversion) && 1 < posts.get(0).getAmount()){
+            int foriLoopAmount = beam.getAmount() / 2;
+            for (int i = 0; i < foriLoopAmount; i++) {
+                    if (0 < beamToOtherMath - (unitConversion.widthMmToDrawUnits(beam.getLength()) * (i+1)) + rafters.get(0).getDrawWidth(unitConversion) && 1 < posts.get(0).getAmount()){
 
-                    carportSvg.addRectangle((unitConversion.widthMmToDrawUnits(beam.getLength()) * i) + rafters.get(0).getDrawWidth(unitConversion),50 - (1.5 * (unitConversion.heightMmToDrawUnits(beams.get(0).getHeight()))), unitConversion.heightMmToDrawUnits(posts.get(0).getHeight()),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
-                    carportSvg.addRectangle((unitConversion.widthMmToDrawUnits(beam.getLength()) * i) + rafters.get(0).getDrawWidth(unitConversion),550 - (1.5 * (unitConversion.heightMmToDrawUnits(beams.get(0).getHeight()))), unitConversion.heightMmToDrawUnits(posts.get(0).getHeight()),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
-                        System.out.println("places posts at: "+(unitConversion.widthMmToDrawUnits(beam.getLength()) * i) + rafters.get(0).getDrawWidth(unitConversion));
+                    carportSvg.addRectangle(((unitConversion.widthMmToDrawUnits(beam.getLength()) * (i+1)) + rafters.get(0).getDrawWidth(unitConversion))+postLoopOffset,50 - (0.75 * (unitConversion.heightMmToDrawUnits(beams.get(0).getHeight()))), unitConversion.heightMmToDrawUnits(posts.get(0).getHeight()),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
+                    carportSvg.addRectangle(((unitConversion.widthMmToDrawUnits(beam.getLength()) * (i+1)) + rafters.get(0).getDrawWidth(unitConversion))+postLoopOffset,550 - (0.75 * (unitConversion.heightMmToDrawUnits(beams.get(0).getHeight()))), unitConversion.heightMmToDrawUnits(posts.get(0).getHeight()),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
+                    System.out.println("placed posts at: "+(((unitConversion.widthMmToDrawUnits(beam.getLength()) * (i+1)) + rafters.get(0).getDrawWidth(unitConversion))+postLoopOffset));
                     posts.get(0).setAmount(posts.get(0).getAmount()-2);
+                    iValue = i;
                     }
                     else {
-                        System.out.println("couldn't place posts at: "+(unitConversion.widthMmToDrawUnits(beam.getLength()) * i) + rafters.get(0).getDrawWidth(unitConversion));
+                        System.out.println("couldn't place posts at: "+((unitConversion.widthMmToDrawUnits(beam.getLength()) * (i+1)) + rafters.get(0).getDrawWidth(unitConversion))+postLoopOffset);
                     }
                 System.out.println("amount of posts left: "+posts.get(0).getAmount());
                     if (posts.get(0).getAmount() == 0){
                         break;
                     }
             }
+            postLoopOffset = (unitConversion.widthMmToDrawUnits(beam.getLength()) * (iValue+1)) + rafters.get(0).getDrawWidth(unitConversion);
+//            System.out.println("offset set: "+postLoopOffset);
+//            System.out.println(System.lineSeparator());
         }
 
     }
