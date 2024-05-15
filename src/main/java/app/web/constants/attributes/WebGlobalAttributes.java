@@ -161,33 +161,34 @@ public interface WebGlobalAttributes
         
         //Posts
         Map< Integer, Plank > posts = new TreeMap<>();
-        posts.put( id++, new Plank( id, 19, 100, 500, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 900, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 1100, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 1300, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 1400, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 1500, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 1700, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 2000, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 2300, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 2600, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 2900, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 3200, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 3400, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 3700, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 3900, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 4100, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 4200, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 5000, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 5100, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 5200, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 5400, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 5500, Plank.POST, 160 ) );
-        posts.put( id++, new Plank( id, 19, 100, 5700, Plank.POST, 190 ) );
-        posts.put( id++, new Plank( id, 19, 100, 5900, Plank.POST, 200 ) );
-        posts.put( id++, new Plank( id, 19, 100, 6000, Plank.POST, 300 ) );
-        posts.put( id++, new Plank( id, 19, 100, 9000, Plank.POST, 400 ) );
-        
+      
+        posts.put( id++, new Plank( id, 97, 97, 500, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 900, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 1100, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 1300, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 1400, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 1500, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 1700, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 2000, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 2300, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 2600, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 2900, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 3200, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 3400, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 3700, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 3900, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 4100, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 4200, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 5000, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 5100, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 5200, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 5400, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 5500, Plank.POST, 160 ) );
+        posts.put( id++, new Plank( id, 97, 97, 5700, Plank.POST, 190 ) );
+        posts.put( id++, new Plank( id, 97, 97, 5900, Plank.POST, 200 ) );
+        posts.put( id++, new Plank( id, 97, 97, 6000, Plank.POST, 300 ) );
+        posts.put( id++, new Plank( id, 97, 97, 9000, Plank.POST, 400 ) );
+
         VALID_PLANKS.setPosts( posts );
     }
     
