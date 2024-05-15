@@ -1,6 +1,7 @@
 package app.web.pageControllers.models.users.account;
 
 
+import app.util.Validators;
 import app.web.constants.Config;
 import app.web.entities.User;
 import app.web.exceptions.DatabaseException;
@@ -23,7 +24,7 @@ public class CreateAccountModelImpl implements CreateAccountModel
     @Override
     public User createAccount( String email, String password, String passwordAgain, Map<Integer, User> globalUserMap, String role ) throws DatabaseException, WebInvalidInputException, UnexpectedResultDbException, NoIdKeyReturnedException
     {
-        if ( !isEmailValid( email ) ) {
+        if ( !Validators.isEmailValid( email ) ) {
             throw new WebInvalidInputException( "Emailen '" + email + "' er ikke en gyldig email" );
         }
         
@@ -65,14 +66,6 @@ public class CreateAccountModelImpl implements CreateAccountModel
     public User createAccount( String email, String password, String passwordAgain, Map<Integer, User> globalUserMap ) throws DatabaseException, WebInvalidInputException, UnexpectedResultDbException, NoIdKeyReturnedException
     {
         return this.createAccount( email, password, passwordAgain, globalUserMap, null );
-    }
-    
-    private static boolean isEmailValid( String email ) //TODO: Make this not suck
-    {
-        if ( email.contains( "@" ) && email.contains( "." ) ) {
-            return true;
-        }
-        return false;
     }
     
     

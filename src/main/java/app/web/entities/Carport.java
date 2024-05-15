@@ -3,7 +3,6 @@ package app.web.entities;
 import app.util.MetricConversion;
 import app.web.constants.attributes.WebGlobalAttributes;
 import app.web.exceptions.WebInvalidInputException;
-import app.web.services.bom.planks.ValidPlanksImpl;
 import app.web.services.bom.planks.calculators.*;
 import app.web.services.bom.planks.ValidPlanks;
 
@@ -58,8 +57,58 @@ public class Carport
         return this.bom;
     }
     
+    public StringBuilder getConfirm()
+    { //TODO
+        return this.getConfirm( new StringBuilder() );
+    }
     
+    public StringBuilder getConfirm( StringBuilder stringBuilder )
+    {  //TODO
+        
+        this.toStringPretty( stringBuilder );
+        
+        return stringBuilder;
+        
+    }
     
+    public StringBuilder getReceipt()
+    { //TODO
+        return this.getReceipt( new StringBuilder() );
+    }
+    
+    public StringBuilder getReceipt( StringBuilder stringBuilder )
+    { //TODO
+        
+        this.toStringPretty( stringBuilder );
+        this.bom.toString( stringBuilder );
+        
+        return stringBuilder;
+    }
+    
+    public StringBuilder toStringPretty( StringBuilder stringBuilder )
+    { //TODO
+        
+        stringBuilder.append( this ).append( System.lineSeparator() );
+        
+        return stringBuilder;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return "Carport{" +
+               "price=" + this.price +
+               ", carportId=" + this.carportId +
+               ", orderId=" + this.orderId +
+               ", height=" + this.height +
+               ", length=" + this.length +
+               ", width=" + this.width +
+               ", comment='" + this.comment + '\'' +
+               ", isOpen=" + this.isOpen +
+               ", shed=" + this.shed +
+               ", roof=" + this.roof +
+               '}';
+    }
     
     //Getters and Setters
     

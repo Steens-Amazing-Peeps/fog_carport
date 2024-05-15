@@ -52,7 +52,7 @@ public class Main
         
         //Header Only
         HeaderController.addRoutes( app );
-
+        
         //Feedback
         FeedbackController.addRoutes( app );
         
@@ -73,7 +73,7 @@ public class Main
         
         //Admins
         EditBuildingMaterialsController.addRoutes( app );
-
+        
     }
     
     private static void setUpWebServer( JavalinConfig config, GetConnectionIf connectionPool )
@@ -85,7 +85,7 @@ public class Main
         UserMapper userMapper = new UserMapperImpl( dataStore );
         OrderMapper orderMapper = new OrderMapperImpl( dataStore );
         ContactMapper contactMapper = new ContactMapperImpl( dataStore );
-
+        
         CarportMapper carportMapper = new CarportMapperImpl( dataStore );
         ShedMapper shedMapper = new ShedMapperImpl( dataStore );
         RoofMapper roofMapper = new RoofMapperImpl( dataStore );
@@ -97,7 +97,7 @@ public class Main
         
         //Models----------------------------------------------------------------
         IndexModel indexModel = new IndexModelImpl();
-
+        
         //Feedback
         FeedbackModel feedbackModel = new FeedbackModelImpl();
         
@@ -111,7 +111,7 @@ public class Main
         Carport1InfoModel carport1InfoModel = new Carport1InfoModelImpl();
         Carport2DrawingModel carport2DrawingModel = new Carport2DrawingModelImpl();
         Carport3AccountInfoModel carport3AccountInfoModel = new Carport3AccountInfoModelImpl();
-        Carport4ReviewAndConfirmModel carport4ReviewAndConfirmModel = new Carport4ReviewAndConfirmModelImpl();
+        Carport4ReviewAndConfirmModel carport4ReviewAndConfirmModel = new Carport4ReviewAndConfirmModelImpl( orderMapper, carportMapper, bomMapper, contactMapper );
         Carport5ReceiptModel carport5ReceiptModel = new Carport5ReceiptModelImpl();
         
         CarportBillPayUpModel carportBillPayUpModel = new CarportBillPayUpModelImpl();
@@ -125,7 +125,7 @@ public class Main
         
         //Header Only
         HeaderController.startUp();
-
+        
         //Feedback
         FeedbackController.startUp( feedbackModel );
         

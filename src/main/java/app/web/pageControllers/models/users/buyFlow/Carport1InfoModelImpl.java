@@ -18,15 +18,8 @@ import java.math.RoundingMode;
 public class Carport1InfoModelImpl implements Carport1InfoModel
 {
     @Override
-    public Integer checkNumberAttributeValidity( String attributeInCmAsString, Integer backupAttribute, int minSize, int maxSize ) throws NumberTooLargeException, NumberTooSmallException, EmptyInputException
+    public Integer checkNumberAttributeValidity( String attributeInCmAsString, int minSize, int maxSize ) throws NumberTooLargeException, NumberTooSmallException, EmptyInputException
     {
-        boolean hasBackupAttribute = true;
-
-        
-        if ( backupAttribute == null ) {
-            hasBackupAttribute = false;
-        }
-        
         try {
             if ( attributeInCmAsString == null || attributeInCmAsString.isEmpty() || attributeInCmAsString.isBlank() ) {
                 throw new EmptyInputException("");
@@ -47,9 +40,6 @@ public class Carport1InfoModelImpl implements Carport1InfoModel
             return attributeInMm;
             
         } catch ( NumberTooSmallException | NumberTooLargeException | EmptyInputException | RuntimeException e ) {
-            if ( hasBackupAttribute ) {
-                return backupAttribute;
-            }
             throw e;
         }
     }

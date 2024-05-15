@@ -12,6 +12,6 @@ import app.web.exceptions.carport1Info.CarportWidthException;
 
 public interface Carport1InfoModel
 {
-    Integer checkNumberAttributeValidity( String attributeInCmAsString, Integer backupAttribute, int minSize, int maxSize ) throws NumberTooLargeException, NumberTooSmallException, EmptyInputException;
+    Integer checkNumberAttributeValidity( String attributeInCmAsString, int minSize, int maxSize ) throws NumberTooLargeException, NumberTooSmallException, EmptyInputException;
     
 }

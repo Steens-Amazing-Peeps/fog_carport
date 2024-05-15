@@ -1,6 +1,6 @@
 package app.web.entities;
 
-public class ContactInfo
+public class AccountInfo
 { //TODO: Ponder how to best implement this class/entity/feature, probably shouldn't be an inner class
 
     private Integer contactId;
@@ -11,12 +11,37 @@ public class ContactInfo
     private Integer phoneNumber;
     private String email;
     private Integer user;
+    
+    private Boolean consentToSpam;
 
     private boolean hasAnAccount;   //TODO is this needed?
-
-
+    
+    
+    
+    public String toStringPretty( StringBuilder stringBuilder )
+    {
+        stringBuilder.append( this.toString() ).append( System.lineSeparator() );
+        
+        return stringBuilder.toString();
+    }
+    @Override
+    public String toString()
+    {
+        return "ContactInfo{" +
+               "contactId=" + this.contactId +
+               ", fullName='" + this.fullName + '\'' +
+               ", address='" + this.address + '\'' +
+               ", zip=" + this.zip +
+               ", city='" + this.city + '\'' +
+               ", phoneNumber=" + this.phoneNumber +
+               ", email='" + this.email + '\'' +
+               ", user=" + this.user +
+               ", hasAnAccount=" + this.hasAnAccount +
+               '}';
+    }
+    
+    
     //Getters and Setters
-
 
     public Integer getContactId() {
         return this.contactId;
@@ -73,7 +98,17 @@ public class ContactInfo
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
+    public Boolean getConsentToSpam()
+    {
+        return this.consentToSpam;
+    }
+    
+    public void setConsentToSpam( Boolean consentToSpam )
+    {
+        this.consentToSpam = consentToSpam;
+    }
+    
     public Integer getUser() {
         return this.user;
     }
@@ -92,5 +127,7 @@ public class ContactInfo
     {
         this.hasAnAccount = hasAnAccount;
     }   //TODO Needed or?
+    
+
     
 }

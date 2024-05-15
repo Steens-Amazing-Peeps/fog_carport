@@ -1,8 +1,10 @@
 package app.web.pageControllers.controllers.users.buyFlow;
 
 
+import app.web.constants.attributes.WebSessionAttributes;
 import app.web.constants.routing.WebHtml;
 import app.web.constants.routing.WebPages;
+import app.web.entities.Order;
 import app.web.pageControllers.models.users.buyFlow.Carport5ReceiptModel;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -43,17 +45,68 @@ public class Carport5ReceiptController
     
     private static void getPage( Context ctx )
     {//TODO
+        Order order = ctx.sessionAttribute( WebSessionAttributes.currentOrder );
+        
+        if ( order == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
+        if ( order.getCarport() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
+        if ( order.getAccountInfo() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
         render( ctx );
     }
     
     private static void postBack( Context ctx )
     {//TODO
+        Order order = ctx.sessionAttribute( WebSessionAttributes.currentOrder );
+        
+        if ( order == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
+        if ( order.getCarport() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
+        if ( order.getAccountInfo() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
         Carport4ReviewAndConfirmController.redirect( ctx );
         
     }
     
     private static void postConfirm( Context ctx )
     {//TODO
+        Order order = ctx.sessionAttribute( WebSessionAttributes.currentOrder );
+        
+        if ( order == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
+        if ( order.getCarport() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
+        if ( order.getAccountInfo() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
         CarportBillPayUpController.redirect( ctx );
         
     }

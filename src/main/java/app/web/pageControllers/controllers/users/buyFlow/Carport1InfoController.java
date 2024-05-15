@@ -101,7 +101,7 @@ public class Carport1InfoController
     }
     
     private static void postBack( Context ctx )
-    {//TODO
+    {
         Order order = ctx.sessionAttribute( WebSessionAttributes.currentOrder );
         
         if ( order == null ) {
@@ -121,7 +121,7 @@ public class Carport1InfoController
         String carportWidth = ctx.formParam( WebFormParam.carportWidth );
         String carportLength = ctx.formParam( WebFormParam.carportLength );
         String carportComment = ctx.formParam( WebFormParam.Message );
-
+        
         Integer res;
         int minSizeInMm;
         int maxSizeInMm;
@@ -130,30 +130,30 @@ public class Carport1InfoController
         try {
             minSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.minimumHeightInM ) );
             maxSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.maximumHeightInM ) );
-            res = carport1InfoModel.checkNumberAttributeValidity( carportHeight, carport.getHeight(), minSizeInMm, maxSizeInMm );
+            res = carport1InfoModel.checkNumberAttributeValidity( carportHeight, minSizeInMm, maxSizeInMm );
             carport.setHeight( res );
-        } catch ( NumberTooSmallException | EmptyInputException | NumberTooLargeException e ) {
-            //We don't care, we are just trying to save some values.
+        } catch ( NumberTooSmallException | EmptyInputException | NumberTooLargeException ignored ) {
+            //We don't care, we are just trying to save some valid values to be nice.
         }
         
         //Length
         try {
             minSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.minimumLengthInM ) );
             maxSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.maximumLengthInM ) );
-            res = carport1InfoModel.checkNumberAttributeValidity( carportLength, carport.getLength(), minSizeInMm, maxSizeInMm );
+            res = carport1InfoModel.checkNumberAttributeValidity( carportLength, minSizeInMm, maxSizeInMm );
             carport.setLength( res );
-        } catch ( NumberTooSmallException | EmptyInputException | NumberTooLargeException e ) {
-            //We don't care, we are just trying to save some values.
+        } catch ( NumberTooSmallException | EmptyInputException | NumberTooLargeException ignored ) {
+            //We don't care, we are just trying to save some valid values to be nice.
         }
         
         //Width
         try {
             minSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.minimumWidthInM ) );
             maxSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.maximumWidthInM ) );
-            res = carport1InfoModel.checkNumberAttributeValidity( carportWidth, carport.getWidth(), minSizeInMm, maxSizeInMm );
+            res = carport1InfoModel.checkNumberAttributeValidity( carportWidth, minSizeInMm, maxSizeInMm );
             carport.setWidth( res );
-        } catch ( NumberTooSmallException | EmptyInputException | NumberTooLargeException e ) {
-            //We don't care, we are just trying to save some values.
+        } catch ( NumberTooSmallException | EmptyInputException | NumberTooLargeException ignored ) {
+            //We don't care, we are just trying to save some valid values to be nice.
         }
         
         //Comment
@@ -168,7 +168,7 @@ public class Carport1InfoController
     }
     
     private static void postConfirm( Context ctx )
-    {//TODO
+    {
         
         Order order = ctx.sessionAttribute( WebSessionAttributes.currentOrder );
         
@@ -191,7 +191,7 @@ public class Carport1InfoController
         int res;
         int maxSizeInMm;
         int minSizeInMm;
-
+        
         
         boolean hasThrownException = false;
         StringBuilder stringBuilderExceptionMessage = new StringBuilder();
@@ -202,14 +202,14 @@ public class Carport1InfoController
         try {
             minSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.minimumHeightInM ) );
             maxSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.maximumHeightInM ) );
-            res = carport1InfoModel.checkNumberAttributeValidity( carportHeight, null, minSizeInMm, maxSizeInMm );
+            res = carport1InfoModel.checkNumberAttributeValidity( carportHeight, minSizeInMm, maxSizeInMm );
             carport.setHeight( res );
         } catch ( NumberTooSmallException e ) {
             errorMsg = "Højden er for lav, minimum højden er " + ( WebGlobalAttributes.MINIMUM_HEIGHT_IN_M ) + " m";
             
             hasThrownException = true;
             errorCounter++;
-            stringBuilderExceptionMessage.append( errorCounter ).append( " " ).append( errorMsg ).append( System.lineSeparator() );
+            stringBuilderExceptionMessage.append( errorCounter ).append( ". " ).append( errorMsg ).append( System.lineSeparator() );
             
             
             ctx.attribute( WebAttributes.msgCarportHeight, errorMsg );
@@ -219,7 +219,7 @@ public class Carport1InfoController
             
             hasThrownException = true;
             errorCounter++;
-            stringBuilderExceptionMessage.append( errorCounter ).append( " " ).append( errorMsg ).append( System.lineSeparator() );
+            stringBuilderExceptionMessage.append( errorCounter ).append( ". " ).append( errorMsg ).append( System.lineSeparator() );
             
             
             ctx.attribute( WebAttributes.msgCarportHeight, errorMsg );
@@ -229,7 +229,7 @@ public class Carport1InfoController
             
             hasThrownException = true;
             errorCounter++;
-            stringBuilderExceptionMessage.append( errorCounter ).append( " " ).append( errorMsg ).append( System.lineSeparator() );
+            stringBuilderExceptionMessage.append( errorCounter ).append( ". " ).append( errorMsg ).append( System.lineSeparator() );
             
             
             ctx.attribute( WebAttributes.msgCarportHeight, errorMsg );
@@ -239,7 +239,7 @@ public class Carport1InfoController
             
             hasThrownException = true;
             errorCounter++;
-            stringBuilderExceptionMessage.append( errorCounter ).append( " " ).append( errorMsg ).append( System.lineSeparator() );
+            stringBuilderExceptionMessage.append( errorCounter ).append( ". " ).append( errorMsg ).append( System.lineSeparator() );
             
             
             ctx.attribute( WebAttributes.msgCarportHeight, errorMsg );
@@ -250,14 +250,14 @@ public class Carport1InfoController
         try {
             minSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.minimumLengthInM ) );
             maxSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.maximumLengthInM ) );
-            res = carport1InfoModel.checkNumberAttributeValidity( carportLength, null, minSizeInMm, maxSizeInMm);
+            res = carport1InfoModel.checkNumberAttributeValidity( carportLength, minSizeInMm, maxSizeInMm );
             carport.setLength( res );
         } catch ( NumberTooSmallException e ) {
             errorMsg = "Længden er for kort, minimum længden er " + ( WebGlobalAttributes.MINIMUM_LENGTH_IN_M ) + " m";
             
             hasThrownException = true;
             errorCounter++;
-            stringBuilderExceptionMessage.append( errorCounter ).append( " " ).append( errorMsg ).append( System.lineSeparator() );
+            stringBuilderExceptionMessage.append( errorCounter ).append( ". " ).append( errorMsg ).append( System.lineSeparator() );
             
             ctx.attribute( WebAttributes.msgCarportLength, errorMsg );
             
@@ -266,7 +266,7 @@ public class Carport1InfoController
             
             hasThrownException = true;
             errorCounter++;
-            stringBuilderExceptionMessage.append( errorCounter ).append( " " ).append( errorMsg ).append( System.lineSeparator() );
+            stringBuilderExceptionMessage.append( errorCounter ).append( ". " ).append( errorMsg ).append( System.lineSeparator() );
             
             
             ctx.attribute( WebAttributes.msgCarportLength, errorMsg );
@@ -276,7 +276,7 @@ public class Carport1InfoController
             
             hasThrownException = true;
             errorCounter++;
-            stringBuilderExceptionMessage.append( errorCounter ).append( " " ).append( errorMsg ).append( System.lineSeparator() );
+            stringBuilderExceptionMessage.append( errorCounter ).append( ". " ).append( errorMsg ).append( System.lineSeparator() );
             
             
             ctx.attribute( WebAttributes.msgCarportLength, errorMsg );
@@ -286,7 +286,7 @@ public class Carport1InfoController
             
             hasThrownException = true;
             errorCounter++;
-            stringBuilderExceptionMessage.append( errorCounter ).append( " " ).append( errorMsg ).append( System.lineSeparator() );
+            stringBuilderExceptionMessage.append( errorCounter ).append( ". " ).append( errorMsg ).append( System.lineSeparator() );
             
             
             ctx.attribute( WebAttributes.msgCarportLength, errorMsg );
@@ -296,14 +296,14 @@ public class Carport1InfoController
         try {
             minSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.minimumWidthInM ) );
             maxSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.maximumWidthInM ) );
-            res = carport1InfoModel.checkNumberAttributeValidity( carportWidth, null, minSizeInMm, maxSizeInMm );
+            res = carport1InfoModel.checkNumberAttributeValidity( carportWidth, minSizeInMm, maxSizeInMm );
             carport.setWidth( res );
         } catch ( NumberTooSmallException e ) {
             errorMsg = "Bredden er for smal, minimum bredden er " + ( WebGlobalAttributes.MINIMUM_WIDTH_IN_M ) + " m";
             
             hasThrownException = true;
             errorCounter++;
-            stringBuilderExceptionMessage.append( errorCounter ).append( " " ).append( errorMsg ).append( System.lineSeparator() );
+            stringBuilderExceptionMessage.append( errorCounter ).append( ". " ).append( errorMsg ).append( System.lineSeparator() );
             
             
             ctx.attribute( WebAttributes.msgCarportWidth, errorMsg );
@@ -313,7 +313,7 @@ public class Carport1InfoController
             
             hasThrownException = true;
             errorCounter++;
-            stringBuilderExceptionMessage.append( errorCounter ).append( " " ).append( errorMsg ).append( System.lineSeparator() );
+            stringBuilderExceptionMessage.append( errorCounter ).append( ". " ).append( errorMsg ).append( System.lineSeparator() );
             
             
             ctx.attribute( WebAttributes.msgCarportWidth, errorMsg );
@@ -323,7 +323,7 @@ public class Carport1InfoController
             
             hasThrownException = true;
             errorCounter++;
-            stringBuilderExceptionMessage.append( errorCounter ).append( " " ).append( errorMsg ).append( System.lineSeparator() );
+            stringBuilderExceptionMessage.append( errorCounter ).append( ". " ).append( errorMsg ).append( System.lineSeparator() );
             
             
             ctx.attribute( WebAttributes.msgCarportWidth, errorMsg );
@@ -333,7 +333,7 @@ public class Carport1InfoController
             
             hasThrownException = true;
             errorCounter++;
-            stringBuilderExceptionMessage.append( errorCounter ).append( " " ).append( errorMsg ).append( System.lineSeparator() );
+            stringBuilderExceptionMessage.append( errorCounter ).append( ". " ).append( errorMsg ).append( System.lineSeparator() );
             
             
             ctx.attribute( WebAttributes.msgCarportWidth, errorMsg );
@@ -351,7 +351,7 @@ public class Carport1InfoController
             if ( errorCounter > 1 ) {
                 stringBuilderExceptionMessage.insert( 0, System.lineSeparator() ).insert( 0, " Fejl, De er:" ).insert( 0, errorCounter );
             } else {
-                stringBuilderExceptionMessage.insert( 0, System.lineSeparator() ).insert( 0, " Fejl, Den er:" ).insert( 0, errorCounter );
+                stringBuilderExceptionMessage.delete( 0, 3 ).insert( 0, System.lineSeparator() ).insert( 0,"En Fejl:" );
             }
             
             ctx.attribute( WebAttributes.msg, stringBuilderExceptionMessage.toString() );

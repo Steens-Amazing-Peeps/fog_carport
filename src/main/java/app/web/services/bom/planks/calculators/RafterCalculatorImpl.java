@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RafterCalculatorImpl implements RafterCalculator
-{
+{ //TODO: Make better calulations, we want a lot of Rafters spaced out evenly
     
     private int minimumDistanceBetweenPolesCarportWidth = Config.Bom.MINIMUM_DISTANCE_BETWEEN_POLES_CARPORT_WIDTH_IN_MM;
     

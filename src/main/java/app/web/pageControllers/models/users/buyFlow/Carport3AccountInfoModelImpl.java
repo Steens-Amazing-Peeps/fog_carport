@@ -1,73 +1,129 @@
 package app.web.pageControllers.models.users.buyFlow;
 
-import app.web.entities.ContactInfo;
-import app.web.exceptions.DatabaseException;
-import app.web.exceptions.NoIdKeyReturnedException;
-import app.web.exceptions.UnexpectedResultDbException;
+import app.util.Validators;
+import app.web.entities.AccountInfo;
 import app.web.exceptions.WebInvalidInputException;
-import app.web.persistence.mappers.ContactMapper;
 
 
 public class Carport3AccountInfoModelImpl implements Carport3AccountInfoModel
 {
-    ContactMapper contactMapper;
-
-    public Carport3AccountInfoModelImpl( ContactMapper contactMapper )
-    {
-        this.contactMapper = contactMapper;
-    }
-
-    public Carport3AccountInfoModelImpl() {
-
-    }
-
     @Override
-    public ContactInfo createContactInfo( ContactInfo contactInfo, String fullName, String address, String zip, String city, String phoneNumber, String email, String user ) throws DatabaseException, WebInvalidInputException, NoIdKeyReturnedException, UnexpectedResultDbException
-    { //TODO make changes to this if we make it so being logged in will autofill form
-        // Missing input
-        if ( fullName == null ) {
+    public void setFullName( AccountInfo accountInfo, String fullName ) throws WebInvalidInputException
+    {
+        if ( fullName == null || fullName.isBlank() ) {
             throw new WebInvalidInputException( "Navn ikke udfyldt" );
         }
-
-        if ( address == null ) {
+        
+        accountInfo.setFullName( fullName );
+    }
+    
+    @Override
+    public void setAddress( AccountInfo accountInfo, String address ) throws WebInvalidInputException
+    {
+        if ( address == null || address.isBlank() ) {
             throw new WebInvalidInputException( "Adresse ikke udfyldt" );
         }
-
-        if ( zip == null ) {
+        
+        accountInfo.setAddress( address );
+    }
+    
+    @Override
+    public void setZip( AccountInfo accountInfo, String Zip ) throws WebInvalidInputException
+    {
+        if ( Zip == null || Zip.isBlank() ) {
             throw new WebInvalidInputException( "Postnr. ikke udfyldt" );
         }
-
-        if ( city == null ) {
+        
+        accountInfo.setZip( Integer.valueOf( Zip ) );
+    }
+    
+    @Override
+    public void setCity( AccountInfo accountInfo, String city ) throws WebInvalidInputException
+    {
+        if ( city == null || city.isBlank() ) {
             throw new WebInvalidInputException( "By ikke udfyldt" );
         }
-
-        if ( phoneNumber == null ) {
+        
+        accountInfo.setCity( city );
+    }
+    
+    @Override
+    public void setPhoneNumber( AccountInfo accountInfo, String phoneNumber ) throws WebInvalidInputException
+    {
+        if ( phoneNumber == null || phoneNumber.isBlank() ) {
             throw new WebInvalidInputException( "Tlf. ikke udfyldt" );
         }
-
-        if ( email == null ) {
+        
+        accountInfo.setPhoneNumber( Integer.valueOf( phoneNumber ) );
+    }
+    
+    @Override
+    public void setEmail( AccountInfo accountInfo, String email ) throws WebInvalidInputException
+    {
+        if ( !Validators.isEmailValid( email ) ) {
             throw new WebInvalidInputException( "Email ikke udfyldt" );
         }
-
-        if ( !email.contains("@") && !email.contains(".") ) {
-            throw new WebInvalidInputException( "Gyldig email ikke udfyldt" );
-        }
-
-        // Hopefully valueOf works here. Decided on parseInt for userid.
-        contactInfo.setFullName( fullName );
-        contactInfo.setAddress( address );
-        contactInfo.setZip( Integer.valueOf( zip ) );
-        contactInfo.setCity( city );
-        contactInfo.setPhoneNumber( Integer.valueOf( phoneNumber ) );
-        contactInfo.setEmail( email );
-
-        int userId;
-        userId = Integer.parseInt( user );
-        contactInfo.setUser( userId );
-
-        this.contactMapper.create( contactInfo );
-
-        return contactInfo;
+        
+        accountInfo.setEmail( email  );
     }
-
+    
+    @Override
+    public void setConsentToSpam( AccountInfo accountInfo, String consentToSpam ) throws WebInvalidInputException
+    {
+        if ( consentToSpam == null || consentToSpam.isBlank() ) {
+            accountInfo.setConsentToSpam( false );
+        }
+        
+        accountInfo.setConsentToSpam( true );
+    }
+    
+//    @Override
+//    public AccountInfo confirmContactInfo( AccountInfo accountInfo, String fullName, String address, String zip, String city, String phoneNumber, String email, String consentToSpam ) throws WebInvalidInputException
+//    { //TODO make changes to this if we make it so being logged in will autofill form
+//        // Missing input
+//        if ( fullName == null || fullName.isBlank() ) {
+//            throw new WebInvalidInputException( "Navn ikke udfyldt" );
+//        }
+//
+//        if ( address == null || address.isBlank() ) {
+//            throw new WebInvalidInputException( "Adresse ikke udfyldt" );
+//        }
+//
+//        if ( zip == null || zip.isBlank() ) {
+//            throw new WebInvalidInputException( "Postnr. ikke udfyldt" );
+//        }
+//
+//        if ( city == null || city.isBlank() ) {
+//            throw new WebInvalidInputException( "By ikke udfyldt" );
+//        }
+//
+//        if ( phoneNumber == null || phoneNumber.isBlank() ) {
+//            throw new WebInvalidInputException( "Tlf. ikke udfyldt" );
+//        }
+//
+//        if ( email == null || email.isBlank() ) {
+//            throw new WebInvalidInputException( "Email ikke udfyldt" );
+//        }
+//
+//        if ( !Validators.isEmailValid( email ) ) {
+//            throw new WebInvalidInputException( "Gyldig email ikke udfyldt" );
+//        }
+//
+//        // Hopefully valueOf works here. Decided on parseInt for userid.
+//        accountInfo.setFullName( fullName );
+//        accountInfo.setAddress( address );
+//        accountInfo.setZip( Integer.valueOf( zip ) );
+//        accountInfo.setCity( city );
+//        accountInfo.setPhoneNumber( Integer.valueOf( phoneNumber ) );
+//        accountInfo.setEmail( email );
+//
+//        if ( consentToSpam != null && !consentToSpam.isBlank() ) {
+//            accountInfo.setConsentToSpam( true );
+//        } else {
+//            accountInfo.setConsentToSpam( false );
+//        }
+//
+//        return accountInfo;
+//    }
+    
 }

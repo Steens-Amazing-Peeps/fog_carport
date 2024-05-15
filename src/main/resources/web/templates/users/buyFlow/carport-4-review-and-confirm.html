@@ -10,13 +10,30 @@
     <div th:replace="~{fragments :: header}"></div>
 
     <div class="content" id="content">
+        <div class="carport-form">
 
-        <form>
+            <div class="form-header">
+                <h1>Bekræft Din Bestilling</h1>
+                <p>Er Alt I Orden?</p>
+            </div>
 
-            <div th:replace="~{fragments :: buy-flow-nav ('Til Bestillings Info', 'Bekræft Bestilling og gå til Recept')}"></div>
+            <form>
 
-        </form>
+                <div>
+                    <p style="white-space: pre-line"
+                       th:text="${session.currentOrder.confirm}"></p>
+                </div>
 
+                <div>
+                    <p class="error-msg" style="white-space: pre-line" th:unless="${#strings.isEmpty(msg)}"
+                       th:text="${msg}"></p>
+                </div>
+
+                <div th:replace="~{fragments :: buy-flow-nav ('Til Bestillings Info', 'Bekræft Bestilling og gå til Recept')}"></div>
+
+            </form>
+
+        </div>
 
     </div>
 
