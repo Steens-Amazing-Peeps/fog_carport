@@ -7,6 +7,11 @@ public interface WebAttributes
     
     String msg = "msg";
     
+    //carport1Info
+    String msgCarportHeight = "msgCarportHeight";
+    String msgCarportLength = "msgCarportLength";
+    String msgCarportWidth = "msgCarportWidth";
+    
     
     String success = "success";
     

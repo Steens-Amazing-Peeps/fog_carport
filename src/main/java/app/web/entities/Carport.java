@@ -1,26 +1,33 @@
 package app.web.entities;
 
+import app.util.MetricConversion;
 import app.web.constants.attributes.WebGlobalAttributes;
 import app.web.exceptions.WebInvalidInputException;
 import app.web.services.bom.planks.ValidPlanksImpl;
 import app.web.services.bom.planks.calculators.*;
 import app.web.services.bom.planks.ValidPlanks;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Carport
 {
+    
     private Integer price;
-
+    
     private Integer carportId;
     private Integer orderId;
-
+    
     private Integer height;
     private Integer length;
     private Integer width;
-
-
+    
+    private String comment;
+    
+    
     //TODO check where these are used and if they are in the right place
     private boolean isOpen;
-
+    
     private Shed shed;
     private Roof roof;
     
@@ -28,7 +35,7 @@ public class Carport
     
     
     PlankCalculator plankCalculator;
-
+    
     ValidPlanks validPlanks;
     
     public Carport() //TODO:Use something better than this temp fix?
@@ -42,7 +49,7 @@ public class Carport
         this.plankCalculator = plankCalculator;
         this.validPlanks = validPlanks;
     }
-
+    
     
     //Bom Calculation
     public Bom calcBom() throws WebInvalidInputException
@@ -52,57 +59,107 @@ public class Carport
     }
     
     
+    
+    
     //Getters and Setters
-
-    public Integer getPrice() {
+    
+    public Integer getPrice()
+    {
         return this.price;
     }
-
-    public Integer getCarportId() {
+    
+    public Integer getCarportId()
+    {
         return this.carportId;
     }
-
-    public void setPrice( Integer price ) {
+    
+    public void setPrice( Integer price )
+    {
         this.price = price;
     }
-
-    public void setCarportId( Integer carportId ) {
+    
+    public void setCarportId( Integer carportId )
+    {
         this.carportId = carportId;
     }
-
-    public Integer getOrderId() {
+    
+    public Integer getOrderId()
+    {
         return this.orderId;
     }
-
-    public void setOrderId( Integer orderId ) {
+    
+    public void setOrderId( Integer orderId )
+    {
         this.orderId = orderId;
     }
-
-    public Integer getHeight() {
+    
+    public Integer getHeight()
+    {
         return this.height;
     }
-
-    public void setHeight( Integer height ) {
+    
+    public BigDecimal getHeightInM()
+    {
+        if ( this.height == null ) {
+            return null;
+        }
+        
+        return MetricConversion.mmToM( this.height ).setScale( MetricConversion.COMMA_DIGITS_IN_STRING_M, RoundingMode.HALF_UP );
+    }
+    
+    public void setHeight( Integer height )
+    {
         this.height = height;
     }
-
-    public Integer getLength() {
+    
+    public Integer getLength()
+    {
         return this.length;
     }
-
-    public void setLength( Integer length ) {
+    
+    public BigDecimal getLengthInM()
+    {
+        if ( this.length == null ) {
+            return null;
+        }
+        
+        return MetricConversion.mmToM( this.length ).setScale( MetricConversion.COMMA_DIGITS_IN_STRING_M, RoundingMode.HALF_UP );
+    }
+    
+    public void setLength( Integer length )
+    {
         this.length = length;
     }
-
-    public Integer getWidth() {
+    
+    public Integer getWidth()
+    {
         return this.width;
     }
-
-    public void setWidth( Integer width ) {
+    
+    public BigDecimal getWidthInM()
+    {
+        if ( this.width == null ) {
+            return null;
+        }
+        
+        return MetricConversion.mmToM( this.width ).setScale( MetricConversion.COMMA_DIGITS_IN_STRING_M, RoundingMode.HALF_UP );
+    }
+    
+    public void setWidth( Integer width )
+    {
         this.width = width;
     }
-
-
+    
+    public String getComment()
+    {
+        return this.comment;
+    }
+    
+    public void setComment( String comment )
+    {
+        this.comment = comment;
+    }
+    
     // TODO check if/when/where below getters and setters are needed
     
     public boolean isOpen()
