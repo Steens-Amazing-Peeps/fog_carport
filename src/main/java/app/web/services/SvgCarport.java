@@ -104,7 +104,7 @@ public class SvgCarport {
         carportSvg.addRectangle(750 - rafters.get(0).getDrawWidth(unitConversion),550 - (0.75 * beams.get(0).getDrawHeight(unitConversion)), posts.get(0).getDrawHeight(unitConversion),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
         posts.get(0).setAmount(posts.get(0).getAmount()-4);
 
-        //TODO: check if it places them correctly on an actual drawing
+        //TODO: check if it places them correctly on an actual drawing, UPDATE: it doesn't because it doesn't convert the placement of posts correctly
         double postLoopOffset = 0;
         int iValue = 0;
         for (Plank beam : beams) {
