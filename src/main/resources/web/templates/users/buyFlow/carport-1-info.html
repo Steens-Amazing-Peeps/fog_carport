@@ -32,7 +32,7 @@
                                th:text="${msgCarportHeight}"></p>
                         </div>
                         <div class="text-field">
-                            <input type="number" name="carportHeight" id="carportHeight"
+                            <input type="number" name="carportHeight" id="carportHeight" required
                                    placeholder="F.eks. 2.30"
                                    step="0.01"
                                    th:min="${session.minimumHeightInM}"
@@ -50,7 +50,7 @@
                                th:text="${msgCarportLength}"></p>
                         </div>
                         <div class="text-field">
-                            <input type="number" name="carportLength" id="carportLength"
+                            <input type="number" name="carportLength" id="carportLength" required
                                    placeholder="F.eks. 5.50"
                                    step="0.01"
                                    th:min="${session.minimumLengthInM}"
@@ -68,7 +68,7 @@
                                th:text="${msgCarportWidth}"></p>
                         </div>
                         <div class="text-field">
-                            <input type="number" name="carportWidth" id="carportWidth"
+                            <input type="number" name="carportWidth" id="carportWidth" required
                                    placeholder="F.eks. 4.20"
                                    step="0.01"
                                    th:min="${session.minimumWidthInM}"

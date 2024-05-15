@@ -1,6 +1,7 @@
 package app.web.pageControllers.controllers.users.buyFlow;
 
 
+import app.web.constants.attributes.WebSessionAttributes;
 import app.web.constants.routing.WebHtml;
 import app.web.constants.routing.WebPages;
 import app.web.pageControllers.models.users.buyFlow.Carport4ReviewAndConfirmModel;
@@ -10,6 +11,7 @@ import io.javalin.http.Context;
 
 public class Carport4ReviewAndConfirmController
 {
+    
     private static Carport4ReviewAndConfirmModel carport4ReviewAndConfirmModel;
     
     public static void startUp( Carport4ReviewAndConfirmModel carport4ReviewAndConfirmModel )
@@ -18,9 +20,10 @@ public class Carport4ReviewAndConfirmController
             Carport4ReviewAndConfirmController.carport4ReviewAndConfirmModel = carport4ReviewAndConfirmModel;
         }
     }
+    
     public static void addRoutes( Javalin app )
     {
-
+        
         app.get( WebPages.CARPORT_4_REVIEW_AND_CONFIRM_GET_PAGE, ctx -> getPage( ctx ) );
         
         app.post( WebPages.CARPORT_4_REVIEW_AND_CONFIRM_BACK_POST_PAGE, ctx -> postBack( ctx ) );
@@ -35,7 +38,7 @@ public class Carport4ReviewAndConfirmController
         ctx.render( WebHtml.CARPORT_4_REVIEW_AND_CONFIRM_HTML );
     }
     
-   
+    
     public static void redirect( Context ctx )
     {
         ctx.redirect( WebPages.CARPORT_4_REVIEW_AND_CONFIRM_GET_PAGE );
@@ -44,6 +47,10 @@ public class Carport4ReviewAndConfirmController
     
     private static void getPage( Context ctx )
     {//TODO
+        if ( ctx.sessionAttribute( WebSessionAttributes.currentOrder ) == null ) {
+            Carport1InfoController.redirect( ctx );
+        }
+        
         render( ctx );
     }
     
@@ -58,5 +65,5 @@ public class Carport4ReviewAndConfirmController
         Carport5ReceiptController.redirect( ctx );
         
     }
-
+    
 }
