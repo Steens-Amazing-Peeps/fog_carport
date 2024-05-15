@@ -72,26 +72,27 @@ public class SvgCarport {
     }
 
     public void beamDrawer(){
-        double boardDrawingFillLength = ((unitConversion.getCarportWidth() / 10) - (rafters.get(0).getDrawWidth(unitConversion) * 2)); //TODO: fix this so it isn't a constant
-        double totalDrawLength = 0;
+        double beamDrawingFillLength = ((unitConversion.getCarportWidth() / 10) - (rafters.get(0).getDrawWidth(unitConversion) * 2)); //TODO: fix this so it isn't a constant
+        double totalUsableLength = 0;
+        double totalFillingLength = unitConversion.DRAW_WIDTH - (rafters.get(0).getDrawWidth(unitConversion) * 2);
 
         for (Plank beam : beams) {
             for (int i = 0; i < beam.getAmount(); i++) {
-                totalDrawLength = totalDrawLength + beam.getDrawWidth(unitConversion);
+                totalUsableLength = totalUsableLength + beam.getDrawWidth(unitConversion);
             }
         }
 
-        System.out.println("usable length in total: "+totalDrawLength);
-        System.out.println("usable length for each side: "+totalDrawLength/2);
-        System.out.println("length needing to be filled for each board side: " + boardDrawingFillLength);
-        System.out.println("extra length per side: "+((totalDrawLength / 2) - boardDrawingFillLength));
+        System.out.println("usable length in total: "+totalUsableLength);
+        System.out.println("usable length for each side: "+totalUsableLength/2);
+        System.out.println("length needing to be filled for each beam side: " + beamDrawingFillLength);
+        System.out.println("extra length per side: "+((totalUsableLength / 2) - beamDrawingFillLength));
 
-        if ((totalDrawLength / 2) >= (unitConversion.DRAW_WIDTH - (rafters.get(0).getDrawWidth(unitConversion) * 2))){
-        carportSvg.addRectangle(rafters.get(0).getDrawWidth(unitConversion),50,beams.get(0).getDrawHeight(unitConversion),boardDrawingFillLength,rectStandardStyle);
-        carportSvg.addRectangle(rafters.get(0).getDrawWidth(unitConversion),550,beams.get(0).getDrawHeight(unitConversion),boardDrawingFillLength,rectStandardStyle);
+        if ((totalUsableLength / 2) >= beamDrawingFillLength){
+        carportSvg.addRectangle(rafters.get(0).getDrawWidth(unitConversion),50,beams.get(0).getDrawHeight(unitConversion),beamDrawingFillLength,rectStandardStyle);
+        carportSvg.addRectangle(rafters.get(0).getDrawWidth(unitConversion),550,beams.get(0).getDrawHeight(unitConversion),beamDrawingFillLength,rectStandardStyle);
         }
 
-        beamToOtherMath = boardDrawingFillLength;
+        beamToOtherMath = beamDrawingFillLength;
     }
 
     public void postDrawer(){
