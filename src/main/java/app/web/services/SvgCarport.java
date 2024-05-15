@@ -72,7 +72,7 @@ public class SvgCarport {
     }
 
     public void beamDrawer(){
-        double boardDrawingFillLength = (unitConversion.DRAW_WIDTH - (rafters.get(0).getDrawWidth(unitConversion) * 2)); //TODO: fix this so it isn't a constant
+        double boardDrawingFillLength = ((unitConversion.getCarportWidth() / 10) - (rafters.get(0).getDrawWidth(unitConversion) * 2)); //TODO: fix this so it isn't a constant
         double totalDrawLength = 0;
 
         for (Plank beam : beams) {
@@ -83,7 +83,7 @@ public class SvgCarport {
 
         System.out.println("usable length in total: "+totalDrawLength);
         System.out.println("usable length for each side: "+totalDrawLength/2);
-        System.out.println("length needing to be filled for each board side: "+(unitConversion.DRAW_WIDTH - (rafters.get(0).getDrawWidth(unitConversion) * 2)));
+        System.out.println("length needing to be filled for each board side: " + boardDrawingFillLength);
         System.out.println("extra length per side: "+((totalDrawLength / 2) - boardDrawingFillLength));
 
         if ((totalDrawLength / 2) >= (unitConversion.DRAW_WIDTH - (rafters.get(0).getDrawWidth(unitConversion) * 2))){
