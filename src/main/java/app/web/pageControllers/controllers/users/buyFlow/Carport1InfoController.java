@@ -1,6 +1,7 @@
 package app.web.pageControllers.controllers.users.buyFlow;
 
 
+import app.util.MetricConversion;
 import app.web.constants.Config;
 import app.web.constants.attributes.WebAttributes;
 import app.web.constants.attributes.WebGlobalAttributes;
@@ -104,32 +105,66 @@ public class Carport1InfoController
         Order order = ctx.sessionAttribute( WebSessionAttributes.currentOrder );
         
         if ( order == null ) {
-            order = new Order();
+            IndexController.redirect( ctx );
+            return;
         }
         
+        Carport carport = order.getCarport();
+        
+        if ( carport == null ) {
+            IndexController.redirect( ctx );
+            return;
+        }
+        
+        //Form Inputs
         String carportHeight = ctx.formParam( WebFormParam.carportHeight );
         String carportWidth = ctx.formParam( WebFormParam.carportWidth );
         String carportLength = ctx.formParam( WebFormParam.carportLength );
+        String carportComment = ctx.formParam( WebFormParam.Message );
 
-//        try {
-        Carport carport = carport1InfoModel.checkBackInfo( order.getCarport(), carportHeight, carportWidth, carportLength );
+        Integer res;
+        int minSizeInMm;
+        int maxSizeInMm;
         
+        //Height
+        try {
+            minSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.minimumHeightInM ) );
+            maxSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.maximumHeightInM ) );
+            res = carport1InfoModel.checkNumberAttributeValidity( carportHeight, carport.getHeight(), minSizeInMm, maxSizeInMm );
+            carport.setHeight( res );
+        } catch ( NumberTooSmallException | EmptyInputException | NumberTooLargeException e ) {
+            //We don't care, we are just trying to save some values.
+        }
+        
+        //Length
+        try {
+            minSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.minimumLengthInM ) );
+            maxSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.maximumLengthInM ) );
+            res = carport1InfoModel.checkNumberAttributeValidity( carportLength, carport.getLength(), minSizeInMm, maxSizeInMm );
+            carport.setLength( res );
+        } catch ( NumberTooSmallException | EmptyInputException | NumberTooLargeException e ) {
+            //We don't care, we are just trying to save some values.
+        }
+        
+        //Width
+        try {
+            minSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.minimumWidthInM ) );
+            maxSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.maximumWidthInM ) );
+            res = carport1InfoModel.checkNumberAttributeValidity( carportWidth, carport.getWidth(), minSizeInMm, maxSizeInMm );
+            carport.setWidth( res );
+        } catch ( NumberTooSmallException | EmptyInputException | NumberTooLargeException e ) {
+            //We don't care, we are just trying to save some values.
+        }
+        
+        //Comment
+        carport.setComment( carportComment );
+        
+        //Done
         order.setCarport( carport );
         ctx.sessionAttribute( WebSessionAttributes.currentOrder, order );
         
-        ctx.attribute( WebAttributes.msg, "" );
+        //Happy Path, should always run in this case
         IndexController.redirect( ctx );
-
-//        } catch ( WebInvalidInputException e ) {
-//
-//            ctx.attribute( WebAttributes.msg, e.getUserMessage() );
-//            render( ctx );
-//            return;
-//
-//        }
-        
-        
-        
     }
     
     private static void postConfirm( Context ctx )
@@ -141,26 +176,33 @@ public class Carport1InfoController
             order = new Order();
         }
         
+        Carport carport = order.getCarport();
+        
+        if ( carport == null ) {
+            carport = new Carport();
+        }
+        
+        //Form Inputs
         String carportHeight = ctx.formParam( WebFormParam.carportHeight );
         String carportWidth = ctx.formParam( WebFormParam.carportWidth );
         String carportLength = ctx.formParam( WebFormParam.carportLength );
         String carportComment = ctx.formParam( WebFormParam.Message );
         
         int res;
-        Carport carport = order.getCarport();
+        int maxSizeInMm;
+        int minSizeInMm;
+
         
         boolean hasThrownException = false;
         StringBuilder stringBuilderExceptionMessage = new StringBuilder();
         String errorMsg;
         int errorCounter = 0;
         
-        if ( carport == null ) {
-            carport = new Carport();
-        }
-        
         //Height
         try {
-            res = carport1InfoModel.checkNumberAttributeValidity( carportHeight, null, Config.Carport.MINIMUM_HEIGHT_IN_MM, Config.Carport.MAXIMUM_HEIGHT_IN_MM );
+            minSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.minimumHeightInM ) );
+            maxSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.maximumHeightInM ) );
+            res = carport1InfoModel.checkNumberAttributeValidity( carportHeight, null, minSizeInMm, maxSizeInMm );
             carport.setHeight( res );
         } catch ( NumberTooSmallException e ) {
             errorMsg = "Højden er for lav, minimum højden er " + ( WebGlobalAttributes.MINIMUM_HEIGHT_IN_M ) + " m";
@@ -206,7 +248,9 @@ public class Carport1InfoController
         
         //Length
         try {
-            res = carport1InfoModel.checkNumberAttributeValidity( carportLength, null, Config.Carport.MINIMUM_LENGTH_IN_MM, Config.Carport.MAXIMUM_LENGTH_IN_MM );
+            minSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.minimumLengthInM ) );
+            maxSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.maximumLengthInM ) );
+            res = carport1InfoModel.checkNumberAttributeValidity( carportLength, null, minSizeInMm, maxSizeInMm);
             carport.setLength( res );
         } catch ( NumberTooSmallException e ) {
             errorMsg = "Længden er for kort, minimum længden er " + ( WebGlobalAttributes.MINIMUM_LENGTH_IN_M ) + " m";
@@ -250,7 +294,9 @@ public class Carport1InfoController
         
         //Width
         try {
-            res = carport1InfoModel.checkNumberAttributeValidity( carportWidth, null, Config.Carport.MINIMUM_WIDTH_IN_MM, Config.Carport.MAXIMUM_WIDTH_IN_MM );
+            minSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.minimumWidthInM ) );
+            maxSizeInMm = MetricConversion.mToMm( ctx.appData( WebGlobalAttributes.maximumWidthInM ) );
+            res = carport1InfoModel.checkNumberAttributeValidity( carportWidth, null, minSizeInMm, maxSizeInMm );
             carport.setWidth( res );
         } catch ( NumberTooSmallException e ) {
             errorMsg = "Bredden er for smal, minimum bredden er " + ( WebGlobalAttributes.MINIMUM_WIDTH_IN_M ) + " m";
