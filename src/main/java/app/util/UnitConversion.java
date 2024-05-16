@@ -1,35 +1,38 @@
 package app.util;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class UnitConversion
 {
-    public static final int DRAW_HEIGHT = 600;
-    public static final int DRAW_WIDTH = 800;
+    public static final BigDecimal DRAW_HEIGHT = new BigDecimal(600).setScale(10,RoundingMode.HALF_UP);
+    public static final BigDecimal DRAW_WIDTH = new BigDecimal(800).setScale(10,RoundingMode.HALF_UP);
 
     
     int carportHeight;
     int carportWidth;
 
     
-    double heightDrawUnitsPrMm;
-    double widthDrawUnitsPrMm;
+    BigDecimal heightDrawUnitsPrMm;
+    BigDecimal widthDrawUnitsPrMm;
     public UnitConversion(  int carportHeight, int carportWidth )
     {
         this.carportHeight = carportHeight;
         this.carportWidth = carportWidth;
         
-        this.heightDrawUnitsPrMm = (double) DRAW_HEIGHT / (double) this.carportHeight;
-        this.widthDrawUnitsPrMm = (double) DRAW_WIDTH / (double) this.carportWidth;
+        this.heightDrawUnitsPrMm = DRAW_HEIGHT.divide(BigDecimal.valueOf(this.carportHeight), RoundingMode.HALF_UP);
+        this.widthDrawUnitsPrMm = DRAW_WIDTH.divide(BigDecimal.valueOf(this.carportWidth), RoundingMode.HALF_UP);
     }
     
     public double heightMmToDrawUnits( int mm ) {
-        return this.conversion( mm, this.heightDrawUnitsPrMm );
+        return this.conversion( mm, this.heightDrawUnitsPrMm ).doubleValue();
     }
    
     public double widthMmToDrawUnits(int mm) {
-        return this.conversion( mm, this.widthDrawUnitsPrMm );
+        return this.conversion( mm, this.widthDrawUnitsPrMm ).doubleValue();
     }
-    private double conversion(int mm, double unitsPrMm){
-        return (mm * unitsPrMm) / 10;
+    private BigDecimal conversion(int mm, BigDecimal unitsPrMm){
+        return unitsPrMm.multiply(BigDecimal.valueOf(mm));
     }
 
     public int getCarportHeight() {
@@ -40,11 +43,4 @@ public class UnitConversion
         return this.carportWidth;
     }
 
-    public void setCarportHeight(int carportHeight) {
-        this.carportHeight = carportHeight;
-    }
-
-    public void setCarportWidth(int carportWidth) {
-        this.carportWidth = carportWidth;
-    }
 }

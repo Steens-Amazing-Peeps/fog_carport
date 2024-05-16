@@ -7,13 +7,12 @@ import app.web.entities.Carport;
 import app.web.entities.Plank;
 import app.web.exceptions.WebInvalidInputException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class SvgCarport {
     private static int id = 0;
-    private UnitConversion unitConversion = new UnitConversion(600,780);
+    private UnitConversion unitConversion;
     private Svg carportSvg = new Svg(0,0,"0 0 900 700", "100%","auto");
 
     private final String rectStandardStyle = "stroke: #000000; stroke-width: 1px; fill: #ffffff";
@@ -22,20 +21,28 @@ public class SvgCarport {
     private List<Plank> rafters;
     private List<Plank> beams;
     private List<Plank> posts;
-    private double beamToOtherMath;
+    private double totalBeamFillingLength;
+    private double drawWidth = unitConversion.DRAW_WIDTH.intValue();
 
     private final int offsetFromRight = 750;
     private final int offsetFromLeft = 50;
     private final int offsetFromTop = 50;
     private final int offsetFromBottom = 550;
 
+    private double rafterWidth = 0; //it gets set later
+    private double rafterHeight = 0; //it gets set later
+    private double rafterAmount = 0; //it gets set later
+    private double beamWidth = 0;
+    private double beamHeight = 0;
+    private double beamAmount = 0;
+
     public SvgCarport(Carport carport) throws WebInvalidInputException {
 
         this.bom = carport.calcBom();
         System.out.println(bom);
 
-        unitConversion.setCarportHeight(carport.getWidth());
-        unitConversion.setCarportWidth(carport.getLength());
+        unitConversion = new UnitConversion(carport.getWidth(),carport.getLength());
+
         rafters = bom.getRafters().values().stream().toList();
         beams = bom.getBeams().values().stream().toList();
         posts = bom.getPosts().values().stream().toList();
@@ -64,80 +71,85 @@ public class SvgCarport {
     }
 
     public void rafterDrawer(){
-        carportSvg.addRectangle(0, 0, rafters.get(0).getDrawHeight(unitConversion), rafters.get(0).getDrawWidth(unitConversion), rectStandardStyle);
-        carportSvg.addRectangle(unitConversion.DRAW_WIDTH - (rafters.get(0).getDrawWidth(unitConversion)), 0, rafters.get(0).getDrawHeight(unitConversion), rafters.get(0).getDrawWidth(unitConversion), rectStandardStyle);
-        rafters.get(0).setAmount(rafters.get(0).getAmount()-2);
+        rafterWidth = rafters.get(0).getDrawWidth(unitConversion);
+        rafterHeight = rafters.get(0).getDrawHeight(unitConversion);
+        rafterAmount = rafters.get(0).getAmount();
+        carportSvg.addRectangle(0, 0, rafterHeight, rafterWidth, rectStandardStyle);
+        carportSvg.addRectangle(drawWidth - rafterWidth, 0, rafterHeight, rafterWidth, rectStandardStyle);
+        rafterAmount = rafterAmount - 2;
     }
 
     public void rafterInnerDrawer(){
-        double distanceEach = (beamToOtherMath / (rafters.get(0).getAmount() + 1) + rafters.get(0).getDrawWidth(unitConversion) / (rafters.get(0).getAmount()) );
+        double distanceEach = (totalBeamFillingLength / (rafterAmount + 1) + rafterWidth / rafterAmount );
 
-        for (int i = 1; i < rafters.get(0).getAmount()+1; i++) {
-            carportSvg.addRectangle((distanceEach * i) + rafters.get(0).getDrawWidth(unitConversion), 0,rafters.get(0).getDrawHeight(unitConversion),rafters.get(0).getDrawWidth(unitConversion),rectStandardStyle);
+        for (int i = 1; i < rafterAmount+1; i++) {
+            carportSvg.addRectangle(xCenterFigureNegative((distanceEach * i),rafterWidth), 0,rafterHeight,rafterWidth,rectStandardStyle);
         }
     }
 
     public void beamDrawer(){
-        double beamDrawingFillLength = ((unitConversion.getCarportWidth() / 10) - (rafters.get(0).getDrawWidth(unitConversion) * 2));
-        double totalUsableLength = 0;
-        double totalFillingLength = unitConversion.DRAW_WIDTH - (rafters.get(0).getDrawWidth(unitConversion) * 2);
+        beamHeight = beams.get(0).getDrawHeight(unitConversion);
+        
+        totalBeamFillingLength = drawWidth - (rafterWidth * 2);
 
-        for (Plank beam : beams) {
-            for (int i = 0; i < beam.getAmount(); i++) {
-                totalUsableLength = totalUsableLength + beam.getDrawWidth(unitConversion);
-            }
-        }
-
-        System.out.println("usable length in total: "+totalUsableLength);
-        System.out.println("usable length for each side: "+totalUsableLength/2);
-        System.out.println("length needing to be filled for each beam side: " + beamDrawingFillLength);
-        System.out.println("filler length: "+totalFillingLength);
-        System.out.println("extra length per side: "+((totalUsableLength / 2) - beamDrawingFillLength));
-
-        if ((totalUsableLength / 2) >= beamDrawingFillLength){
-        carportSvg.addRectangle(rafters.get(0).getDrawWidth(unitConversion),offsetFromTop,beams.get(0).getDrawHeight(unitConversion),totalFillingLength,rectStandardStyle);
-        carportSvg.addRectangle(rafters.get(0).getDrawWidth(unitConversion),offsetFromBottom,beams.get(0).getDrawHeight(unitConversion),totalFillingLength,rectStandardStyle);
-        }
-
-        beamToOtherMath = totalFillingLength;
+        carportSvg.addRectangle(rafterWidth,offsetFromTop,beamHeight,totalBeamFillingLength,rectStandardStyle);
+        carportSvg.addRectangle(rafterWidth,offsetFromBottom,beamHeight,totalBeamFillingLength,rectStandardStyle);
     }
 
     public void postDrawer(){
+        
+        double postWidth = posts.get(0).getDrawWidth(unitConversion);
+        double postHeight = posts.get(0).getDrawHeight(unitConversion);
+        double postAmount = posts.get(0).getAmount();
 
-        carportSvg.addRectangle(offsetFromLeft + rafters.get(0).getDrawWidth(unitConversion),offsetFromTop - (0.75 * beams.get(0).getDrawHeight(unitConversion)), posts.get(0).getDrawHeight(unitConversion),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
-        carportSvg.addRectangle(offsetFromRight - rafters.get(0).getDrawWidth(unitConversion),offsetFromTop - (0.75 * beams.get(0).getDrawHeight(unitConversion)), posts.get(0).getDrawHeight(unitConversion),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
-        carportSvg.addRectangle(offsetFromLeft + rafters.get(0).getDrawWidth(unitConversion),offsetFromBottom - (0.75 * beams.get(0).getDrawHeight(unitConversion)), posts.get(0).getDrawHeight(unitConversion),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
-        carportSvg.addRectangle(offsetFromRight - rafters.get(0).getDrawWidth(unitConversion),offsetFromBottom - (0.75 * beams.get(0).getDrawHeight(unitConversion)), posts.get(0).getDrawHeight(unitConversion),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
-        posts.get(0).setAmount(posts.get(0).getAmount()-4);
+        carportSvg.addRectangle(offsetFromLeft + rafterWidth,yCenterFigure(offsetFromTop,beamHeight) , postHeight,postWidth,rectStandardStyle);
+        carportSvg.addRectangle(offsetFromRight - rafterWidth,yCenterFigure(offsetFromTop,beamHeight), postHeight,postWidth,rectStandardStyle);
+        carportSvg.addRectangle(offsetFromLeft + rafterWidth,yCenterFigure(offsetFromBottom,beamHeight), postHeight,postWidth,rectStandardStyle);
+        carportSvg.addRectangle(offsetFromRight - rafterWidth,yCenterFigure(offsetFromBottom,beamHeight), postHeight,postWidth,rectStandardStyle);
+        postAmount = postAmount - 4;
 
-        double xValue = 0;
+        double xValuePosts = 0;
         for (Plank beam : beams) {
-            int foriLoopAmount = beam.getAmount() / 2;
+            beamAmount = beam.getAmount();
+            beamWidth = beam.getDrawWidth(unitConversion);
+            int foriLoopAmount = (int) (beamAmount / 2);
             for (int i = 0; i < foriLoopAmount; i++) {
-                    if (0 < beamToOtherMath - (unitConversion.widthMmToDrawUnits(beam.getLength()) * (i+1)) + rafters.get(0).getDrawWidth(unitConversion) && 1 < posts.get(0).getAmount()){
+                    if (0 < totalBeamFillingLength - (beamWidth * (i+1)) + rafterWidth && 1 < postAmount){
 
-                        xValue = xValue + unitConversion.widthMmToDrawUnits(beam.getLength());
+                        xValuePosts = xValuePosts + beamWidth;
 
                         if (i == 0){
-                            carportSvg.addRectangle(xValue + (0.25 * rafters.get(0).getDrawWidth(unitConversion)),offsetFromTop - (0.75 * (unitConversion.heightMmToDrawUnits(beams.get(0).getHeight()))), unitConversion.heightMmToDrawUnits(posts.get(0).getHeight()),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
-                            carportSvg.addRectangle(xValue + (0.25 * rafters.get(0).getDrawWidth(unitConversion)),offsetFromBottom - (0.75 * (unitConversion.heightMmToDrawUnits(beams.get(0).getHeight()))), unitConversion.heightMmToDrawUnits(posts.get(0).getHeight()),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
+                            carportSvg.addRectangle(xCenterFigurePositive(xValuePosts,rafterWidth),yCenterFigure(offsetFromTop,beamHeight), postHeight,postWidth,rectStandardStyle);
+                            carportSvg.addRectangle(xCenterFigurePositive(xValuePosts,rafterWidth),yCenterFigure(offsetFromBottom,beamHeight), postHeight,postWidth,rectStandardStyle);
                         } else {
-                            carportSvg.addRectangle(xValue,offsetFromTop - (0.75 * (unitConversion.heightMmToDrawUnits(beams.get(0).getHeight()))), unitConversion.heightMmToDrawUnits(posts.get(0).getHeight()),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
-                            carportSvg.addRectangle(xValue,offsetFromBottom - (0.75 * (unitConversion.heightMmToDrawUnits(beams.get(0).getHeight()))), unitConversion.heightMmToDrawUnits(posts.get(0).getHeight()),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
+                            carportSvg.addRectangle(xValuePosts,yCenterFigure(offsetFromTop,beamHeight), postHeight,postWidth,rectStandardStyle);
+                            carportSvg.addRectangle(xValuePosts,yCenterFigure(offsetFromBottom,beamHeight), postHeight,postWidth,rectStandardStyle);
                         }
-                    System.out.println("posts placed at: "+xValue);
-                    posts.get(0).setAmount(posts.get(0).getAmount()-2);
+                        System.out.println("posts placed at: "+xValuePosts);
+                        postAmount = postAmount - 2;
                     }
                     else {
-                        System.out.println("couldn't place posts at: "+xValue);
+                        System.out.println("couldn't place posts at: "+xValuePosts);
                     }
-                    System.out.println("amount of posts left: "+posts.get(0).getAmount());
-                    if (posts.get(0).getAmount() == 0){
+                    System.out.println("amount of posts left: "+postAmount);
+                    if (postAmount == 0){
                         break;
                     }
             }
         }
 
+    }
+
+    private double xCenterFigureNegative(double xValue, double figureWidth){
+        return xValue - (figureWidth / 2);
+    }
+
+    private double xCenterFigurePositive(double xValue, double figureWidth){
+        return xValue + (figureWidth / 2);
+    }
+
+    private double yCenterFigure(double yValue, double figureHeight){
+        return yValue - (figureHeight / 2);
     }
 
 }
