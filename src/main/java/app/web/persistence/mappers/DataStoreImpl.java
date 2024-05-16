@@ -186,7 +186,11 @@ public final class DataStoreImpl implements DataStore
                 ps.setInt( 1, id );
                 
                 ResultSet rs = ps.executeQuery();
-                rs.next();
+                boolean hasNext = rs.next();
+                
+                if ( !hasNext ) {
+                    return null;
+                }
                 
                 resObject = entityCreator.createEntity( rs );
             }

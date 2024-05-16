@@ -11,7 +11,7 @@ import java.sql.*;
 import java.util.*;
 
 
-public final class ContactMapperImpl implements ContactMapper
+public final class AccountInfoMapperImpl implements AccountInfoMapper
 {
 
 
@@ -19,7 +19,7 @@ public final class ContactMapperImpl implements ContactMapper
     private static final EntityCreatorImpl ENTITY_CREATOR = new EntityCreatorImpl();
 
 
-    public ContactMapperImpl( DataStore dataStore )
+    public AccountInfoMapperImpl( DataStore dataStore )
     {
         this.setDataStore( dataStore );
     }
@@ -166,6 +166,7 @@ public final class ContactMapperImpl implements ContactMapper
             AccountInfo accountInfo;
 
             accountInfo = new AccountInfo();
+            accountInfo.setUserId( rs.getInt( "user_id" ) );
             accountInfo.setContactId( rs.getInt( "contact_info_id" ) );
             accountInfo.setFullName( rs.getString( "full_name" ) );
             accountInfo.setAddress( rs.getString( "address" ) );
@@ -186,6 +187,7 @@ public final class ContactMapperImpl implements ContactMapper
 
             while ( rs.next() ) {
                 accountInfo = new AccountInfo();
+                accountInfo.setUserId( rs.getInt( "user_id" ) );
                 accountInfo.setContactId( rs.getInt( "contact_info_id" ) );
                 accountInfo.setFullName( rs.getString( "full_name" ) );
                 accountInfo.setAddress( rs.getString( "address" ) );

@@ -5,6 +5,8 @@ import app.web.config.ThymeleafConfig;
 import app.web.constants.Config;
 import app.web.constants.attributes.WebGlobalAttributes;
 
+import app.web.entities.FullHistory;
+import app.web.exceptions.DatabaseException;
 import app.web.pageControllers.controllers.IndexController;
 import app.web.pageControllers.controllers.admins.EditBuildingMaterialsController;
 import app.web.pageControllers.controllers.users.*;
@@ -28,6 +30,9 @@ import app.web.persistence.mappers.*;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 import io.javalin.rendering.template.JavalinThymeleaf;
+
+import java.util.List;
+import java.util.Map;
 
 public class Main
 {
@@ -83,7 +88,7 @@ public class Main
         
         //Mappers------------------------------------------------------------------------
         UserMapper userMapper = new UserMapperImpl( dataStore );
-        ContactMapper contactMapper = new ContactMapperImpl( dataStore );
+        AccountInfoMapper accountInfoMapper = new AccountInfoMapperImpl( dataStore );
         
         PlankMapper plankMapper = new PlankMapperImpl( dataStore );
         BomMapper bomMapper = new BomMapperImpl( dataStore );
@@ -92,7 +97,9 @@ public class Main
         ShedMapper shedMapper = new ShedMapperImpl( dataStore );
         CarportMapper carportMapper = new CarportMapperImpl( dataStore, bomMapper );
         
-        OrderMapper orderMapper = new OrderMapperImpl( dataStore, carportMapper , bomMapper, contactMapper );
+        OrderMapper orderMapper = new OrderMapperImpl( dataStore, carportMapper , bomMapper, accountInfoMapper );
+        
+        FullHistoryMapper fullHistoryMapper = new FullHistoryMapperImpl( accountInfoMapper,orderMapper );
         
         //Load Global Attributes--------------------------------------------------------
         WebGlobalAttributes.startUp( config, userMapper, plankMapper );
@@ -148,6 +155,20 @@ public class Main
         
         //Admins
         EditBuildingMaterialsController.startUp( editBuildingMaterialsModel );
+        
+        //TODO: DELETE THIS THIS IS TEMP
+        try {
+            
+            System.out.println("FULL HISTORY TEST");
+            List< FullHistory> fullHistoryMap = fullHistoryMapper.readAllFull();
+            
+            for ( FullHistory fullHistory : fullHistoryMap) {
+                System.out.println(fullHistory.toString());
+            }
+            
+        } catch ( DatabaseException e ) {
+            e.printStackTrace();
+        }
     }
     
 }

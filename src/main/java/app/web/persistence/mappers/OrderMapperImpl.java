@@ -2,12 +2,14 @@ package app.web.persistence.mappers;
 
 
 
+import app.web.entities.AccountInfo;
 import app.web.entities.Order;
 import app.web.exceptions.DatabaseException;
 import app.web.exceptions.NoIdKeyReturnedException;
 import app.web.exceptions.UnexpectedResultDbException;
 
 import java.sql.*;
+import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -21,14 +23,14 @@ public final class OrderMapperImpl implements OrderMapper
     
     private CarportMapper carportMapper;
     private BomMapper bomMapper;
-    private ContactMapper contactMapper;
+    private AccountInfoMapper accountInfoMapper;
     
-    public OrderMapperImpl( DataStore dataStore, CarportMapper carportMapper, BomMapper bomMapper, ContactMapper contactMapper )
+    public OrderMapperImpl( DataStore dataStore, CarportMapper carportMapper, BomMapper bomMapper, AccountInfoMapper accountInfoMapper )
     {
         this.dataStore = dataStore;
         this.carportMapper = carportMapper;
         this.bomMapper = bomMapper;
-        this.contactMapper = contactMapper;
+        this.accountInfoMapper = accountInfoMapper;
     }
     
     @Override
@@ -38,7 +40,7 @@ public final class OrderMapperImpl implements OrderMapper
     }
     
     @Override
-    public int create( Order order, Integer contact_info_id ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
+    public int create( Order order, Integer contactInfoId ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
     {
         String sql =
                 "INSERT INTO public.order " +
@@ -48,7 +50,7 @@ public final class OrderMapperImpl implements OrderMapper
                 "   (?, ?, ?, ?, ?, ?, ?);";
         
         Object[] parametersForSql = new Object[ 7 ];
-        parametersForSql[ 0 ] = contact_info_id;
+        parametersForSql[ 0 ] = contactInfoId;
         parametersForSql[ 1 ] = order.getPriceSuggested();
         parametersForSql[ 2 ] = order.getPriceActual();
         parametersForSql[ 3 ] = order.getDateRequested();
@@ -65,7 +67,7 @@ public final class OrderMapperImpl implements OrderMapper
     {
         int rowsAffected = 0;
         
-        rowsAffected = rowsAffected + this.contactMapper.create( order.getAccountInfo(), userId );
+        rowsAffected = rowsAffected + this.accountInfoMapper.create( order.getAccountInfo(), userId );
         
         rowsAffected = rowsAffected + this.create( order, order.getAccountInfo().getContactId() );
         
@@ -88,9 +90,24 @@ public final class OrderMapperImpl implements OrderMapper
         
         return ( Map< Integer, Order > ) this.dataStore.readAll( sql, ENTITY_CREATOR );
     }
+
+//    @Override
+//    public Map< Integer, Order > readAllFull() throws DatabaseException
+//    {
+//        Map<Integer, Order> fullOrderMap = new LinkedHashMap<>();
+//
+//        Map<Integer, AccountInfo > accountInfoMap = this.accountInfoMapper.readAll();
+//
+//        for ( AccountInfo accountInfo : accountInfoMap.values() ) {
+//            fullOrderMap.put( readSingle( accountInfo ) );
+//        }
+//
+//
+//        return fullOrderMap;
+//    }
     
     @Override
-    public Map< Integer, Order > readAllByUserId( Integer user_id ) throws DatabaseException
+    public Map< Integer, Order > readAllByAccountInfoId( Integer accountInfoId ) throws DatabaseException
     {
         String sql =
                 "SELECT " +
@@ -98,13 +115,26 @@ public final class OrderMapperImpl implements OrderMapper
                 "FROM " +
                 "   public.order " +
                 "WHERE " +
-                "   user_id = ?;";
+                "   contact_info_id = ?;";
         
-        return ( Map< Integer, Order > ) this.dataStore.readAll( sql, new Object[]{ user_id }, ENTITY_CREATOR );
+        return ( Map< Integer, Order > ) this.dataStore.readAll( sql, new Object[]{ accountInfoId }, ENTITY_CREATOR );
     }
     
     @Override
-    public Order readSingle( Integer order_id ) throws DatabaseException
+    public Map< Integer, Order > readAllByAccountInfoIdFull( AccountInfo accountInfo ) throws DatabaseException
+    {
+        Map< Integer, Order > orderMap = this.readAllByAccountInfoId( accountInfo.getContactId() );
+        
+        for ( Order order : orderMap.values() ) {
+            order.setCarport( this.carportMapper.readAllByOrderIdFull( order.getOrderId() ) );
+            order.setAccountInfo( accountInfo );
+        }
+        
+        return orderMap;
+    }
+    
+    @Override
+    public Order readSingle( Integer orderId ) throws DatabaseException
     {
         String sql =
                 "SELECT " +
@@ -114,7 +144,7 @@ public final class OrderMapperImpl implements OrderMapper
                 "WHERE " +
                 "   order_id = ?;";
         
-        return ( Order ) this.dataStore.readSingle( sql, order_id, ENTITY_CREATOR );
+        return ( Order ) this.dataStore.readSingle( sql, orderId, ENTITY_CREATOR );
     }
     
     @Override
@@ -140,13 +170,13 @@ public final class OrderMapperImpl implements OrderMapper
     }
     
     @Override
-    public int delete( Integer order_id ) throws DatabaseException, UnexpectedResultDbException
+    public int delete( Integer orderId ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
                 "DELETE FROM public.order " +
                 "WHERE order_id = ?;";
         
-        return this.dataStore.delete( sql, "order", order_id );
+        return this.dataStore.delete( sql, "order", orderId );
     }
     
     
@@ -172,9 +202,23 @@ public final class OrderMapperImpl implements OrderMapper
 //            order.setUserId( rs.getInt( "user_id" ) );
             order.setPriceSuggested( rs.getInt( "price_suggested_in_oere" ) );
             order.setPriceActual( rs.getInt( "price_actual_in_oere" ) );
-            order.setDateRequested( ( LocalDateTime ) rs.getObject( "date_requested" ) );
-            order.setDateApproved( ( LocalDateTime ) rs.getObject( "date_approved" ) );
-            order.setDateFinished( ( LocalDateTime ) rs.getObject( "date_finished" ) );
+            try {
+                order.setDateRequested( ( ( Timestamp ) rs.getObject( "date_requested" ) ).toLocalDateTime() );
+            } catch ( NullPointerException e ) {
+                order.setDateRequested( null );
+            }
+            
+            try {
+                order.setDateApproved( ( ( Timestamp ) rs.getObject( "date_approved" ) ).toLocalDateTime() );
+            } catch ( NullPointerException e ) {
+                order.setDateApproved( null );
+            }
+            
+            try {
+                order.setDateFinished( ( ( Timestamp ) rs.getObject( "date_finished" ) ).toLocalDateTime() );
+            } catch ( NullPointerException e ) {
+                order.setDateFinished( null );
+            }
             order.setStatus( rs.getString( "status" ) );
             
             return order;
@@ -193,9 +237,23 @@ public final class OrderMapperImpl implements OrderMapper
 //                order.setUserId( rs.getInt( "user_id" ) );
                 order.setPriceSuggested( rs.getInt( "price_suggested_in_oere" ) );
                 order.setPriceActual( rs.getInt( "price_actual_in_oere" ) );
-                order.setDateRequested( ( LocalDateTime ) rs.getObject( "date_requested" ) );
-                order.setDateApproved( ( LocalDateTime ) rs.getObject( "date_approved" ) );
-                order.setDateFinished( ( LocalDateTime ) rs.getObject( "date_finished" ) );
+                try {
+                    order.setDateRequested( ( ( Timestamp ) rs.getObject( "date_requested" ) ).toLocalDateTime() );
+                } catch ( NullPointerException e ) {
+                    order.setDateRequested( null );
+                }
+                
+                try {
+                    order.setDateApproved( ( ( Timestamp ) rs.getObject( "date_approved" ) ).toLocalDateTime() );
+                } catch ( NullPointerException e ) {
+                    order.setDateApproved( null );
+                }
+                
+                try {
+                    order.setDateFinished( ( ( Timestamp ) rs.getObject( "date_finished" ) ).toLocalDateTime() );
+                } catch ( NullPointerException e ) {
+                    order.setDateFinished( null );
+                }
                 order.setStatus( rs.getString( "status" ) );
                 
                 orderMap.put( order.getOrderId(), order );

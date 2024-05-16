@@ -8,7 +8,7 @@ import app.web.exceptions.UnexpectedResultDbException;
 import java.util.Map;
 
 
-public interface ContactMapper
+public interface AccountInfoMapper
 {
     void setDataStore( DataStore dataStore );
     

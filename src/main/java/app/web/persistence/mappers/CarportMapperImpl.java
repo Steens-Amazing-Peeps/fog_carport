@@ -2,6 +2,7 @@ package app.web.persistence.mappers;
 
 
 
+import app.web.entities.Bom;
 import app.web.entities.Carport;
 import app.web.exceptions.DatabaseException;
 import app.web.exceptions.NoIdKeyReturnedException;
@@ -88,6 +89,25 @@ public final class CarportMapperImpl implements CarportMapper
                 "   order_id = ?;";
         
         return ( Map< Integer, Carport > ) this.dataStore.readAll( sql, new Object[]{ orderId }, ENTITY_CREATOR );
+    }
+    
+    @Override
+    public Carport readAllByOrderIdFull( Integer orderId ) throws DatabaseException
+    {
+        Map<Integer, Carport> oneCarportMap = this.readAllByOrderId( orderId );
+        Carport carport = null;
+        
+        for ( Carport carportOne : oneCarportMap.values() ) {
+            carport = carportOne;
+            break;
+        }
+        
+        assert carport!=null;
+        
+        Bom bom = this.bomMapper.readAllByCarportId( carport.getCarportId() );
+        carport.setBom( bom );
+        
+        return carport;
     }
     
     @Override

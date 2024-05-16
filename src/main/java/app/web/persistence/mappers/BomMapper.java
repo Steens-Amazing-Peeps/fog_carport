@@ -14,4 +14,6 @@ public interface BomMapper
     
     int create( Bom bom, Integer carportId ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException;
     
+    Bom readAllByCarportId( Integer carport_id ) throws DatabaseException;
+    
 }

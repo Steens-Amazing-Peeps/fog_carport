@@ -22,6 +22,8 @@ public interface CarportMapper
     
     Map< Integer, Carport > readAllByOrderId( Integer orderId ) throws DatabaseException;
     
+    Carport readAllByOrderIdFull( Integer orderId ) throws DatabaseException;
+    
     Carport readSingle( Integer carportId ) throws DatabaseException;
     
     int update( Carport carport, Integer orderId ) throws DatabaseException, UnexpectedResultDbException;

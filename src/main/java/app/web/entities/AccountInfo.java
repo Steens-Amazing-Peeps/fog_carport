@@ -3,6 +3,7 @@ package app.web.entities;
 public class AccountInfo
 { //TODO: Ponder how to best implement this class/entity/feature, probably shouldn't be an inner class
 
+    private Integer userId;
     private Integer contactId;
     private String fullName;
     private String address;
@@ -40,7 +41,16 @@ public class AccountInfo
     
     
     //Getters and Setters
-
+    public Integer getUserId()
+    {
+        return this.userId;
+    }
+    
+    public void setUserId( Integer userId )
+    {
+        this.userId = userId;
+    }
+    
     public Integer getContactId() {
         return this.contactId;
     }
