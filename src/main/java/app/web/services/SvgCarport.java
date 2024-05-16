@@ -53,15 +53,41 @@ public class SvgCarport {
     public String drawCarport(){ //TODO: make constants for all manually placed numbers
         Locale.setDefault(new Locale("US")); //needed if you want to use decimals for svg stuff
 //        outer svg setup
-        carportSvg.addRectangle(origoXYValue,origoXYValue,700,900,"stroke: #000000; stroke-width: 1px; fill: none");
-        carportSvg.addArrow(50, 620,50,20);
-        carportSvg.addArrow(80, 650,880,650);
-        carportSvg.addText(30,300,-90, MetricConversion.mmToCm(unitConversion.getCarportHeight())+" cm");
-        carportSvg.addText(470,680,0,MetricConversion.mmToCm(unitConversion.getCarportWidth())+" cm");
+        String outerSvgRectStyle = "stroke: #000000; stroke-width: 1px; fill: none";
+        int outerSvgRectHeight = 700; //100 units bigger than the canvas
+        int outerSvgRectWidth = 900; //100 units bigger than the canvas
+
+        int heightArrowXValue = 50;
+        int heightArrowFirstYValue = 620;
+        int heightArrowSecondYValue = 20;
+        int heightTextXValue = 30;
+        int heightTextYValue = 300;
+        int heightTextRotationValue = -90;
+
+        int widthArrowYValue = 650;
+        int widthArrowFirstXValue = 80;
+        int widthArrowSecondXValue = 880;
+        int widthTextXValue = 470;
+        int widthTextYValue = 680;
+        int widthTextRotationValue = 0;
+
+        carportSvg.addRectangle(origoXYValue,origoXYValue,outerSvgRectHeight,outerSvgRectWidth,outerSvgRectStyle);
+        carportSvg.addArrow(heightArrowXValue, heightArrowFirstYValue,heightArrowXValue,heightArrowSecondYValue);
+        carportSvg.addArrow(widthArrowFirstXValue, widthArrowYValue,widthArrowSecondXValue,widthArrowYValue);
+        carportSvg.addText(heightTextXValue,heightTextYValue,heightTextRotationValue, MetricConversion.mmToCm(unitConversion.getCarportHeight())+" cm");
+        carportSvg.addText(widthTextXValue,widthTextYValue,widthTextRotationValue,MetricConversion.mmToCm(unitConversion.getCarportWidth())+" cm");
 
 //        inner svg setup
+        String innerSvgHeight = "600";
+        String innerSvgWidth = "800";
+
+        String innerSvgRectStyle = "stroke: #000000; stroke-width: 1px; fill: #ffffff";
+        int innerSvgRectHeight = 600; //constant width for the canvas
+        int innerSvgRectWidth = 800; //constant width for the canvas
+
         carportSvg.addSvg(80,20,"0 0 800 600", "800", "600");
-        carportSvg.addRectangle(origoXYValue,origoXYValue,600,800,"stroke: #000000; stroke-width: 1px; fill: #ffffff");
+        carportSvg.addRectangle(origoXYValue,origoXYValue,innerSvgRectHeight,innerSvgRectWidth,innerSvgRectStyle);
+
 //        methods for drawing the actual carport
         rafterDrawer();
         beamDrawer();
