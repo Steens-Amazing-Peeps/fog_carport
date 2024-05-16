@@ -49,7 +49,7 @@ public class SvgCarport {
     }
 
 
-    public String drawCarport(){
+    public String drawCarport(){ //TODO: make constants for all manually placed numbers
         Locale.setDefault(new Locale("US"));
 //        outer svg setup
         carportSvg.addRectangle(0,0,700,900,"stroke: #000000; stroke-width: 1px; fill: none");
