@@ -79,7 +79,7 @@ public class SvgCarport {
 
         carportSvg.addRectangle(origoXYValue, origoXYValue, rafterHeight, rafterWidth, rectStandardStyle);
         carportSvg.addRectangle(drawWidth - rafterWidth, origoXYValue, rafterHeight, rafterWidth, rectStandardStyle);
-        rafterAmount = rafterAmount - amountIfFixedSideRafters;
+        rafterAmount = rafterAmount - amountIfFixedSideRafters; //removes the amount of rafters used from the total amount of rafters
     }
 
     public void rafterInnerDrawer(){
@@ -111,7 +111,7 @@ public class SvgCarport {
         carportSvg.addRectangle(offsetFromRight - rafterWidth,yCenterFigure(offsetFromTop,beamHeight), postHeight,postWidth,rectStandardStyle);
         carportSvg.addRectangle(offsetFromLeft + rafterWidth,yCenterFigure(offsetFromBottom,beamHeight), postHeight,postWidth,rectStandardStyle);
         carportSvg.addRectangle(offsetFromRight - rafterWidth,yCenterFigure(offsetFromBottom,beamHeight), postHeight,postWidth,rectStandardStyle);
-        postAmount = postAmount - amountOfFixedCornerPosts;
+        postAmount = postAmount - amountOfFixedCornerPosts; //removes the amount of posts used from the total amount of posts
 
         double xValuePosts = 0;
         for (Plank beam : beams) {
@@ -122,7 +122,7 @@ public class SvgCarport {
             int amountOfPostsPlacedPerLoop = 2;
 
             for (int i = 0; i < foriLoopAmount; i++) {
-                    if (0 < totalBeamFillingLength - (beamWidth * (i+1)) + rafterWidth && 1 < postAmount){
+                    if (0 < totalBeamFillingLength - (beamWidth * (i+1)) + rafterWidth && 1 < postAmount){ //checks if there is space left to place posts and checks if there are any posts left
 
                         xValuePosts = xValuePosts + beamWidth;
 
@@ -133,15 +133,15 @@ public class SvgCarport {
                             carportSvg.addRectangle(xValuePosts,yCenterFigure(offsetFromTop,beamHeight), postHeight,postWidth,rectStandardStyle);
                             carportSvg.addRectangle(xValuePosts,yCenterFigure(offsetFromBottom,beamHeight), postHeight,postWidth,rectStandardStyle);
                         }
-                        System.out.println("posts placed at: "+xValuePosts);
-                        postAmount = postAmount - amountOfPostsPlacedPerLoop;
+                        System.out.println("posts placed at: "+xValuePosts); //tells you that the placement of posts was successful and informs you of the location
+                        postAmount = postAmount - amountOfPostsPlacedPerLoop; //removes the amount of posts used from the total amount of posts
                     }
                     else {
-                        System.out.println("couldn't place posts at: "+xValuePosts);
+                        System.out.println("couldn't place posts at: "+xValuePosts); //primitive error message used to indicate if posts could not get placed and informs about the location
                     }
                     System.out.println("amount of posts left: "+postAmount);
                     if (postAmount == 0){
-                        break;
+                        break; //breaks out of the loop if there are no more posts left
                     }
             }
         }
