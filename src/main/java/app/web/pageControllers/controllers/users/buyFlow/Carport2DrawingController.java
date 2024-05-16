@@ -52,13 +52,18 @@ public class Carport2DrawingController
     
     private static void getPage( Context ctx )
     { //TODO
-
-        if ( ctx.sessionAttribute( WebSessionAttributes.currentOrder ) == null ) {
+        Order order = ctx.sessionAttribute( WebSessionAttributes.currentOrder );
+        
+        if ( order == null ) {
             Carport1InfoController.redirect( ctx );
             return;
         }
-
-        Order order = ctx.sessionAttribute(WebSessionAttributes.currentOrder);
+        
+        if ( order.getCarport() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
         try {
             String svgCarportDrawing = carport2DrawingModel.drawCarport(order.getCarport());
             ctx.attribute("svg", svgCarportDrawing);
@@ -74,13 +79,13 @@ public class Carport2DrawingController
     }
     
     private static void postBack( Context ctx )
-    {//TODO
+    {
         Carport1InfoController.redirect( ctx );
         
     }
     
     private static void postConfirm( Context ctx )
-    {//TODO
+    {
         Carport3AccountInfoController.redirect( ctx );
         
     }

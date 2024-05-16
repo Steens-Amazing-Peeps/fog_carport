@@ -11,10 +11,30 @@
 
     <div class="content" id="content">
 
+        <div class="carport-form">
 
-        <form>
+            <div class="form-header">
+                <h1>Kvittering</h1>
+                <p>Tak for købet!</p>
+            </div>
 
-            <div th:replace="~{fragments :: buy-flow-nav ('Tilbage til din oversigt', 'Til regning')}"></div>
+            <form>
+
+                <div>
+                    <p style="white-space: pre-line"
+                       th:text="${session.currentOrder.receipt}"></p>
+                </div>
+
+                <div>
+                    <p class="error-msg" style="white-space: pre-line" th:unless="${#strings.isEmpty(msg)}"
+                       th:text="${msg}"></p>
+                </div>
+
+            </form>
+
+        </div>
+
+        <div th:replace="~{fragments :: buy-flow-nav ('Tilbage til din oversigt', 'Til regning')}"></div>
 
         </form>
 

@@ -1,9 +1,17 @@
 package app.web.pageControllers.controllers.users.buyFlow;
 
 
+import app.util.MetricConversion;
+import app.web.constants.attributes.WebAttributes;
+import app.web.constants.attributes.WebGlobalAttributes;
 import app.web.constants.attributes.WebSessionAttributes;
 import app.web.constants.routing.WebHtml;
 import app.web.constants.routing.WebPages;
+import app.web.entities.Order;
+import app.web.exceptions.DatabaseException;
+import app.web.exceptions.NoIdKeyReturnedException;
+import app.web.exceptions.NumberTooSmallException;
+import app.web.exceptions.UnexpectedResultDbException;
 import app.web.pageControllers.models.users.buyFlow.Carport4ReviewAndConfirmModel;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -46,24 +54,83 @@ public class Carport4ReviewAndConfirmController
     
     
     private static void getPage( Context ctx )
-    {//TODO
-        if ( ctx.sessionAttribute( WebSessionAttributes.currentOrder ) == null ) {
+    {
+        Order order = ctx.sessionAttribute( WebSessionAttributes.currentOrder );
+        
+        if ( order == null ) {
             Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
+        if ( order.getCarport() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
+        if ( order.getAccountInfo() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
         }
         
         render( ctx );
     }
     
     private static void postBack( Context ctx )
-    {//TODO
-        Carport3AccountInfoController.redirect( ctx );
+    {
+        Order order = ctx.sessionAttribute( WebSessionAttributes.currentOrder );
         
+        if ( order == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
+        if ( order.getCarport() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
+        if ( order.getAccountInfo() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
+        Carport3AccountInfoController.redirect( ctx );
     }
     
     private static void postConfirm( Context ctx )
     {//TODO
-        Carport5ReceiptController.redirect( ctx );
+        Order order = ctx.sessionAttribute( WebSessionAttributes.currentOrder );
         
+        if ( order == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
+        if ( order.getCarport() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
+        if ( order.getAccountInfo() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+        
+        try {
+            carport4ReviewAndConfirmModel.addNewOrder(order);
+            
+        } catch ( NoIdKeyReturnedException | UnexpectedResultDbException | DatabaseException e ) {
+            ctx.attribute( WebAttributes.msg, e.getUserMessage() );
+            render( ctx );
+            return;
+        }
+        
+        
+        
+        
+        //Happy Path
+        ctx.sessionAttribute( WebSessionAttributes.completedOrder, order );
+        Carport5ReceiptController.redirect( ctx );
     }
     
 }

@@ -16,12 +16,17 @@ public interface WebFormParam
     String carportHeight = "carportHeight";
     String Message = "Message";
     
+    
     //Carport3AccountInfo
     String fullName = "fullName";
     String address = "address";
-    String zip = "zip";
+    String zip = "zip-code";
     String city = "city";
-    String phoneNumber = "phoneNumber";
+    String phoneNumber = "phone";
+    
+//    String email = "email";
+    
+    String consentToSpam = "consentToSpam";
 
 
     

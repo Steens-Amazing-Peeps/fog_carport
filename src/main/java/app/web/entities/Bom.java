@@ -7,12 +7,13 @@ import java.util.Map;
 
 public class Bom
 {
+    
     private Integer bomId; //TODO: Remove this
     private Integer carportId; //TODO: Remove this
     private Integer variantId; //TODO: Remove this
     private Integer amount; //TODO: Remove this
-
-
+    
+    
     private List< Plank > planks = new ArrayList<>();     //TODO check where/if this is used
     
     private Map< Integer, Plank > posts = new LinkedHashMap<>();
@@ -23,41 +24,49 @@ public class Bom
     
     
     //Getters and Setters
-
-    public Integer getBomId() {
+    
+    public Integer getBomId()
+    {
         return this.bomId;
     }
-
-    public void setBomId(Integer bomId) {
+    
+    public void setBomId( Integer bomId )
+    {
         this.bomId = bomId;
     }
-
-    public Integer getCarportId() {
+    
+    public Integer getCarportId()
+    {
         return this.carportId;
     }
-
-    public void setCarportId(Integer carportId) {
+    
+    public void setCarportId( Integer carportId )
+    {
         this.carportId = carportId;
     }
-
-    public Integer getVariantId() {
+    
+    public Integer getVariantId()
+    {
         return this.variantId;
     }
-
-    public void setVariantId(Integer variantId) {
+    
+    public void setVariantId( Integer variantId )
+    {
         this.variantId = variantId;
     }
-
-    public Integer getAmount() {
+    
+    public Integer getAmount()
+    {
         return this.amount;
     }
-
-    public void setAmount(Integer amount) {
+    
+    public void setAmount( Integer amount )
+    {
         this.amount = amount;
     }
-
-
-
+    
+    
+    
     public List< Plank > getPlanks()
     {
         return this.planks;
@@ -114,8 +123,11 @@ public class Bom
     @Override
     public String toString()
     {
-        StringBuilder stringBuilder = new StringBuilder();
-        
+        return this.toString( new StringBuilder() );
+    }
+    
+    public String toString( StringBuilder stringBuilder )
+    {
         stringBuilder.append( "------BOM------" ).append( System.lineSeparator() );
         
         stringBuilder.append( System.lineSeparator() );
@@ -130,37 +142,37 @@ public class Bom
             stringBuilder.append( this.planks.toString() ).append( System.lineSeparator() );
         }
         
-        stringBuilder.append( System.lineSeparator()  );
+        stringBuilder.append( System.lineSeparator() );
         stringBuilder.append( "--Posts--" ).append( System.lineSeparator() );
         
         for ( Plank plank : this.posts.values() ) {
             stringBuilder.append( plank.toString() ).append( System.lineSeparator() );
         }
         
-        stringBuilder.append( System.lineSeparator()  );
+        stringBuilder.append( System.lineSeparator() );
         stringBuilder.append( "--Beams--" ).append( System.lineSeparator() );
         
         for ( Plank plank : this.beams.values() ) {
             stringBuilder.append( plank.toString() ).append( System.lineSeparator() );
         }
         
-        stringBuilder.append( System.lineSeparator()  );
+        stringBuilder.append( System.lineSeparator() );
         stringBuilder.append( "--Rafters--" ).append( System.lineSeparator() );
         
         for ( Plank plank : this.rafters.values() ) {
             stringBuilder.append( plank.toString() ).append( System.lineSeparator() );
         }
-
+        
         int sumLength = 0;
         for ( Plank beam : this.getBeams().values() ) {
             sumLength = sumLength + ( beam.getLength() * beam.getAmount() );
         }
-
+        
         sumLength = sumLength / this.getRowAmount();
-
-        stringBuilder.append(System.lineSeparator());
-        stringBuilder.append("Beam sum length = ").append(sumLength);
-        stringBuilder.append(System.lineSeparator());
+        
+        stringBuilder.append( System.lineSeparator() );
+        stringBuilder.append( "Beam sum length = " ).append( sumLength );
+        stringBuilder.append( System.lineSeparator() );
         
         return stringBuilder.toString();
     }

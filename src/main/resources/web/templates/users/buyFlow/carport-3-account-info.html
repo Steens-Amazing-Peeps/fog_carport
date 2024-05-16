@@ -24,44 +24,86 @@
                 <div class="carport-dropdown-form">
 
                     <div class="contact-info">
-                        <label for="fullname" class="dropdown-label">Navn*</label>
+                        <label for="fullName" class="dropdown-label">Navn*</label>
+                        <div>
+                            <p class="error-msg" style="white-space: pre-line"
+                               th:unless="${#strings.isEmpty(msgFullName)}"
+                               th:text="${msgFullName}"></p>
+                        </div>
                         <div class="text-field">
-                            <input type="text" id="fullname" name="fullname" placeholder="Fornavn og efternavn"><br>
+                            <input type="text" id="fullName" name="fullName"
+                                   placeholder="Fornavn og efternavn"
+                                   th:value="${session.currentOrder.accountInfo.fullName}"><br>
                         </div>
                     </div>
 
                     <div class="contact-info">
                         <label for="address" class="dropdown-label">Adresse*</label>
+                        <div>
+                            <p class="error-msg" style="white-space: pre-line"
+                               th:unless="${#strings.isEmpty(msgAddress)}"
+                               th:text="${msgAddress}"></p>
+                        </div>
                         <div class="text-field">
-                            <input type="text" id="address" name="address" placeholder="Adresse (vej + nummer)"><br>
+                            <input type="text" id="address" name="address"
+                                   placeholder="Adresse (vej + nummer)"
+                                   th:value="${session.currentOrder.accountInfo.address}"><br>
                         </div>
                     </div>
 
                     <div class="contact-info">
                         <label for="zip-code" class="dropdown-label">Postnummer*</label>
+                        <div>
+                            <p class="error-msg" style="white-space: pre-line"
+                               th:unless="${#strings.isEmpty(msgZipCode)}"
+                               th:text="${msgZipCode}"></p>
+                        </div>
                         <div class="text-field">
-                            <input type="text" id="zip-code" name="zip-code" placeholder="Postnummer"><br>
+                            <input type="number" id="zip-code" name="zip-code"
+                                   placeholder="Postnummer"
+                                   th:value="${session.currentOrder.accountInfo.zip}"><br><br>
                         </div>
                     </div>
 
                     <div class="contact-info">
                         <label for="city" class="dropdown-label">By*</label>
+                        <div>
+                            <p class="error-msg" style="white-space: pre-line"
+                               th:unless="${#strings.isEmpty(msgCity)}"
+                               th:text="${msgCity}"></p>
+                        </div>
                         <div class="text-field">
-                            <input type="text" id="city" name="city" placeholder="Bynavn"><br>
+                            <input type="text" id="city" name="city"
+                                   placeholder="Bynavn"
+                                   th:value="${session.currentOrder.accountInfo.city}"><br>
                         </div>
                     </div>
 
                     <div class="contact-info">
                         <label for="phone" class="dropdown-label">Telefon*</label>
+                        <div>
+                            <p class="error-msg" style="white-space: pre-line"
+                               th:unless="${#strings.isEmpty(msgPhone)}"
+                               th:text="${msgPhone}"></p>
+                        </div>
                         <div class="text-field">
-                            <input type="text" id="phone" name="phone" placeholder="Telefon nummer"><br>
+                            <input type="number" id="phone" name="phone"
+                                   placeholder="Telefon nummer"
+                                   th:value="${session.currentOrder.accountInfo.phoneNumber}"><br>
                         </div>
                     </div>
 
                     <div class="contact-info">
                         <label for="email" class="dropdown-label">Email*</label>
+                        <div>
+                            <p class="error-msg" style="white-space: pre-line"
+                               th:unless="${#strings.isEmpty(msgEmail)}"
+                               th:text="${msgEmail}"></p>
+                        </div>
                         <div class="text-field">
-                            <input type="text" id="email" name="email" placeholder="Din email adresse"><br>
+                            <input type="text" id="email" name="email"
+                                   placeholder="Din email adresse"
+                                   th:value="${session.currentOrder.accountInfo.email}"><br>
                         </div>
                     </div>
 
@@ -69,10 +111,17 @@
                         <p>
                             <b>Kontakt samtykke</b>
                         </p>
-                        <input type="checkbox" id="consent" name="consent" value="Contact" required>
-                        <label for="consent">Fog må benytte de afgivne oplysninger til at kontakte mig i forbindelse
+                        <input type="checkbox" id="consentToSpam" name="consentToSpam" value="true" th:checked="${session.currentOrder.accountInfo.consentToSpam}">
+                        <label for="consentToSpam">Fog må benytte de afgivne oplysninger til at kontakte mig i forbindelse
                             med tilbud på QuickByg carport*</label>
                     </div>
+
+                    <div>
+                        <p class="error-msg" style="white-space: pre-line" th:unless="${#strings.isEmpty(msg)}"
+                           th:text="${msg}"></p>
+                    </div>
+
+
                 </div>
 
                 <div th:replace="~{fragments :: buy-flow-nav ('Til Tegning', 'Til Bekræftelse')}"></div>

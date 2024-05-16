@@ -2,7 +2,7 @@ package app.web.persistence.mappers;
 
 
 
-import app.web.entities.ContactInfo;
+import app.web.entities.AccountInfo;
 import app.web.exceptions.DatabaseException;
 import app.web.exceptions.NoIdKeyReturnedException;
 import app.web.exceptions.UnexpectedResultDbException;
@@ -31,7 +31,7 @@ public final class ContactMapperImpl implements ContactMapper
     }
 
     @Override
-    public int create( ContactInfo contactInfo ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
+    public int create( AccountInfo accountInfo ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
     {
         String sql =
                 "INSERT INTO public.contact_info " +
@@ -40,19 +40,19 @@ public final class ContactMapperImpl implements ContactMapper
                         "   (?, ?, ?, ?, ?, ?, ?);";
 
         Object[] parametersForSql = new Object[ 7 ];
-        parametersForSql[ 0 ] = contactInfo.getFullName();
-        parametersForSql[ 1 ] = contactInfo.getAddress();
-        parametersForSql[ 2 ] = contactInfo.getZip();
-        parametersForSql[ 3 ] = contactInfo.getCity();
-        parametersForSql[ 4 ] = contactInfo.getPhoneNumber();
-        parametersForSql[ 5 ] = contactInfo.getEmail();
-        parametersForSql[ 6 ] = contactInfo.getUser();
+        parametersForSql[ 0 ] = accountInfo.getFullName();
+        parametersForSql[ 1 ] = accountInfo.getAddress();
+        parametersForSql[ 2 ] = accountInfo.getZip();
+        parametersForSql[ 3 ] = accountInfo.getCity();
+        parametersForSql[ 4 ] = accountInfo.getPhoneNumber();
+        parametersForSql[ 5 ] = accountInfo.getEmail();
+        parametersForSql[ 6 ] = accountInfo.getUser();
 
-        return this.dataStore.create( sql, contactInfo, parametersForSql, ENTITY_CREATOR );
+        return this.dataStore.create( sql, accountInfo, parametersForSql, ENTITY_CREATOR );
     }
 
     @Override
-    public Map< Integer, ContactInfo > readAll() throws DatabaseException
+    public Map< Integer, AccountInfo > readAll() throws DatabaseException
     {
         String sql =
                 "SELECT " +
@@ -63,11 +63,11 @@ public final class ContactMapperImpl implements ContactMapper
                         "   contact_info_id;";
 
 
-        return ( Map< Integer, ContactInfo > ) this.dataStore.readAll( sql, ENTITY_CREATOR );
+        return ( Map< Integer, AccountInfo > ) this.dataStore.readAll( sql, ENTITY_CREATOR );
     }
 
     @Override
-    public Map< Integer, ContactInfo > readAllByUserId( Integer user_id ) throws DatabaseException
+    public Map< Integer, AccountInfo > readAllByUserId( Integer user_id ) throws DatabaseException
     {
         String sql =
                 "SELECT " +
@@ -77,11 +77,11 @@ public final class ContactMapperImpl implements ContactMapper
                         "WHERE " +
                         "   user_id = ?;";
 
-        return ( Map< Integer, ContactInfo > ) this.dataStore.readAll( sql, new Object[]{ user_id }, ENTITY_CREATOR );
+        return ( Map< Integer, AccountInfo > ) this.dataStore.readAll( sql, new Object[]{ user_id }, ENTITY_CREATOR );
     }
 
     @Override
-    public ContactInfo readSingle( Integer contact_id ) throws DatabaseException
+    public AccountInfo readSingle( Integer contact_id ) throws DatabaseException
     {
         String sql =
                 "SELECT " +
@@ -91,11 +91,11 @@ public final class ContactMapperImpl implements ContactMapper
                         "WHERE " +
                         "   contact_info_id = ?;";
 
-        return ( ContactInfo ) this.dataStore.readSingle( sql, contact_id, ENTITY_CREATOR );
+        return ( AccountInfo ) this.dataStore.readSingle( sql, contact_id, ENTITY_CREATOR );
     }
 
     @Override
-    public int update( ContactInfo contactInfo ) throws DatabaseException, UnexpectedResultDbException
+    public int update( AccountInfo accountInfo ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
                 "UPDATE public.contact_info " +
@@ -103,17 +103,17 @@ public final class ContactMapperImpl implements ContactMapper
                         "WHERE contact_info_id = ?;";
 
         Object[] parametersForSql = new Object[ 8 ];
-        parametersForSql[ 0 ] = contactInfo.getFullName();
-        parametersForSql[ 1 ] = contactInfo.getAddress();
-        parametersForSql[ 2 ] = contactInfo.getZip();
-        parametersForSql[ 3 ] = contactInfo.getCity();
-        parametersForSql[ 4 ] = contactInfo.getPhoneNumber();
-        parametersForSql[ 5 ] = contactInfo.getEmail();
-        parametersForSql[ 6 ] = contactInfo.getUser();
-        parametersForSql[ 7 ] = contactInfo.getContactId();
+        parametersForSql[ 0 ] = accountInfo.getFullName();
+        parametersForSql[ 1 ] = accountInfo.getAddress();
+        parametersForSql[ 2 ] = accountInfo.getZip();
+        parametersForSql[ 3 ] = accountInfo.getCity();
+        parametersForSql[ 4 ] = accountInfo.getPhoneNumber();
+        parametersForSql[ 5 ] = accountInfo.getEmail();
+        parametersForSql[ 6 ] = accountInfo.getUser();
+        parametersForSql[ 7 ] = accountInfo.getContactId();
 
 
-        return this.dataStore.update( sql, contactInfo, parametersForSql );
+        return this.dataStore.update( sql, accountInfo, parametersForSql );
     }
 
     @Override
@@ -142,40 +142,40 @@ public final class ContactMapperImpl implements ContactMapper
         @Override
         public Object createEntity( ResultSet rs ) throws SQLException
         {
-            ContactInfo contactInfo;
+            AccountInfo accountInfo;
 
-            contactInfo = new ContactInfo();
-            contactInfo.setContactId( rs.getInt( "contact_info_id" ) );
-            contactInfo.setFullName( rs.getString( "full_name" ) );
-            contactInfo.setAddress( rs.getString( "address" ) );
-            contactInfo.setZip( rs.getInt( "zip_code" ) );
-            contactInfo.setCity( rs.getString( "city" ) );
-            contactInfo.setPhoneNumber( rs.getInt( "phone_number" ) );
-            contactInfo.setEmail( rs.getString( "email" ) );
-            contactInfo.setUser( rs.getInt( "user_id" ) );
+            accountInfo = new AccountInfo();
+            accountInfo.setContactId( rs.getInt( "contact_info_id" ) );
+            accountInfo.setFullName( rs.getString( "full_name" ) );
+            accountInfo.setAddress( rs.getString( "address" ) );
+            accountInfo.setZip( rs.getInt( "zip_code" ) );
+            accountInfo.setCity( rs.getString( "city" ) );
+            accountInfo.setPhoneNumber( rs.getInt( "phone_number" ) );
+            accountInfo.setEmail( rs.getString( "email" ) );
+            accountInfo.setUser( rs.getInt( "user_id" ) );
 
-            return contactInfo;
+            return accountInfo;
 
         }
 
         @Override
         public Map< Integer, ? > createEntityMultiple( ResultSet rs ) throws SQLException
         {
-            Map< Integer, ContactInfo > contactMap = new LinkedHashMap<>();
-            ContactInfo contactInfo;
+            Map< Integer, AccountInfo > contactMap = new LinkedHashMap<>();
+            AccountInfo accountInfo;
 
             while ( rs.next() ) {
-                contactInfo = new ContactInfo();
-                contactInfo.setContactId( rs.getInt( "contact_info_id" ) );
-                contactInfo.setFullName( rs.getString( "full_name" ) );
-                contactInfo.setAddress( rs.getString( "address" ) );
-                contactInfo.setZip( rs.getInt( "zip_code" ) );
-                contactInfo.setCity( rs.getString( "city" ) );
-                contactInfo.setPhoneNumber( rs.getInt( "phone_number" ) );
-                contactInfo.setEmail( rs.getString( "email" ) );
-                contactInfo.setUser( rs.getInt( "user_id" ) );
+                accountInfo = new AccountInfo();
+                accountInfo.setContactId( rs.getInt( "contact_info_id" ) );
+                accountInfo.setFullName( rs.getString( "full_name" ) );
+                accountInfo.setAddress( rs.getString( "address" ) );
+                accountInfo.setZip( rs.getInt( "zip_code" ) );
+                accountInfo.setCity( rs.getString( "city" ) );
+                accountInfo.setPhoneNumber( rs.getInt( "phone_number" ) );
+                accountInfo.setEmail( rs.getString( "email" ) );
+                accountInfo.setUser( rs.getInt( "user_id" ) );
 
-                contactMap.put( contactInfo.getContactId(), contactInfo );
+                contactMap.put( accountInfo.getContactId(), accountInfo );
             }
 
             return contactMap;
@@ -184,9 +184,9 @@ public final class ContactMapperImpl implements ContactMapper
         @Override
         public Object setId( Object entity, Integer id )
         {
-            ContactInfo contactInfo = ( ContactInfo ) entity;
-            contactInfo.setContactId( id );
-            return contactInfo; //Which is the same as returning entity
+            AccountInfo accountInfo = ( AccountInfo ) entity;
+            accountInfo.setContactId( id );
+            return accountInfo; //Which is the same as returning entity
         }
 
     }
