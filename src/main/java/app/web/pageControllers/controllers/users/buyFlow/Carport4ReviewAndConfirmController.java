@@ -8,6 +8,7 @@ import app.web.constants.attributes.WebSessionAttributes;
 import app.web.constants.routing.WebHtml;
 import app.web.constants.routing.WebPages;
 import app.web.entities.Order;
+import app.web.entities.User;
 import app.web.exceptions.DatabaseException;
 import app.web.exceptions.NoIdKeyReturnedException;
 import app.web.exceptions.NumberTooSmallException;
@@ -116,8 +117,16 @@ public class Carport4ReviewAndConfirmController
             return;
         }
         
+        User currentUser = ctx.sessionAttribute( WebSessionAttributes.currentUser );
+        Integer currentUserId = null;
+        
+        if ( currentUser != null ){
+            currentUserId = currentUser.getUserId();
+        }
+        
+        
         try {
-            carport4ReviewAndConfirmModel.addNewOrder(order);
+            carport4ReviewAndConfirmModel.addNewOrder(order, currentUserId);
             
         } catch ( NoIdKeyReturnedException | UnexpectedResultDbException | DatabaseException e ) {
             ctx.attribute( WebAttributes.msg, e.getUserMessage() );
@@ -130,6 +139,7 @@ public class Carport4ReviewAndConfirmController
         
         //Happy Path
         ctx.sessionAttribute( WebSessionAttributes.completedOrder, order );
+        ctx.sessionAttribute( WebSessionAttributes.currentOrder, null );
         Carport5ReceiptController.redirect( ctx );
     }
     

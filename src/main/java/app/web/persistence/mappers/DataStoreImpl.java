@@ -79,9 +79,9 @@ public final class DataStoreImpl implements DataStore
 //                throw new UnexpectedResultDbException( Lang_Crud.createErrorUser_noRowsAdded(), Lang_Crud.createErrorSys_noRowsAdded( entity ) );
 //            }
                 
-                if ( rowsAdded > 1 ) {
-                    throw new UnexpectedResultDbException( "Database Fejl: Under indsætning af data til databasen, flere kopier indsat", "Database Error: " + "at Create: " + "More than 1 row affected for Entity=" + entity );
-                }
+//                if ( rowsAdded > 1 ) {
+//                    throw new UnexpectedResultDbException( "Database Fejl: Under indsætning af data til databasen, flere kopier indsat", "Database Error: " + "at Create: " + "More than 1 row affected for Entity=" + entity );
+//                }
                 
                 ResultSet keySet = ps.getGeneratedKeys();
                 
@@ -160,7 +160,7 @@ public final class DataStoreImpl implements DataStore
             
         } catch ( SQLException e ) {
             e.printStackTrace();
-            throw new DatabaseException( "Fata database fejl, er Databasen nede?", e.getMessage() );
+            throw new DatabaseException( "Fatal database fejl, er Databasen nede?", e.getMessage() );
         }
         
         return resMap;
@@ -193,7 +193,7 @@ public final class DataStoreImpl implements DataStore
             
         } catch ( SQLException e ) {
             e.printStackTrace();
-            throw new DatabaseException( "Fata database fejl, er Databasen nede?", e.getMessage() );
+            throw new DatabaseException( "Fatal database fejl, er Databasen nede?", e.getMessage() );
         }
         
         return resObject;
@@ -245,7 +245,7 @@ public final class DataStoreImpl implements DataStore
             
         } catch ( SQLException e ) {
             e.printStackTrace();
-            throw new DatabaseException( "Fata database fejl, er Databasen nede?", e.getMessage() );
+            throw new DatabaseException( "Fatal database fejl, er Databasen nede?", e.getMessage() );
         }
         
         return resRowsAffected;
@@ -288,7 +288,7 @@ public final class DataStoreImpl implements DataStore
             
         } catch ( SQLException e ) {
             e.printStackTrace();
-            throw new DatabaseException( "Fata database fejl, er Databasen nede?", e.getMessage() );
+            throw new DatabaseException( "Fatal database fejl, er Databasen nede?", e.getMessage() );
         }
         
         return resRowsAffected;

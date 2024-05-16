@@ -83,17 +83,19 @@ public class Main
         
         //Mappers------------------------------------------------------------------------
         UserMapper userMapper = new UserMapperImpl( dataStore );
-        OrderMapper orderMapper = new OrderMapperImpl( dataStore );
         ContactMapper contactMapper = new ContactMapperImpl( dataStore );
         
-        CarportMapper carportMapper = new CarportMapperImpl( dataStore );
-        ShedMapper shedMapper = new ShedMapperImpl( dataStore );
-        RoofMapper roofMapper = new RoofMapperImpl( dataStore );
-        
+        PlankMapper plankMapper = new PlankMapperImpl( dataStore );
         BomMapper bomMapper = new BomMapperImpl( dataStore );
         
+        RoofMapper roofMapper = new RoofMapperImpl( dataStore );
+        ShedMapper shedMapper = new ShedMapperImpl( dataStore );
+        CarportMapper carportMapper = new CarportMapperImpl( dataStore, bomMapper );
+        
+        OrderMapper orderMapper = new OrderMapperImpl( dataStore, carportMapper , bomMapper, contactMapper );
+        
         //Load Global Attributes--------------------------------------------------------
-        WebGlobalAttributes.startUp( config, userMapper );
+        WebGlobalAttributes.startUp( config, userMapper, plankMapper );
         
         //Models----------------------------------------------------------------
         IndexModel indexModel = new IndexModelImpl();
@@ -111,7 +113,7 @@ public class Main
         Carport1InfoModel carport1InfoModel = new Carport1InfoModelImpl();
         Carport2DrawingModel carport2DrawingModel = new Carport2DrawingModelImpl();
         Carport3AccountInfoModel carport3AccountInfoModel = new Carport3AccountInfoModelImpl();
-        Carport4ReviewAndConfirmModel carport4ReviewAndConfirmModel = new Carport4ReviewAndConfirmModelImpl( orderMapper, carportMapper, bomMapper, contactMapper );
+        Carport4ReviewAndConfirmModel carport4ReviewAndConfirmModel = new Carport4ReviewAndConfirmModelImpl( orderMapper );
         Carport5ReceiptModel carport5ReceiptModel = new Carport5ReceiptModelImpl();
         
         CarportBillPayUpModel carportBillPayUpModel = new CarportBillPayUpModelImpl();

@@ -8,6 +8,7 @@ import app.web.exceptions.UnexpectedResultDbException;
 public interface Carport4ReviewAndConfirmModel
 {
     
-    void addNewOrder( Order order ) throws NoIdKeyReturnedException, UnexpectedResultDbException, DatabaseException;
+    
+    void addNewOrder( Order order, Integer userId ) throws NoIdKeyReturnedException, UnexpectedResultDbException, DatabaseException;
     
 }

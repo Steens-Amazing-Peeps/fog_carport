@@ -1,6 +1,7 @@
 package app.web.services.bom.planks;
 
 import app.web.entities.Plank;
+import app.web.persistence.mappers.PlankMapper;
 
 import java.util.List;
 import java.util.Map;
@@ -28,5 +29,7 @@ public interface ValidPlanks  //TODO: Finish this
     Map< Integer, Plank > getPosts();
     
     void setPosts(  Map< Integer, Plank > posts );
+    
+    void startUp( PlankMapper plankMapper );
     
 }

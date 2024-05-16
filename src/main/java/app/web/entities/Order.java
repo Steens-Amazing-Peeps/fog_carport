@@ -1,12 +1,15 @@
 package app.web.entities;
 
+import app.web.constants.Config;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 public class Order
 {
     
     private Integer orderId;
-    private Integer userId;
     private Integer priceSuggested;
     private Integer priceActual;
     private LocalDateTime dateRequested;
@@ -54,7 +57,6 @@ public class Order
     {
         return "Order{" +
                "orderId=" + this.orderId +
-               ", userId=" + this.userId +
                ", priceSuggested=" + this.priceSuggested +
                ", priceActual=" + this.priceActual +
                ", dateRequested=" + this.dateRequested +
@@ -62,6 +64,20 @@ public class Order
                ", dateFinished=" + this.dateFinished +
                ", status='" + this.status + '\'' +
                '}';
+    }
+    
+    public void calcPriceSuggested(){
+        BigDecimal serviceFee = new BigDecimal( Config.Carport.SERVICE_FEE_PERCENTAGE_FOR_SUGGESTED_PRICE ).setScale( 10, RoundingMode.HALF_UP );
+        
+        this.priceSuggested = serviceFee.multiply( BigDecimal.valueOf( this.carport.getPrice() ) ).intValue() ;
+    }
+    
+    public void setDateRequestedToNow(){
+        this.dateRequested = LocalDateTime.now();
+    }
+    
+    public void setStatusToPending(){
+        this.status = "pending";
     }
     
     //Getters and Setters
@@ -74,16 +90,6 @@ public class Order
     public void setOrderId( Integer orderId )
     {
         this.orderId = orderId;
-    }
-    
-    public Integer getUserId()
-    {
-        return this.userId;
-    }
-    
-    public void setUserId( Integer userId )
-    {
-        this.userId = userId;
     }
     
     public Integer getPriceSuggested()

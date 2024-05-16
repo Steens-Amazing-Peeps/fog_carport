@@ -6,8 +6,6 @@ import app.web.entities.Carport;
 import app.web.exceptions.DatabaseException;
 import app.web.exceptions.NoIdKeyReturnedException;
 import app.web.exceptions.UnexpectedResultDbException;
-import app.web.services.bom.planks.ValidPlanks;
-import app.web.services.bom.planks.calculators.PlankCalculator;
 
 import java.sql.*;
 import java.util.*;
@@ -19,10 +17,12 @@ public final class CarportMapperImpl implements CarportMapper
     private DataStore dataStore = null;
     private static final EntityCreatorImpl ENTITY_CREATOR = new EntityCreatorImpl();
     
+    private BomMapper bomMapper;
     
-    public CarportMapperImpl( DataStore dataStore )
+    public CarportMapperImpl( DataStore dataStore, BomMapper bomMapper )
     {
         this.setDataStore( dataStore );
+        this.bomMapper = bomMapper;
     }
     
     @Override
@@ -32,7 +32,7 @@ public final class CarportMapperImpl implements CarportMapper
     }
     
     @Override
-    public int create( Carport carport ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
+    public int create( Carport carport, Integer orderId ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
     {
         String sql =
                 "INSERT INTO public.carport " +
@@ -41,12 +41,24 @@ public final class CarportMapperImpl implements CarportMapper
                 "   (?, ?, ?, ?);";
         
         Object[] parametersForSql = new Object[ 4 ];
-        parametersForSql[ 0 ] = carport.getOrderId();
+        parametersForSql[ 0 ] = orderId;
         parametersForSql[ 1 ] = carport.getHeight();
         parametersForSql[ 2 ] = carport.getLength();
         parametersForSql[ 3 ] = carport.getWidth();
         
         return this.dataStore.create( sql, carport, parametersForSql, ENTITY_CREATOR );
+    }
+    
+    @Override
+    public int createFull( Carport carport, Integer orderId ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
+    {
+        int rowsAffected = 0;
+        
+        rowsAffected = rowsAffected + this.create(  carport, orderId );
+        
+        rowsAffected = rowsAffected + this.bomMapper.create( carport.getBom(), carport.getCarportId() );
+        
+        return rowsAffected;
     }
     
     @Override
@@ -65,7 +77,7 @@ public final class CarportMapperImpl implements CarportMapper
     }
     
     @Override
-    public Map< Integer, Carport > readAllByOrderId( Integer order_id ) throws DatabaseException
+    public Map< Integer, Carport > readAllByOrderId( Integer orderId ) throws DatabaseException
     {
         String sql =
                 "SELECT " +
@@ -75,11 +87,11 @@ public final class CarportMapperImpl implements CarportMapper
                 "WHERE " +
                 "   order_id = ?;";
         
-        return ( Map< Integer, Carport > ) this.dataStore.readAll( sql, new Object[]{ order_id }, ENTITY_CREATOR );
+        return ( Map< Integer, Carport > ) this.dataStore.readAll( sql, new Object[]{ orderId }, ENTITY_CREATOR );
     }
     
     @Override
-    public Carport readSingle( Integer carport_id ) throws DatabaseException
+    public Carport readSingle( Integer carportId ) throws DatabaseException
     {
         String sql =
                 "SELECT " +
@@ -89,11 +101,11 @@ public final class CarportMapperImpl implements CarportMapper
                 "WHERE " +
                 "   carport_id = ?;";
         
-        return ( Carport ) this.dataStore.readSingle( sql, carport_id, ENTITY_CREATOR );
+        return ( Carport ) this.dataStore.readSingle( sql, carportId, ENTITY_CREATOR );
     }
     
     @Override
-    public int update( Carport carport ) throws DatabaseException, UnexpectedResultDbException
+    public int update( Carport carport, Integer orderId ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
                 "UPDATE public.carport " +
@@ -101,24 +113,24 @@ public final class CarportMapperImpl implements CarportMapper
                 "WHERE carport_id = ?;";
         
         Object[] parametersForSql = new Object[ 5 ];
-        parametersForSql[ 0 ] = carport.getOrderId();
+        parametersForSql[ 0 ] = orderId;
         parametersForSql[ 1 ] = carport.getHeight();
         parametersForSql[ 2 ] = carport.getLength();
         parametersForSql[ 3 ] = carport.getWidth();
-        parametersForSql[ 4 ] = carport.getOrderId();
+        parametersForSql[ 4 ] = carport.getCarportId();
         
         
         return this.dataStore.update( sql, carport, parametersForSql );
     }
     
     @Override
-    public int delete( Integer carport_id ) throws DatabaseException, UnexpectedResultDbException
+    public int delete( Integer carportId ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
                 "DELETE FROM public.carport " +
                 "WHERE carport_id = ?;";
         
-        return this.dataStore.delete( sql, "carport", carport_id );
+        return this.dataStore.delete( sql, "carport", carportId );
     }
     
     
@@ -141,7 +153,6 @@ public final class CarportMapperImpl implements CarportMapper
             
             carport = new Carport(); //TODO: Figure out a good fix for this
             carport.setCarportId( rs.getInt( "carport_id" ) );
-            carport.setOrderId( rs.getInt( "order_id" ) );
             carport.setHeight( rs.getInt( "height_in_mm" ) );
             carport.setLength( rs.getInt( "length_in_mm" ) );
             carport.setWidth( rs.getInt( "width_in_mm" ) );
@@ -159,7 +170,6 @@ public final class CarportMapperImpl implements CarportMapper
             while ( rs.next() ) {
                 carport = new Carport(); //TODO: Figure out a good fix for this
                 carport.setCarportId( rs.getInt( "carport_id" ) );
-                carport.setOrderId( rs.getInt( "order_id" ) );
                 carport.setHeight( rs.getInt( "height_in_mm" ) );
                 carport.setLength( rs.getInt( "length_in_mm" ) );
                 carport.setWidth( rs.getInt( "width_in_mm" ) );

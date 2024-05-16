@@ -10,7 +10,6 @@ public class AccountInfo
     private String city;
     private Integer phoneNumber;
     private String email;
-    private Integer user;
     
     private Boolean consentToSpam;
 
@@ -35,7 +34,6 @@ public class AccountInfo
                ", city='" + this.city + '\'' +
                ", phoneNumber=" + this.phoneNumber +
                ", email='" + this.email + '\'' +
-               ", user=" + this.user +
                ", hasAnAccount=" + this.hasAnAccount +
                '}';
     }
@@ -108,15 +106,6 @@ public class AccountInfo
     {
         this.consentToSpam = consentToSpam;
     }
-    
-    public Integer getUser() {
-        return this.user;
-    }
-
-    public void setUser(Integer user) {
-        this.user = user;
-    }
-
 
     public boolean isHasAnAccount()
     {

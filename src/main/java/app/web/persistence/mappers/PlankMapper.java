@@ -10,18 +10,15 @@ import java.util.Map;
 public interface PlankMapper
 {
     
-    void setDataStore( DataStore dataStore );
     
-    int create( Plank plank ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException;
+    void setDataStore( DataStore dataStore );
     
     Map< Integer, Plank > readAll() throws DatabaseException;
     
-    Map< Integer, Plank > readAllByUserId( Integer user_id ) throws DatabaseException;
+    Map< Integer, Plank > readAllByType( Integer type ) throws DatabaseException;
     
-    Plank readSingle( Integer plank_id ) throws DatabaseException;
+    Plank readSingle( Integer plankId ) throws DatabaseException;
     
-    int update( Plank plank ) throws DatabaseException, UnexpectedResultDbException;
-    
-    int delete( Integer plank_id ) throws DatabaseException, UnexpectedResultDbException;
+    int delete( Integer plankId ) throws DatabaseException, UnexpectedResultDbException;
     
 }

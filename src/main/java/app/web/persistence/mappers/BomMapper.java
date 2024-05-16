@@ -11,16 +11,7 @@ import java.util.Map;
 public interface BomMapper
 {
     void setDataStore( DataStore dataStore );
-    int create( Bom bom ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException;
-
-    Map< Integer, Bom > readAll() throws DatabaseException;
-
-    Map< Integer, Bom > readAllByCarportId( Integer carport_id ) throws DatabaseException;
-
-    Bom readSingle( Integer bom_id ) throws DatabaseException;
-
-    int update( Bom bom ) throws DatabaseException, UnexpectedResultDbException;
-
-    int delete( Integer bom_id ) throws DatabaseException, UnexpectedResultDbException;
-
+    
+    int create( Bom bom, Integer carportId ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException;
+    
 }

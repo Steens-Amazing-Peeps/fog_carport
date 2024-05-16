@@ -31,7 +31,7 @@ public final class ContactMapperImpl implements ContactMapper
     }
 
     @Override
-    public int create( AccountInfo accountInfo ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
+    public int create( AccountInfo accountInfo, Integer userId ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
     {
         String sql =
                 "INSERT INTO public.contact_info " +
@@ -46,8 +46,29 @@ public final class ContactMapperImpl implements ContactMapper
         parametersForSql[ 3 ] = accountInfo.getCity();
         parametersForSql[ 4 ] = accountInfo.getPhoneNumber();
         parametersForSql[ 5 ] = accountInfo.getEmail();
-        parametersForSql[ 6 ] = accountInfo.getUser();
+        parametersForSql[ 6 ] = userId;
 
+        return this.dataStore.create( sql, accountInfo, parametersForSql, ENTITY_CREATOR );
+    }
+    
+    @Override
+    public int create( AccountInfo accountInfo ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
+    {
+        String sql =
+                "INSERT INTO public.contact_info " +
+                "   ( full_name, address, zip_code, city, phone_number, email ) " +
+                "VALUES " +
+                "   (?, ?, ?, ?, ?, ? );";
+        
+        Object[] parametersForSql = new Object[ 6 ];
+        parametersForSql[ 0 ] = accountInfo.getFullName();
+        parametersForSql[ 1 ] = accountInfo.getAddress();
+        parametersForSql[ 2 ] = accountInfo.getZip();
+        parametersForSql[ 3 ] = accountInfo.getCity();
+        parametersForSql[ 4 ] = accountInfo.getPhoneNumber();
+        parametersForSql[ 5 ] = accountInfo.getEmail();
+
+        
         return this.dataStore.create( sql, accountInfo, parametersForSql, ENTITY_CREATOR );
     }
 
@@ -95,7 +116,7 @@ public final class ContactMapperImpl implements ContactMapper
     }
 
     @Override
-    public int update( AccountInfo accountInfo ) throws DatabaseException, UnexpectedResultDbException
+    public int update( AccountInfo accountInfo, Integer userId ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
                 "UPDATE public.contact_info " +
@@ -109,7 +130,7 @@ public final class ContactMapperImpl implements ContactMapper
         parametersForSql[ 3 ] = accountInfo.getCity();
         parametersForSql[ 4 ] = accountInfo.getPhoneNumber();
         parametersForSql[ 5 ] = accountInfo.getEmail();
-        parametersForSql[ 6 ] = accountInfo.getUser();
+        parametersForSql[ 6 ] = userId;
         parametersForSql[ 7 ] = accountInfo.getContactId();
 
 
@@ -152,7 +173,6 @@ public final class ContactMapperImpl implements ContactMapper
             accountInfo.setCity( rs.getString( "city" ) );
             accountInfo.setPhoneNumber( rs.getInt( "phone_number" ) );
             accountInfo.setEmail( rs.getString( "email" ) );
-            accountInfo.setUser( rs.getInt( "user_id" ) );
 
             return accountInfo;
 
@@ -173,7 +193,6 @@ public final class ContactMapperImpl implements ContactMapper
                 accountInfo.setCity( rs.getString( "city" ) );
                 accountInfo.setPhoneNumber( rs.getInt( "phone_number" ) );
                 accountInfo.setEmail( rs.getString( "email" ) );
-                accountInfo.setUser( rs.getInt( "user_id" ) );
 
                 contactMap.put( accountInfo.getContactId(), accountInfo );
             }
