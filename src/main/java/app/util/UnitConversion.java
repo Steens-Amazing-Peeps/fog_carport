@@ -29,7 +29,7 @@ public class UnitConversion
         return this.conversion( mm, this.widthDrawUnitsPrMm );
     }
     private double conversion(int mm, double unitsPrMm){
-        return (mm * unitsPrMm) * 0.1;
+        return (mm * unitsPrMm) / 10;
     }
 
     public int getCarportHeight() {
