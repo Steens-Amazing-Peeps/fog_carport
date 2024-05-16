@@ -9,25 +9,23 @@ import app.web.persistence.mappers.*;
 public class Carport4ReviewAndConfirmModelImpl implements Carport4ReviewAndConfirmModel
 {
     OrderMapper orderMapper;
-    CarportMapper carportMapper;
-    BomMapper bomMapper;
-    ContactMapper contactMapper;
+
     
-    public Carport4ReviewAndConfirmModelImpl( OrderMapper orderMapper, CarportMapper carportMapper, BomMapper bomMapper, ContactMapper contactMapper )
+    public Carport4ReviewAndConfirmModelImpl( OrderMapper orderMapper )
     {
         this.orderMapper = orderMapper;
-        this.carportMapper = carportMapper;
-        this.bomMapper = bomMapper;
-        this.contactMapper = contactMapper;
+
     }
     
     @Override
-    public void addNewOrder( Order order ) throws NoIdKeyReturnedException, UnexpectedResultDbException, DatabaseException
+    public void addNewOrder( Order order, Integer userId ) throws NoIdKeyReturnedException, UnexpectedResultDbException, DatabaseException
     {
-//        this.orderMapper.create( order );
-//        this.carportMapper.create( order.getCarport() );
-//        this.bomMapper.create( order.getCarport().getBom() );
-//        this.contactMapper.create( order.getAccountInfo() );
+        order.calcPriceSuggested();
+        order.setDateRequestedToNow();
+        order.setStatusToPending();
+        
+        this.orderMapper.createFull( order, userId );
+
     }
     
 }

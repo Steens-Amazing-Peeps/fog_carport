@@ -11,11 +11,7 @@ import java.math.RoundingMode;
 
 public class Carport
 {
-    
-    private Integer price;
-    
     private Integer carportId;
-    private Integer orderId;
     
     private Integer height;
     private Integer length;
@@ -97,9 +93,8 @@ public class Carport
     public String toString()
     {
         return "Carport{" +
-               "price=" + this.price +
+               "price=" + this.getPrice() +
                ", carportId=" + this.carportId +
-               ", orderId=" + this.orderId +
                ", height=" + this.height +
                ", length=" + this.length +
                ", width=" + this.width +
@@ -112,19 +107,9 @@ public class Carport
     
     //Getters and Setters
     
-    public Integer getPrice()
-    {
-        return this.price;
-    }
-    
     public Integer getCarportId()
     {
         return this.carportId;
-    }
-    
-    public void setPrice( Integer price )
-    {
-        this.price = price;
     }
     
     public void setCarportId( Integer carportId )
@@ -132,16 +117,10 @@ public class Carport
         this.carportId = carportId;
     }
     
-    public Integer getOrderId()
+    public Integer getPrice()
     {
-        return this.orderId;
+        return this.bom.getEstimatedRawMaterialPrice();
     }
-    
-    public void setOrderId( Integer orderId )
-    {
-        this.orderId = orderId;
-    }
-    
     public Integer getHeight()
     {
         return this.height;

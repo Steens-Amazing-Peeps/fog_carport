@@ -8,19 +8,22 @@ import app.web.exceptions.UnexpectedResultDbException;
 import java.util.Map;
 
 
-public interface ContactMapper
+public interface AccountInfoMapper
 {
     void setDataStore( DataStore dataStore );
+    
+    int create( AccountInfo accountInfo, Integer userId ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException;
+    
     int create( AccountInfo accountInfo ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException;
-
+    
     Map< Integer, AccountInfo > readAll() throws DatabaseException;
-
+    
     Map< Integer, AccountInfo > readAllByUserId( Integer user_id ) throws DatabaseException;
-
+    
     AccountInfo readSingle( Integer contact_id ) throws DatabaseException;
-
-    int update( AccountInfo accountInfo ) throws DatabaseException, UnexpectedResultDbException;
-
+    
+    int update( AccountInfo accountInfo, Integer userId ) throws DatabaseException, UnexpectedResultDbException;
+    
     int delete( Integer contact_id ) throws DatabaseException, UnexpectedResultDbException;
-
+    
 }

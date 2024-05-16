@@ -17,10 +17,15 @@ public class Plank implements Comparable< Plank >
     
     //Types
     public static int BOARD = 0; //Brædt
+    public static String BOARD_STRING = "brædt"; //Brædt
     public static int LATH = 1; //Lægte
+    public static String LATH_STRING = "lægte"; //Lægte
     public static int BEAM = 2; //Reglar
+    public static String BEAM_STRING = "reglar"; //Reglar
     public static int RAFTER = 3; //Spærtræ
+    public static String RAFTER_STRING = "spærtræ"; //Spærtræ
     public static int POST = 4; //Stolpe
+    public static String POST_STRING = "stolpe"; //Stolpe
     
     private Integer id = null;
     private Integer height = null;
@@ -29,6 +34,8 @@ public class Plank implements Comparable< Plank >
     private Integer type = null;
     private Integer amount = null;
     private Integer price = null;
+    private String material;
+    private String treatment;
     
     private BigDecimal pricePrMm = null;
     private int postPrice = 0;
@@ -48,7 +55,8 @@ public class Plank implements Comparable< Plank >
         this.price = pricePrMm * length;
     }
     
-    public Plank( Plank plankToCopy ){
+    public Plank( Plank plankToCopy )
+    {
         this.id = plankToCopy.id;
         this.height = plankToCopy.height;
         this.width = plankToCopy.width;
@@ -58,7 +66,61 @@ public class Plank implements Comparable< Plank >
         this.price = plankToCopy.price;
         this.pricePrMm = plankToCopy.pricePrMm;
         this.postPrice = plankToCopy.postPrice;
+        this.material = plankToCopy.material;
+        this.treatment = plankToCopy.treatment;
     }
+    
+    public static int convertTypeToInt( String type )
+    {
+        if ( Objects.equals( type, BOARD_STRING ) ) {
+            return BOARD;
+        }
+        
+        if ( Objects.equals( type, LATH_STRING ) ) {
+            return LATH;
+        }
+        
+        if ( Objects.equals( type, BEAM_STRING ) ) {
+            return BEAM;
+        }
+        
+        if ( Objects.equals( type, RAFTER_STRING ) ) {
+            return RAFTER;
+        }
+        
+        if ( Objects.equals( type, POST_STRING ) ) {
+            return POST;
+        }
+        
+        return -1;
+    }
+    
+    public static String convertTypeToString( int type )
+    {
+        if ( Objects.equals( type, BOARD ) ) {
+            return BOARD_STRING;
+        }
+        
+        if ( Objects.equals( type, LATH ) ) {
+            return LATH_STRING;
+        }
+        
+        if ( Objects.equals( type, BEAM ) ) {
+            return BEAM_STRING;
+        }
+        
+        if ( Objects.equals( type, RAFTER ) ) {
+            return RAFTER_STRING;
+        }
+        
+        if ( Objects.equals( type, POST ) ) {
+            return POST_STRING;
+        }
+        
+        return null;
+    }
+    
+
     
     //Getters and Setters
     public Integer getId()
@@ -171,7 +233,34 @@ public class Plank implements Comparable< Plank >
         return this.price + this.postPrice;
     }
     
+    public int getPriceWithAmount()
+    {
+        if ( this.amount == null ) {
+            return this.price;
+        }
+        
+        return this.price * this.amount;
+    }
     
+    public String getMaterial()
+    {
+        return this.material;
+    }
+    
+    public void setMaterial( String material )
+    {
+        this.material = material;
+    }
+    
+    public String getTreatment()
+    {
+        return this.treatment;
+    }
+    
+    public void setTreatment( String treatment )
+    {
+        this.treatment = treatment;
+    }
     
     public double getDrawHeight( UnitConversion unitConversion )
     {
@@ -187,7 +276,7 @@ public class Plank implements Comparable< Plank >
         if ( this.type == Plank.BEAM ) {
             return unitConversion.heightMmToDrawUnits( this.height );
         }
-
+        
         if ( this.type == Plank.RAFTER ) {
             return unitConversion.heightMmToDrawUnits( this.length );
         }
@@ -209,7 +298,7 @@ public class Plank implements Comparable< Plank >
         if ( this.type == Plank.BEAM ) {
             return unitConversion.widthMmToDrawUnits( this.length );
         }
-
+        
         if ( this.type == Plank.RAFTER ) {
             return unitConversion.widthMmToDrawUnits( this.height );
         }
@@ -224,45 +313,45 @@ public class Plank implements Comparable< Plank >
         if ( this == o ) {
             return true;
         }
-
+        
         if ( o == null || this.getClass() != o.getClass() ) {
             return false;
         }
-
+        
         Plank plank = ( Plank ) o;
-
+        
         if ( !Objects.equals( this.id, plank.id ) ) {
             return false;
         }
-
+        
         if ( !Objects.equals( this.height, plank.height ) ) {
             return false;
         }
-
+        
         if ( !Objects.equals( this.width, plank.width ) ) {
             return false;
         }
-
+        
         if ( !Objects.equals( this.length, plank.length ) ) {
             return false;
         }
-
+        
         if ( !Objects.equals( this.type, plank.type ) ) {
             return false;
         }
-
+        
         if ( !Objects.equals( this.amount, plank.amount ) ) {
             return false;
         }
-
+        
         if ( !Objects.equals( this.price, plank.price ) ) {
             return false;
         }
-
+        
         if ( !Objects.equals( this.pricePrMm, plank.pricePrMm ) ) {
             return false;
         }
-
+        
         return true;
     }
     
@@ -288,13 +377,18 @@ public class Plank implements Comparable< Plank >
                ", PriceWithPole=" + this.getPriceWithPole() +
                '}';
     }
+    
+
+    
     public static class compareByLength implements Comparator< Plank >
+{
+    
+    @Override
+    public int compare( Plank o1, Plank o2 )
     {
-        @Override
-        public int compare( Plank o1, Plank o2 )
-        {
-            return o1.length - o2.length;
-        }
+        return o1.length - o2.length;
     }
+    
+}
     
 }

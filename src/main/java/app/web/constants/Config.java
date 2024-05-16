@@ -61,6 +61,8 @@ public interface Config
         int MINIMUM_WIDTH_IN_MM = 1000;
         int MAXIMUM_WIDTH_IN_MM = 6000;
         
+        Integer SERVICE_FEE_PERCENTAGE_FOR_SUGGESTED_PRICE = 50; //Suggested price will be 50 % higher than base materials
+        
     }
     
     public static interface MetricUnits

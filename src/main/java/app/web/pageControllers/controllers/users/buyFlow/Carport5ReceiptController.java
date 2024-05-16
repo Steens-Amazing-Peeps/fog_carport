@@ -45,7 +45,7 @@ public class Carport5ReceiptController
     
     private static void getPage( Context ctx )
     {//TODO
-        Order order = ctx.sessionAttribute( WebSessionAttributes.currentOrder );
+        Order order = ctx.sessionAttribute( WebSessionAttributes.completedOrder );
         
         if ( order == null ) {
             Carport1InfoController.redirect( ctx );
@@ -67,30 +67,14 @@ public class Carport5ReceiptController
     
     private static void postBack( Context ctx )
     {//TODO
-        Order order = ctx.sessionAttribute( WebSessionAttributes.currentOrder );
         
-        if ( order == null ) {
-            Carport1InfoController.redirect( ctx );
-            return;
-        }
-        
-        if ( order.getCarport() == null ) {
-            Carport1InfoController.redirect( ctx );
-            return;
-        }
-        
-        if ( order.getAccountInfo() == null ) {
-            Carport1InfoController.redirect( ctx );
-            return;
-        }
-        
-        Carport4ReviewAndConfirmController.redirect( ctx );
+        Carport1InfoController.redirect( ctx );
         
     }
     
     private static void postConfirm( Context ctx )
     {//TODO
-        Order order = ctx.sessionAttribute( WebSessionAttributes.currentOrder );
+        Order order = ctx.sessionAttribute( WebSessionAttributes.completedOrder );
         
         if ( order == null ) {
             Carport1InfoController.redirect( ctx );
