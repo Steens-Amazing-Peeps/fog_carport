@@ -181,7 +181,7 @@ public final class BomMapperImpl implements BomMapper
 //            rs.getInt( "carport_id" );
             plank.setAmount( rs.getInt( "amount" ) );
             plank.setId( rs.getInt( "variant_id" ) );
-            plank.setId( rs.getInt( "length_in_mm" ) );
+            plank.setLength( rs.getInt( "length_in_mm" ) );
 //            rs.getInt( "amount_pr_unit" );
             plank.setPrice( rs.getInt( "price_in_oere" ) );
             plank.setHeight( rs.getInt( "height_in_mm" ) );

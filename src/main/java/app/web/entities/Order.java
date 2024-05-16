@@ -1,9 +1,9 @@
 package app.web.entities;
 
+import app.util.CarportMath;
 import app.web.constants.Config;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 public class Order
@@ -66,17 +66,19 @@ public class Order
                '}';
     }
     
-    public void calcPriceSuggested(){
-        BigDecimal serviceFee = new BigDecimal( Config.Carport.SERVICE_FEE_PERCENTAGE_FOR_SUGGESTED_PRICE ).setScale( 10, RoundingMode.HALF_UP );
-        
-        this.priceSuggested = serviceFee.multiply( BigDecimal.valueOf( this.carport.getPrice() ) ).intValue() ;
+    public void calcPriceSuggested()
+    {
+        BigDecimal serviceFee = CarportMath.percentageToDecimal( Config.Carport.SERVICE_FEE_PERCENTAGE_FOR_SUGGESTED_PRICE );
+        this.priceSuggested = serviceFee.multiply( BigDecimal.valueOf( this.carport.getPrice() ) ).intValue();
     }
     
-    public void setDateRequestedToNow(){
+    public void setDateRequestedToNow()
+    {
         this.dateRequested = LocalDateTime.now();
     }
     
-    public void setStatusToPending(){
+    public void setStatusToPending()
+    {
         this.status = "pending";
     }
     
