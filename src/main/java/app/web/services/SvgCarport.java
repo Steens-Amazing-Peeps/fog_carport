@@ -113,7 +113,6 @@ public class SvgCarport {
                     if (0 < beamToOtherMath - (unitConversion.widthMmToDrawUnits(beam.getLength()) * (i+1)) + rafters.get(0).getDrawWidth(unitConversion) && 1 < posts.get(0).getAmount()){
 
                         xValue = (((beam.getLength() / 10) * ((double) unitConversion.DRAW_WIDTH / (double) unitConversion.getCarportWidth())) * (i+1))  + postLoopOffset;
-                        System.out.println("x value: "+xValue);
 
                         if (i == 0){
                             carportSvg.addRectangle(xValue + (0.25 * rafters.get(0).getDrawWidth(unitConversion)),50 - (0.75 * (unitConversion.heightMmToDrawUnits(beams.get(0).getHeight()))), unitConversion.heightMmToDrawUnits(posts.get(0).getHeight()),posts.get(0).getDrawWidth(unitConversion),rectStandardStyle);
@@ -135,8 +134,8 @@ public class SvgCarport {
                     }
             }
             postLoopOffset = (((beam.getLength() / 10) * ((double) unitConversion.DRAW_WIDTH / (double) unitConversion.getCarportWidth())) * (iValue+1));
-            System.out.println("offset set: "+postLoopOffset);
-            System.out.println(System.lineSeparator());
+//            System.out.println("offset set: "+postLoopOffset);
+//            System.out.println(System.lineSeparator());
         }
 
     }
