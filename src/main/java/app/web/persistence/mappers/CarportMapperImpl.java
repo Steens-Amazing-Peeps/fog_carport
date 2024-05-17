@@ -103,7 +103,6 @@ public final class CarportMapperImpl implements CarportMapper
         }
         
         assert carport!=null;
-        
         Bom bom = this.bomMapper.readAllByCarportId( carport.getCarportId() );
         carport.setBom( bom );
         

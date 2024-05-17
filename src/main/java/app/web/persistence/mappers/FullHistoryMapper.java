@@ -11,6 +11,6 @@ public interface FullHistoryMapper
     
     
     
-    List< FullHistory > readAllFull() throws DatabaseException;
+    Map<Integer, FullHistory > readAllFull() throws DatabaseException; //UserId, FullHistory
     
 }

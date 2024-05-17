@@ -9,8 +9,6 @@ import app.web.exceptions.NoIdKeyReturnedException;
 import app.web.exceptions.UnexpectedResultDbException;
 
 import java.sql.*;
-import java.text.DateFormat;
-import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -63,11 +61,11 @@ public final class OrderMapperImpl implements OrderMapper
     
     
     @Override
-    public int createFull( Order order, Integer userId ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
+    public int createFull( Order order ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
     {
         int rowsAffected = 0;
         
-        rowsAffected = rowsAffected + this.accountInfoMapper.create( order.getAccountInfo(), userId );
+        rowsAffected = rowsAffected + this.accountInfoMapper.create( order.getAccountInfo() );
         
         rowsAffected = rowsAffected + this.create( order, order.getAccountInfo().getContactId() );
         

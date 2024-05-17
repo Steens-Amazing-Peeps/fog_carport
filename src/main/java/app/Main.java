@@ -97,9 +97,9 @@ public class Main
         ShedMapper shedMapper = new ShedMapperImpl( dataStore );
         CarportMapper carportMapper = new CarportMapperImpl( dataStore, bomMapper );
         
-        OrderMapper orderMapper = new OrderMapperImpl( dataStore, carportMapper , bomMapper, accountInfoMapper );
+        OrderMapper orderMapper = new OrderMapperImpl( dataStore, carportMapper, bomMapper, accountInfoMapper );
         
-        FullHistoryMapper fullHistoryMapper = new FullHistoryMapperImpl( accountInfoMapper,orderMapper );
+        FullHistoryMapper fullHistoryMapper = new FullHistoryMapperImpl( accountInfoMapper, orderMapper );
         
         //Load Global Attributes--------------------------------------------------------
         WebGlobalAttributes.startUp( config, userMapper, plankMapper );
@@ -159,11 +159,11 @@ public class Main
         //TODO: DELETE THIS THIS IS TEMP
         try {
             
-            System.out.println("FULL HISTORY TEST");
-            List< FullHistory> fullHistoryMap = fullHistoryMapper.readAllFull();
+            System.out.println( "FULL HISTORY TEST" );
+            Map< Integer, FullHistory > fullHistoryMap = fullHistoryMapper.readAllFull();
             
-            for ( FullHistory fullHistory : fullHistoryMap) {
-                System.out.println(fullHistory.toString());
+            for ( FullHistory fullHistory : fullHistoryMap.values() ) {
+                System.out.println( fullHistory.toString() );
             }
             
         } catch ( DatabaseException e ) {

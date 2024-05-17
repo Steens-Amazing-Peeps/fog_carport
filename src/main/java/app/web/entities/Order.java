@@ -21,6 +21,15 @@ public class Order
     private AccountInfo accountInfo;
     
     
+    public StringBuilder getFullHistory()
+    { //TODO
+        StringBuilder stringBuilder = new StringBuilder();
+        
+        this.toStringPretty( stringBuilder );
+        this.carport.getConfirm( stringBuilder );
+        
+        return stringBuilder;
+    }
     
     public StringBuilder getConfirm()
     { //TODO
@@ -69,7 +78,7 @@ public class Order
     public void calcPriceSuggested()
     {
         BigDecimal serviceFee = CarportMath.percentageToDecimal( Config.Carport.SERVICE_FEE_PERCENTAGE_FOR_SUGGESTED_PRICE );
-        this.priceSuggested = serviceFee.multiply( BigDecimal.valueOf( this.carport.getPrice() ) ).intValue();
+        this.priceSuggested = serviceFee.multiply( BigDecimal.valueOf( this.getEstimatedRawMaterialsPrice() ) ).intValue();
     }
     
     public void setDateRequestedToNow()
@@ -92,6 +101,11 @@ public class Order
     public void setOrderId( Integer orderId )
     {
         this.orderId = orderId;
+    }
+    
+    public Integer getEstimatedRawMaterialsPrice()
+    {
+        return this.carport.getPrice() ;
     }
     
     public Integer getPriceSuggested()
