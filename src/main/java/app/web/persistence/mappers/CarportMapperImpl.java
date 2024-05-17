@@ -36,7 +36,7 @@ public final class CarportMapperImpl implements CarportMapper
     public int create( Carport carport, Integer orderId ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
     {
         String sql =
-                "INSERT INTO public.carport " +
+                "INSERT INTO \"carport\" " +
                 "   ( order_id, height_in_mm, length_in_mm, width_in_mm) " +
                 "VALUES " +
                 "   (?, ?, ?, ?);";
@@ -69,7 +69,7 @@ public final class CarportMapperImpl implements CarportMapper
                 "SELECT " +
                 "   * " +
                 "FROM " +
-                "   public.carport " +
+                "   \"carport\" " +
                 "ORDER BY " +
                 "   carport_id;";
         
@@ -84,7 +84,7 @@ public final class CarportMapperImpl implements CarportMapper
                 "SELECT " +
                 "   * " +
                 "FROM " +
-                "   public.carport " +
+                "   \"carport\" " +
                 "WHERE " +
                 "   order_id = ?;";
         
@@ -116,7 +116,7 @@ public final class CarportMapperImpl implements CarportMapper
                 "SELECT " +
                 "   * " +
                 "FROM " +
-                "   public.carport " +
+                "   \"carport\" " +
                 "WHERE " +
                 "   carport_id = ?;";
         
@@ -127,7 +127,7 @@ public final class CarportMapperImpl implements CarportMapper
     public int update( Carport carport, Integer orderId ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
-                "UPDATE public.carport " +
+                "UPDATE \"carport\" " +
                 "SET order_id = ?, height_in_mm = ?, length_in_mm = ?, width_in_mm = ?" +
                 "WHERE carport_id = ?;";
         
@@ -146,7 +146,7 @@ public final class CarportMapperImpl implements CarportMapper
     public int delete( Integer carportId ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
-                "DELETE FROM public.carport " +
+                "DELETE FROM \"carport\" " +
                 "WHERE carport_id = ?;";
         
         return this.dataStore.delete( sql, "carport", carportId );

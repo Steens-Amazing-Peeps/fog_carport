@@ -34,7 +34,7 @@ public final class ShedMapperImpl implements ShedMapper
     public int create( Shed shed ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
     {
         String sql =
-                "INSERT INTO public.shed " +
+                "INSERT INTO \"shed\" " +
                         "   ( carport_id, length_in_mm, width_in_mm, floor, wall_cladding) " +
                         "VALUES " +
                         "   (?, ?, ?, ?, ?);";
@@ -56,7 +56,7 @@ public final class ShedMapperImpl implements ShedMapper
                 "SELECT " +
                         "   * " +
                         "FROM " +
-                        "   public.shed " +
+                        "   \"shed\" " +
                         "ORDER BY " +
                         "   shed_id;";
 
@@ -71,7 +71,7 @@ public final class ShedMapperImpl implements ShedMapper
                 "SELECT " +
                         "   * " +
                         "FROM " +
-                        "   public.shed " +
+                        "   \"shed\" " +
                         "WHERE " +
                         "   carport_id = ?;";
 
@@ -85,7 +85,7 @@ public final class ShedMapperImpl implements ShedMapper
                 "SELECT " +
                         "   * " +
                         "FROM " +
-                        "   public.shed " +
+                        "   \"shed\" " +
                         "WHERE " +
                         "   shed_id = ?;";
 
@@ -96,7 +96,7 @@ public final class ShedMapperImpl implements ShedMapper
     public int update( Shed shed ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
-                "UPDATE public.shed " +
+                "UPDATE \"shed\" " +
                         "SET carport_id = ?, length_in_mm = ?, width_in_mm = ?, floor = ?, wall_cladding = ? " +
                         "WHERE shed_id = ?;";
 
@@ -116,7 +116,7 @@ public final class ShedMapperImpl implements ShedMapper
     public int delete( Integer shed_id ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
-                "DELETE FROM public.shed " +
+                "DELETE FROM \"shed\" " +
                         "WHERE shed_id = ?;";
 
         return this.dataStore.delete( sql, "shed", shed_id );

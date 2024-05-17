@@ -44,7 +44,7 @@ public final class BomMapperImpl implements BomMapper
         Object[] parametersForSql = new Object[ totalVariables ];
         
         String sql =
-                "INSERT INTO public.bom " +
+                "INSERT INTO \"bom\" " +
                 "   ( carport_id, variant_id, amount) " +
                 "VALUES " + System.lineSeparator();
         
@@ -90,7 +90,7 @@ public final class BomMapperImpl implements BomMapper
                 "SELECT " +
                 "   * " +
                 "FROM " +
-                "   public.bom_combined " +
+                "   \"bom_combined\" " +
                 "ORDER BY " +
                 "   bom_id;";
         
@@ -106,7 +106,7 @@ public final class BomMapperImpl implements BomMapper
                 "SELECT " +
                 "   * " +
                 "FROM " +
-                "   public.bom_combined " +
+                "   \"bom_combined\" " +
                 "WHERE " +
                 "   carport_id = ?;";
         

@@ -50,7 +50,7 @@ public class PlankMapperImpl implements PlankMapper
                 "SELECT " +
                 "   * " +
                 "FROM " +
-                "   public.material_combined " +
+                "   \"material_combined\" " +
                 "ORDER BY " +
                 "   variant_id;";
 
@@ -65,7 +65,7 @@ public class PlankMapperImpl implements PlankMapper
                 "SELECT " +
                 "   * " +
                 "FROM " +
-                "   public.material_combined " +
+                "   \"material_combined\" " +
                 "WHERE " +
                 "   type = ? " +
                 "   AND is_obsolete = FALSE; ";
@@ -81,7 +81,7 @@ public class PlankMapperImpl implements PlankMapper
                 "SELECT " +
                 "   * " +
                 "FROM " +
-                "   public.material_combined " +
+                "   \"material_combined\" " +
                 "WHERE " +
                 "   plank_id = ?;";
 
@@ -94,7 +94,7 @@ public class PlankMapperImpl implements PlankMapper
     public int delete( Integer plankId ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
-                "DELETE FROM public.variant " +
+                "DELETE FROM \"variant\" " +
                 "WHERE variant_id = ?;";
 
         return this.dataStore.delete( sql, "variant", plankId );

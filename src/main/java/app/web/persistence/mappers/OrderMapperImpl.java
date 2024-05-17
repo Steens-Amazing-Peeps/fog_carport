@@ -41,7 +41,7 @@ public final class OrderMapperImpl implements OrderMapper
     public int create( Order order, Integer contactInfoId ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
     {
         String sql =
-                "INSERT INTO public.order " +
+                "INSERT INTO \"order\" " +
                 "   ( contact_info_id, price_suggested_in_oere, price_actual_in_oere, date_requested, date_approved, " +
                 "date_finished, status, user_comment) " +
                 "VALUES " +
@@ -82,7 +82,7 @@ public final class OrderMapperImpl implements OrderMapper
                 "SELECT " +
                 "   * " +
                 "FROM " +
-                "   public.order " +
+                "   \"order\" " +
                 "ORDER BY " +
                 "   order_id;";
         
@@ -112,7 +112,7 @@ public final class OrderMapperImpl implements OrderMapper
                 "SELECT " +
                 "   * " +
                 "FROM " +
-                "   public.order " +
+                "   \"order\" " +
                 "WHERE " +
                 "   contact_info_id = ?;";
         
@@ -139,7 +139,7 @@ public final class OrderMapperImpl implements OrderMapper
                 "SELECT " +
                 "   * " +
                 "FROM " +
-                "   public.order " +
+                "   \"order\" " +
                 "WHERE " +
                 "   order_id = ?;";
         
@@ -150,7 +150,7 @@ public final class OrderMapperImpl implements OrderMapper
     public int update( Order order, Integer contactId ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
-                "UPDATE public.order " +
+                "UPDATE \"order\" " +
                 "SET user_id = ?, price_suggested_in_oere = ?, price_actual_in_oere = ?, date_requested = ?, " +
                 "date_approved = ?, date_finished = ?, status = ?, comment = ? " +
                 "WHERE order_id = ?;";
@@ -174,7 +174,7 @@ public final class OrderMapperImpl implements OrderMapper
     public int delete( Integer orderId ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
-                "DELETE FROM public.order " +
+                "DELETE FROM \"order\" " +
                 "WHERE order_id = ?;";
         
         return this.dataStore.delete( sql, "order", orderId );

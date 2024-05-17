@@ -40,7 +40,7 @@ public final class UserMapperImpl implements UserMapper
         
         
         String sql =
-                "INSERT INTO public.user " +
+                "INSERT INTO \"user\" " +
                 "   ( email, password, role) " +
                 "VALUES " +
                 "   (?, ?, ?);";
@@ -60,7 +60,7 @@ public final class UserMapperImpl implements UserMapper
                 "SELECT " +
                 "   * " +
                 "FROM " +
-                "   public.user " +
+                "   \"user\" " +
                 "ORDER BY " +
                 "   user_id;";
         
@@ -75,7 +75,7 @@ public final class UserMapperImpl implements UserMapper
                 "SELECT " +
                 "   * " +
                 "FROM " +
-                "   public.user " +
+                "   \"user\" " +
                 "WHERE " +
                 "   email = ?;";
         
@@ -89,7 +89,7 @@ public final class UserMapperImpl implements UserMapper
                 "SELECT " +
                 "   * " +
                 "FROM " +
-                "   public.user " +
+                "   \"user\" " +
                 "WHERE " +
                 "   user_id = ?;";
         
@@ -102,7 +102,7 @@ public final class UserMapperImpl implements UserMapper
     public int update( User user ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
-                "UPDATE public.user " +
+                "UPDATE \"user\" " +
                 "SET email = ?, password = ?, role = ? " +
                 "WHERE user_id = ?;";
         
@@ -120,7 +120,7 @@ public final class UserMapperImpl implements UserMapper
     public int delete( Integer id ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
-                "DELETE FROM public.user " +
+                "DELETE FROM \"user\" " +
                 "WHERE user_id = ?;";
         
         return this.dataStore.delete( sql, "user", id );

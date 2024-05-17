@@ -34,7 +34,7 @@ public final class AccountInfoMapperImpl implements AccountInfoMapper
     public int create( AccountInfo accountInfo ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
     {
         String sql =
-                "INSERT INTO public.contact_info " +
+                "INSERT INTO \"contact_info\" " +
                 "   ( user_id, full_name, address, zip_code, city, phone_number, email, send_ads_to_email ) " +
                 "VALUES " +
                 "   (?, ?, ?, ?, ?, ?, ?, ? );";
@@ -60,7 +60,7 @@ public final class AccountInfoMapperImpl implements AccountInfoMapper
                 "SELECT " +
                         "   * " +
                         "FROM " +
-                        "   public.contact_info " +
+                        "   \"contact_info\" " +
                         "ORDER BY " +
                         "   contact_info_id;";
 
@@ -75,7 +75,7 @@ public final class AccountInfoMapperImpl implements AccountInfoMapper
                 "SELECT " +
                         "   * " +
                         "FROM " +
-                        "   public.contact_info " +
+                        "   \"contact_info\" " +
                         "WHERE " +
                         "   user_id = ?;";
 
@@ -89,7 +89,7 @@ public final class AccountInfoMapperImpl implements AccountInfoMapper
                 "SELECT " +
                         "   * " +
                         "FROM " +
-                        "   public.contact_info " +
+                        "   \"contact_info\" " +
                         "WHERE " +
                         "   contact_info_id = ?;";
 
@@ -103,7 +103,7 @@ public final class AccountInfoMapperImpl implements AccountInfoMapper
                 "SELECT " +
                 "    * " +
                 "FROM " +
-                "    public.contact_info " +
+                "    \"contact_info\" " +
                 "WHERE " +
                 "    user_id = ? " +
                 "ORDER BY " +
@@ -117,7 +117,7 @@ public final class AccountInfoMapperImpl implements AccountInfoMapper
     public int update( AccountInfo accountInfo, Integer userId ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
-                "UPDATE public.contact_info " +
+                "UPDATE \"contact_info\" " +
                         "SET full_name = ?, address = ?, zip_code = ?, city = ?, phone_number = ?, email = ?, user_id = ? send_ads_to_email = ? " +
                         "WHERE contact_info_id = ?;";
 
@@ -140,7 +140,7 @@ public final class AccountInfoMapperImpl implements AccountInfoMapper
     public int delete( Integer contact_id ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
-                "DELETE FROM public.contact_info " +
+                "DELETE FROM \"contact_info\" " +
                         "WHERE contact_info_id = ?;";
 
         return this.dataStore.delete( sql, "contact_info", contact_id );
