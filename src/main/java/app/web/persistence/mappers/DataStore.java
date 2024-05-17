@@ -22,7 +22,7 @@ public interface DataStore
      * @param entity           Entity for this request
      * @param parametersForSql We replace the '?' in rawSQL with parametersForSql
      * @param entityCreator       How to we make this Entity? By using this!
-     * @return the Id of created row
+     * @return Amount of Affected Rows
      * @throws DatabaseException           If we have issues with connecting to the Database or a coding error/SQL code error happens
      * @throws UnexpectedResultDbException If we receive the wrong result (IE result-set on create) or if we affect more than 1 row
      * @throws NoIdKeyReturnedException    If there wasn't, for some reason. an id returned from database
