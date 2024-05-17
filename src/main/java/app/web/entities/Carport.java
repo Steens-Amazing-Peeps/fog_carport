@@ -17,7 +17,7 @@ public class Carport
     private Integer length;
     private Integer width;
     
-    private String comment;
+
     
     
     //TODO check where these are used and if they are in the right place
@@ -98,7 +98,6 @@ public class Carport
                ", height=" + this.height +
                ", length=" + this.length +
                ", width=" + this.width +
-               ", comment='" + this.comment + '\'' +
                ", isOpen=" + this.isOpen +
                ", shed=" + this.shed +
                ", roof=" + this.roof +
@@ -176,16 +175,6 @@ public class Carport
     public void setWidth( Integer width )
     {
         this.width = width;
-    }
-    
-    public String getComment()
-    {
-        return this.comment;
-    }
-    
-    public void setComment( String comment )
-    {
-        this.comment = comment;
     }
     
     // TODO check if/when/where below getters and setters are needed

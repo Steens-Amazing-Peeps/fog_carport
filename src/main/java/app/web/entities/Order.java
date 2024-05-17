@@ -16,6 +16,7 @@ public class Order
     private LocalDateTime dateApproved;
     private LocalDateTime dateFinished;
     private String status;
+    private String comment;
     
     private Carport carport;
     private AccountInfo accountInfo;
@@ -72,6 +73,7 @@ public class Order
                ", dateApproved=" + this.dateApproved +
                ", dateFinished=" + this.dateFinished +
                ", status='" + this.status + '\'' +
+               ", comment='" + this.comment + '\'' +
                '}';
     }
     
@@ -186,6 +188,15 @@ public class Order
     public void setAccountInfo( AccountInfo accountInfo )
     {
         this.accountInfo = accountInfo;
+    }
+    public String getComment()
+    {
+        return this.comment;
+    }
+    
+    public void setComment( String comment )
+    {
+        this.comment = comment;
     }
     
 }

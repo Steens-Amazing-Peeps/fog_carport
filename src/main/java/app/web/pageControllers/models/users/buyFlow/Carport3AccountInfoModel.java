@@ -1,6 +1,8 @@
 package app.web.pageControllers.models.users.buyFlow;
 
 import app.web.entities.AccountInfo;
+import app.web.entities.Order;
+import app.web.entities.User;
 import app.web.exceptions.DatabaseException;
 import app.web.exceptions.NoIdKeyReturnedException;
 import app.web.exceptions.UnexpectedResultDbException;
@@ -8,6 +10,9 @@ import app.web.exceptions.WebInvalidInputException;
 
 public interface Carport3AccountInfoModel
 {
+    
+    void getLastAccountInfo( Order order, User user );
+    
     void setFullName( AccountInfo accountInfo, String fullName ) throws WebInvalidInputException;
     
     void setAddress( AccountInfo accountInfo, String address ) throws WebInvalidInputException;

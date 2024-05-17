@@ -2,11 +2,54 @@ package app.web.pageControllers.models.users.buyFlow;
 
 import app.util.Validators;
 import app.web.entities.AccountInfo;
+import app.web.entities.Order;
+import app.web.entities.User;
+import app.web.exceptions.DatabaseException;
 import app.web.exceptions.WebInvalidInputException;
+import app.web.persistence.mappers.AccountInfoMapper;
+
+import java.util.Map;
 
 
 public class Carport3AccountInfoModelImpl implements Carport3AccountInfoModel
 {
+    AccountInfoMapper accountInfoMapper;
+    
+    
+    public Carport3AccountInfoModelImpl( AccountInfoMapper accountInfoMapper )
+    {
+        this.accountInfoMapper = accountInfoMapper;
+    }
+    
+    @Override
+    public void getLastAccountInfo( Order order, User user )
+    {
+        AccountInfo accountInfo = order.getAccountInfo();
+        
+        if ( accountInfo == null ) {
+            accountInfo = new AccountInfo();
+            order.setAccountInfo( accountInfo );
+        }
+        
+        if ( user != null ) {
+            AccountInfo mostRecentAccountInfo = null;
+            try {
+                mostRecentAccountInfo = this.accountInfoMapper.readSingleByUserIdMostRecent( user.getUserId() );
+            } catch ( DatabaseException ignored ) {
+            }
+            
+            if ( mostRecentAccountInfo == null ) {
+                if ( accountInfo.getEmail() == null) {
+                    accountInfo.setEmail( user.getEmail() );
+                }
+                
+            } else {
+                order.setAccountInfo(  mostRecentAccountInfo);
+            }
+            
+        }
+
+    }
     @Override
     public void setFullName( AccountInfo accountInfo, String fullName ) throws WebInvalidInputException
     {

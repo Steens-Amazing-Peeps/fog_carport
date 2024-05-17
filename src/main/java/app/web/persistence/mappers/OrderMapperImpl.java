@@ -43,11 +43,11 @@ public final class OrderMapperImpl implements OrderMapper
         String sql =
                 "INSERT INTO public.order " +
                 "   ( contact_info_id, price_suggested_in_oere, price_actual_in_oere, date_requested, date_approved, " +
-                "date_finished, status) " +
+                "date_finished, status, user_comment) " +
                 "VALUES " +
-                "   (?, ?, ?, ?, ?, ?, ?);";
+                "   (?, ?, ?, ?, ?, ?, ?, ?);";
         
-        Object[] parametersForSql = new Object[ 7 ];
+        Object[] parametersForSql = new Object[ 8 ];
         parametersForSql[ 0 ] = contactInfoId;
         parametersForSql[ 1 ] = order.getPriceSuggested();
         parametersForSql[ 2 ] = order.getPriceActual();
@@ -55,6 +55,7 @@ public final class OrderMapperImpl implements OrderMapper
         parametersForSql[ 4 ] = order.getDateApproved();
         parametersForSql[ 5 ] = order.getDateFinished();
         parametersForSql[ 6 ] = order.getStatus();
+        parametersForSql[ 7 ] = order.getComment();
         
         return this.dataStore.create( sql, order, parametersForSql, ENTITY_CREATOR );
     }
@@ -146,22 +147,24 @@ public final class OrderMapperImpl implements OrderMapper
     }
     
     @Override
-    public int update( Order order ) throws DatabaseException, UnexpectedResultDbException
+    public int update( Order order, Integer contactId ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
                 "UPDATE public.order " +
                 "SET user_id = ?, price_suggested_in_oere = ?, price_actual_in_oere = ?, date_requested = ?, " +
-                "date_approved = ?, date_finished = ?, status = ? " +
+                "date_approved = ?, date_finished = ?, status = ?, comment = ? " +
                 "WHERE order_id = ?;";
         
-        Object[] parametersForSql = new Object[ 7 ];
-        parametersForSql[ 0 ] = order.getPriceSuggested();
-        parametersForSql[ 1 ] = order.getPriceActual();
-        parametersForSql[ 2 ] = order.getDateRequested();
-        parametersForSql[ 3 ] = order.getDateApproved();
-        parametersForSql[ 4 ] = order.getDateFinished();
-        parametersForSql[ 5 ] = order.getStatus();
-        parametersForSql[ 6 ] = order.getOrderId();
+        Object[] parametersForSql = new Object[ 9 ];
+        parametersForSql[ 0 ] = contactId;
+        parametersForSql[ 1 ] = order.getPriceSuggested();
+        parametersForSql[ 2 ] = order.getPriceActual();
+        parametersForSql[ 3 ] = order.getDateRequested();
+        parametersForSql[ 4 ] = order.getDateApproved();
+        parametersForSql[ 5 ] = order.getDateFinished();
+        parametersForSql[ 6 ] = order.getStatus();
+        parametersForSql[ 7 ] = order.getComment();
+        parametersForSql[ 8 ] = order.getOrderId();
         
         
         return this.dataStore.update( sql, order, parametersForSql );
@@ -197,7 +200,6 @@ public final class OrderMapperImpl implements OrderMapper
             
             order = new Order();
             order.setOrderId( rs.getInt( "order_id" ) );
-//            order.setUserId( rs.getInt( "user_id" ) );
             order.setPriceSuggested( rs.getInt( "price_suggested_in_oere" ) );
             order.setPriceActual( rs.getInt( "price_actual_in_oere" ) );
             try {
@@ -218,6 +220,7 @@ public final class OrderMapperImpl implements OrderMapper
                 order.setDateFinished( null );
             }
             order.setStatus( rs.getString( "status" ) );
+            order.setComment( rs.getString( "user_comment" ) );
             
             return order;
             
@@ -253,6 +256,7 @@ public final class OrderMapperImpl implements OrderMapper
                     order.setDateFinished( null );
                 }
                 order.setStatus( rs.getString( "status" ) );
+                order.setComment( rs.getString( "user_comment" ) );
                 
                 orderMap.put( order.getOrderId(), order );
             }
