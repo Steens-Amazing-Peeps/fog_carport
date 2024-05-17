@@ -2,7 +2,6 @@ import app.web.entities.Bom;
 import app.web.entities.Carport;
 import app.web.entities.Plank;
 import app.web.exceptions.WebInvalidInputException;
-import app.web.services.SvgCarport;
 import app.web.services.bom.planks.*;
 import app.web.services.bom.planks.calculators.*;
 import org.junit.jupiter.api.*;
@@ -13,7 +12,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class EntityCarport
+public class CalculatorBomTest
 {
     
     private static final ValidPlanks validPlanks = new ValidPlanksImpl();
