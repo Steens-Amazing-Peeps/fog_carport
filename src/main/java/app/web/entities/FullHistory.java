@@ -12,8 +12,8 @@ public class FullHistory
     Map< AccountInfo, Map< Integer, Order > > OrdersByAccountInfo;
     
     
-    @Override
-    public String toString()
+
+    public String toStringFull()
     {
         StringBuilder stringBuilder = new StringBuilder();
         
@@ -40,6 +40,15 @@ public class FullHistory
         }
         
         return stringBuilder.toString();
+    }
+    
+    @Override
+    public String toString()
+    {
+        return "FullHistory{" +
+               "user=" + user +
+               ", OrdersByAccountInfo=" + OrdersByAccountInfo +
+               '}';
     }
     
     public void addAccountInfo( AccountInfo accountInfo )
