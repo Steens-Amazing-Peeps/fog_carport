@@ -10,9 +10,8 @@ import app.web.persistence.mappers.DataStore;
 import app.web.persistence.mappers.DataStoreImpl;
 import app.web.persistence.mappers.UserMapper;
 import app.web.persistence.mappers.UserMapperImpl;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Connection;
@@ -27,8 +26,9 @@ public class UserMapperTest implements UserMapper
     private int expectedCreateId;
     private static final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
     private DataStore dataStore = new DataStoreImpl(CONNECTION_POOL);
-    private User testUser;
-    
+    private User testUser1;
+    private User testUser2;
+
     private Map< Integer, User > expectedTestMap;
     
     public String getActualEmail()
@@ -107,17 +107,12 @@ public class UserMapperTest implements UserMapper
 
                 // The test schema is already created, so we only need to delete/create test tables
                 stmt.execute("DROP TABLE IF EXISTS test.user");
-                stmt.execute("DROP TABLE IF EXISTS test.order");
                 stmt.execute("DROP SEQUENCE IF EXISTS test.user_user_id_seq CASCADE;");
-                stmt.execute("DROP SEQUENCE IF EXISTS test.order_order_id_seq CASCADE;");
                 // Create tables as copy of original public schema structure
                 stmt.execute("CREATE TABLE test.user AS (SELECT * from fog_carport_dev.public.user) WITH NO DATA");
-                stmt.execute("CREATE TABLE test.order AS (SELECT * from fog_carport_dev.public.order) WITH NO DATA");
                 // Create sequences for auto generating id's for users and orders
                 stmt.execute("CREATE SEQUENCE test.user_user_id_seq");
                 stmt.execute("ALTER TABLE test.user ALTER COLUMN user_id SET DEFAULT nextval('test.user_user_id_seq')");
-                stmt.execute("CREATE SEQUENCE test.order_order_id_seq");
-                stmt.execute("ALTER TABLE test.order ALTER COLUMN order_id SET DEFAULT nextval('test.order_order_id_seq')");
 
             }
         } catch (SQLException e) {
@@ -128,17 +123,80 @@ public class UserMapperTest implements UserMapper
 
     @BeforeEach
     void setUp() {
-        this.testUser = new User();
-        this.testUser.setEmail("createTestUser@testmail.test");
-        this.testUser.setPassword("test");
-        this.testUser.setRole("user");
+        this.testUser1 = new User();
+        this.testUser1.setUserId(1);
+        this.testUser1.setEmail("createTestUser@testmail.test");
+        this.testUser1.setPassword("test");
+        this.testUser1.setRole("user");
+
+        this.testUser2 = new User();
+        this.testUser2.setUserId(2);
+        this.testUser2.setEmail("ensejbruger@enmail.dk");
+        this.testUser2.setPassword("54985899849720");
+        this.testUser2.setRole("user");
+
+        try (Connection connection = CONNECTION_POOL.getConnection())
+        {
+            try (Statement stmt = connection.createStatement())
+            {
+                // Remove all rows from all tables
+                stmt.execute("DELETE FROM test.user");
+
+                stmt.execute("INSERT INTO test.user (user_id, email, password, role) " +
+                        "VALUES ('"+this.testUser1.getUserId()+"', '"+this.testUser1.getEmail()+"', '"+this.testUser1.getPassword()+"', '"+this.testUser1.getRole()+"'), " +
+                        "('"+this.testUser2.getUserId()+"', '"+this.testUser2.getEmail()+"', '"+this.testUser2.getPassword()+"', '"+this.testUser2.getRole()+"');");
+                
+                // Set sequence to continue from the largest member_id
+                stmt.execute("SELECT setval('test.user_user_id_seq', COALESCE((SELECT MAX(user_id) + 1 FROM test.user), 1), false)");
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            fail("Database connection failed");
+        }
+    }
+
+    @AfterEach
+    void tearDown() {
+        try (Connection connection = CONNECTION_POOL.getConnection())
+        {
+            try (Statement stmt = connection.createStatement())
+            {
+                // Remove all rows from all tables
+                stmt.execute("DELETE FROM test.user");
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            fail("Database connection failed");
+        }
+    }
+
+    @AfterAll
+    static void afterAll() {
+        try (Connection connection = CONNECTION_POOL.getConnection()){
+
+            try (Statement stmt = connection.createStatement()) {
+
+                // The test schema is already created, so we only need to delete/create test tables
+                stmt.execute("DROP TABLE IF EXISTS test.user");
+                stmt.execute("DROP SEQUENCE IF EXISTS test.user_user_id_seq CASCADE;");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
     void readAllUserTest() {
         try {
             Map<Integer, User> userAllTestMap = new UserMapperImpl(this.dataStore).readAll();
-            assertEquals(3,userAllTestMap.size()); //3 is the number that was in the pgadmin database at the moment of this test's creation
+            assertEquals(2,userAllTestMap.size());
+            isUsersEqual(testUser1,userAllTestMap.get(1));
+            isUsersEqual(testUser2,userAllTestMap.get(2));
         } catch (DatabaseException e) {
             System.out.println("database error :"+e.getMessage());
 //            throw new RuntimeException(e);
@@ -149,7 +207,7 @@ public class UserMapperTest implements UserMapper
     void readSingleUserTest() {
         try {
             User singleUser = new UserMapperImpl(this.dataStore).readSingle(1);
-            assertEquals(1,singleUser.getUserId());
+            isUsersEqual(testUser1,singleUser);
         } catch (DatabaseException e) {
             System.out.println("database error :"+e.getMessage());
 //            throw new RuntimeException(e);
@@ -159,7 +217,7 @@ public class UserMapperTest implements UserMapper
     @Test
     void createUserTest() { //int is affected rows
         try {
-            int rowsAffectedByCreate = new UserMapperImpl(this.dataStore).create(testUser);
+            int rowsAffectedByCreate = new UserMapperImpl(this.dataStore).create(testUser1);
             assertEquals(1,rowsAffectedByCreate);
             //TODO: possibly make a test database just for these test so the expected value isn't just a magic number
         } catch (DatabaseException e) {
@@ -177,7 +235,7 @@ public class UserMapperTest implements UserMapper
     @Test
     void updateUserTest() { //int is affected rows
         try {
-            int rowsAffectedByUpdate = new UserMapperImpl(this.dataStore).update(testUser);
+            int rowsAffectedByUpdate = new UserMapperImpl(this.dataStore).update(testUser1);
             assertEquals(1,rowsAffectedByUpdate);
         } catch (DatabaseException e) {
             System.out.println("database error :"+e.getMessage());
@@ -191,7 +249,7 @@ public class UserMapperTest implements UserMapper
     @Test
     void deleteUserTest() { //int is affected rows
         try {
-            int rowsAffectedByDelete = new UserMapperImpl(this.dataStore).delete(testUser.getUserId());
+            int rowsAffectedByDelete = new UserMapperImpl(this.dataStore).delete(testUser1.getUserId());
             assertEquals(1,rowsAffectedByDelete);
         } catch (DatabaseException e) {
             System.out.println("database error :"+e.getMessage());
@@ -200,6 +258,13 @@ public class UserMapperTest implements UserMapper
             System.out.println("database error :"+e.getMessage());
 //            throw new RuntimeException(e);
         }
+    }
+
+    private void isUsersEqual(User expectedUser, User actualUser){
+        assertEquals(expectedUser.getUserId(),actualUser.getUserId());
+        assertEquals(expectedUser.getEmail(),actualUser.getEmail());
+        assertEquals(expectedUser.getPassword(),actualUser.getPassword());
+        assertEquals(expectedUser.getRole(),actualUser.getRole());
     }
 
 }
