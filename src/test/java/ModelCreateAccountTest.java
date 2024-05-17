@@ -7,7 +7,7 @@ import app.web.exceptions.WebInvalidInputException;
 import app.web.pageControllers.models.users.account.CreateAccountModel;
 import app.web.pageControllers.models.users.account.CreateAccountModelImpl;
 import org.junit.jupiter.api.*;
-import testClasses.mappers.UserMapperTest;
+import testClasses.mappers.UserMapperImplTest;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ModelCreateAccountTest
 {
     
-    UserMapperTest userMapperTest = new UserMapperTest();
+    UserMapperImplTest userMapperTest = new UserMapperImplTest();
     CreateAccountModel createAccountModel;
     
     

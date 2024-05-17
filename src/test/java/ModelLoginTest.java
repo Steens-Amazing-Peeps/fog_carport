@@ -5,7 +5,7 @@ import app.web.exceptions.WebInvalidInputException;
 import app.web.pageControllers.models.users.account.LoginModel;
 import app.web.pageControllers.models.users.account.LoginModelImpl;
 import org.junit.jupiter.api.*;
-import testClasses.mappers.UserMapperTest;
+import testClasses.mappers.UserMapperImplTest;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ModelLoginTest
 {
-    UserMapperTest userMapperTest = new UserMapperTest();
+    UserMapperImplTest userMapperImplTest = new UserMapperImplTest();
     LoginModel loginModel;
     
     
@@ -50,10 +50,10 @@ public class ModelLoginTest
         this.expectedTestMap = new LinkedHashMap<>();
         this.expectedTestMap.put( this.expectedResUser.getUserId(), this.expectedResUser );
         
-        this.userMapperTest.setExpectedTestMap( this.expectedTestMap );
-        this.userMapperTest.setExpectedCreateId( this.expectedResUser.getUserId() );
+        this.userMapperImplTest.setExpectedTestMap( this.expectedTestMap );
+        this.userMapperImplTest.setExpectedCreateId( this.expectedResUser.getUserId() );
 
-        this.loginModel = new LoginModelImpl( this.userMapperTest );
+        this.loginModel = new LoginModelImpl( this.userMapperImplTest );
     }
     
     @AfterEach
@@ -81,7 +81,7 @@ public class ModelLoginTest
         assertNotNull( this.actualResUser );
         assertEquals( this.expectedResUser, this.actualResUser );
         
-        assertEquals( this.expectedResUser.getEmail(), this.userMapperTest.getActualEmail() );
+        assertEquals( this.expectedResUser.getEmail(), this.userMapperImplTest.getActualEmail() );
     }
     
     @Test

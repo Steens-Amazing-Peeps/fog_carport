@@ -10,7 +10,7 @@ import app.web.persistence.mappers.UserMapper;
 
 import java.util.Map;
 
-public class UserMapperTest implements UserMapper
+public class UserMapperImplTest implements UserMapper
 {
     
     private String actualEmail;
