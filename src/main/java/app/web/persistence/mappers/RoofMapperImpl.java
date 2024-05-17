@@ -34,7 +34,7 @@ public final class RoofMapperImpl implements RoofMapper
     public int create( Roof roof ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
     {
         String sql =
-                "INSERT INTO public.carport_roof " +
+                "INSERT INTO \"carport_roof\" " +
                         "   ( carport_id, material, tilt_in_degrees) " +
                         "VALUES " +
                         "   (?, ?, ?);";
@@ -54,7 +54,7 @@ public final class RoofMapperImpl implements RoofMapper
                 "SELECT " +
                         "   * " +
                         "FROM " +
-                        "   public.carport_roof " +
+                        "   \"carport_roof\" " +
                         "ORDER BY " +
                         "   roof_id;";
 
@@ -69,7 +69,7 @@ public final class RoofMapperImpl implements RoofMapper
                 "SELECT " +
                         "   * " +
                         "FROM " +
-                        "   public.carport_roof " +
+                        "   \"carport_roof\" " +
                         "WHERE " +
                         "   carport_id = ?;";
 
@@ -83,7 +83,7 @@ public final class RoofMapperImpl implements RoofMapper
                 "SELECT " +
                         "   * " +
                         "FROM " +
-                        "   public.carport_roof " +
+                        "   \"carport_roof\" " +
                         "WHERE " +
                         "   roof_id = ?;";
 
@@ -94,7 +94,7 @@ public final class RoofMapperImpl implements RoofMapper
     public int update( Roof roof ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
-                "UPDATE public.carport_roof " +
+                "UPDATE \"carport_roof\" " +
                         "SET carport_id = ?, material = ?, tilt_in_degrees = ?" +
                         "WHERE roof_id = ?;";
 
@@ -112,7 +112,7 @@ public final class RoofMapperImpl implements RoofMapper
     public int delete( Integer roof_id ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
-                "DELETE FROM public.carport_roof " +
+                "DELETE FROM \"carport_roof\" " +
                         "WHERE roof_id = ?;";
 
         return this.dataStore.delete( sql, "carport_roof", roof_id );
