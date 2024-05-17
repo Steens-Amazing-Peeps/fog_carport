@@ -28,26 +28,29 @@ public class Carport3AccountInfoModelImpl implements Carport3AccountInfoModel
         
         if ( accountInfo == null ) {
             accountInfo = new AccountInfo();
+            
+            if ( user != null ) {
+                AccountInfo mostRecentAccountInfo = null;
+                try {
+                    mostRecentAccountInfo = this.accountInfoMapper.readSingleByUserIdMostRecent( user.getUserId() );
+                } catch ( DatabaseException ignored ) {
+                }
+                
+                if ( mostRecentAccountInfo == null ) {
+                    if ( accountInfo.getEmail() == null) {
+                        accountInfo.setEmail( user.getEmail() );
+                    }
+                    
+                } else {
+                    order.setAccountInfo(  mostRecentAccountInfo);
+                }
+                
+            }
+            
             order.setAccountInfo( accountInfo );
         }
         
-        if ( user != null ) {
-            AccountInfo mostRecentAccountInfo = null;
-            try {
-                mostRecentAccountInfo = this.accountInfoMapper.readSingleByUserIdMostRecent( user.getUserId() );
-            } catch ( DatabaseException ignored ) {
-            }
-            
-            if ( mostRecentAccountInfo == null ) {
-                if ( accountInfo.getEmail() == null) {
-                    accountInfo.setEmail( user.getEmail() );
-                }
-                
-            } else {
-                order.setAccountInfo(  mostRecentAccountInfo);
-            }
-            
-        }
+
 
     }
     @Override
