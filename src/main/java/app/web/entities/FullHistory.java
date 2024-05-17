@@ -1,13 +1,15 @@
 package app.web.entities;
 
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class FullHistory
 {
     
     User user;
-    AccountInfo accountInfo;
-    Map< Integer, Order > orders;
+    Map< AccountInfo, Map< Integer, Order > > OrdersByAccountInfo;
     
     
     @Override
@@ -19,12 +21,20 @@ public class FullHistory
         
         stringBuilder.append( this.user ).append( System.lineSeparator() );
         
-        stringBuilder.append( this.accountInfo ).append( System.lineSeparator() );
-        
-        if ( this.orders != null && !this.orders.isEmpty() ) {
-            for ( Order order : this.orders.values() ) {
-                stringBuilder.append( order ).append( System.lineSeparator() );
+        //Map isn't null or empty
+        if ( ( this.OrdersByAccountInfo != null && !this.OrdersByAccountInfo.isEmpty() )  ) {
+            for ( Map.Entry< AccountInfo, Map< Integer, Order > > accountInfoSetAndOrdersMapEntry : this.OrdersByAccountInfo.entrySet() ) {
+                
+                //All Account Infos are the same on any given entry, so get just the key.
+                stringBuilder.append( accountInfoSetAndOrdersMapEntry.getKey() ).append( System.lineSeparator() );
+                
+                //Get All the orders that use this info
+                for ( Order order : accountInfoSetAndOrdersMapEntry.getValue().values() ) {
+                    stringBuilder.append( order.getFullHistory() ).append( System.lineSeparator() );
+                }
             }
+            
+            
         } else {
             stringBuilder.append( "null" ).append( System.lineSeparator() );
         }
@@ -32,6 +42,30 @@ public class FullHistory
         return stringBuilder.toString();
     }
     
+    public void addAccountInfo( AccountInfo accountInfo )
+    {
+        if ( this.OrdersByAccountInfo == null ) {
+            this.OrdersByAccountInfo = new LinkedHashMap<>();
+        }
+        
+        this.OrdersByAccountInfo.putIfAbsent( accountInfo, new LinkedHashMap<>() );
+    }
+    
+    public void addOrderMapWithAccountInfo( Map< Integer, Order > orderMapWithAccountInfo )
+    {
+        if ( this.OrdersByAccountInfo == null ) {
+            this.OrdersByAccountInfo = new LinkedHashMap<>();
+        }
+        
+        for ( Order order : orderMapWithAccountInfo.values() ) {
+            this.OrdersByAccountInfo.putIfAbsent( order.getAccountInfo(), new LinkedHashMap<>() );
+            
+            this.OrdersByAccountInfo.get( order.getAccountInfo() ).put( order.getOrderId(), order );
+        }
+    }
+    
+    
+    //Getters and Setters
     public User getUser()
     {
         return this.user;
@@ -42,24 +76,14 @@ public class FullHistory
         this.user = user;
     }
     
-    public AccountInfo getAccountInfo()
+    public Map< AccountInfo, Map< Integer, Order > > getOrdersByAccountInfo()
     {
-        return this.accountInfo;
+        return this.OrdersByAccountInfo;
     }
     
-    public void setAccountInfo( AccountInfo accountInfo )
+    public void setOrdersByAccountInfo( Map< AccountInfo, Map< Integer, Order > > ordersByAccountInfo )
     {
-        this.accountInfo = accountInfo;
-    }
-    
-    public Map< Integer, Order > getOrders()
-    {
-        return this.orders;
-    }
-    
-    public void setOrders( Map< Integer, Order > orders )
-    {
-        this.orders = orders;
+        this.OrdersByAccountInfo = ordersByAccountInfo;
     }
     
 }

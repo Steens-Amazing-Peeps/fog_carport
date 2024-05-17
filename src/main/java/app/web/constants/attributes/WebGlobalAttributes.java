@@ -63,7 +63,6 @@ public interface WebGlobalAttributes
         
         //Valid Planks
         VALID_PLANKS.startUp( plankMapper );
-        System.out.println( VALID_PLANKS.toString() );
         
         //Carport1Info
         config.appData( minimumHeightInM, MINIMUM_HEIGHT_IN_M );

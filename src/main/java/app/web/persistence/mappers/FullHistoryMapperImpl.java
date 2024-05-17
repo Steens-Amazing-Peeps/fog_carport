@@ -21,43 +21,53 @@ public class FullHistoryMapperImpl implements FullHistoryMapper
     }
     
     @Override
-    public List< FullHistory > readAllFull() throws DatabaseException
+    public Map< Integer, FullHistory > readAllFull() throws DatabaseException
     {
-        List< FullHistory > fullHistoryList = new ArrayList<>();
+        Map< Integer, FullHistory > fullHistoryMap = new LinkedHashMap<>();
         
         Map< Integer, AccountInfo > accountInfoMap = this.accountInfoMapper.readAll();
+
+
+//        Set< Integer > usersWithAccountInfo = new TreeSet<>();
+        Set< AccountInfo > seenAccountInfo = new TreeSet<>();
         
         FullHistory fullHistory;
-        Set< Integer > usersWithAccountInfo = new TreeSet<>();
         Integer userId;
-        
         for ( AccountInfo accountInfo : accountInfoMap.values() ) {
-            fullHistory = new FullHistory();
-            fullHistory.setAccountInfo( accountInfo );
             
-            fullHistory.setOrders( this.orderMapper.readAllByAccountInfoIdFull( accountInfo ) );
-            
-            userId = accountInfo.getUserId();
-            fullHistory.setUser( WebGlobalAttributes.USER_MAP.get( userId ) );
-            usersWithAccountInfo.add( userId );
-            
-            fullHistoryList.add( fullHistory );
-        }
-        
-        for ( User user : WebGlobalAttributes.USER_MAP.values() ) {
-            if ( !usersWithAccountInfo.contains( user.getUserId() ) ) {
-                fullHistory = new FullHistory();
+            if ( !seenAccountInfo.contains( accountInfo ) ) {
+                seenAccountInfo.add( accountInfo );
                 
-                fullHistory.setOrders( null );
-                fullHistory.setAccountInfo( null );
+                userId = accountInfo.getUserId();
                 
-                fullHistory.setUser( user );
+                if ( fullHistoryMap.containsKey( userId ) ) {
+                    fullHistory = fullHistoryMap.get( userId );
+                } else {
+                    fullHistory = new FullHistory();
+                    fullHistory.setUser( WebGlobalAttributes.USER_MAP.get( userId ) );
+                }
                 
-                fullHistoryList.add( fullHistory );
+                fullHistory.addAccountInfo( accountInfo );
+                fullHistory.addOrderMapWithAccountInfo( this.orderMapper.readAllByAccountInfoIdFull( accountInfo ) );
+
+//                usersWithAccountInfo.add( userId );
+                
+                fullHistoryMap.put( userId, fullHistory );
             }
         }
         
-        return fullHistoryList;
+        Set< Integer > usersWithoutContactInfo = new LinkedHashSet<>( WebGlobalAttributes.USER_MAP.keySet() );
+        usersWithoutContactInfo.removeAll( fullHistoryMap.keySet() );
+        
+        for ( Integer id : usersWithoutContactInfo ) {
+            fullHistory = new FullHistory();
+            
+            fullHistory.setUser( WebGlobalAttributes.USER_MAP.get( id ) );
+            
+            fullHistoryMap.put( id, fullHistory );
+        }
+        
+        return fullHistoryMap;
     }
     
 }

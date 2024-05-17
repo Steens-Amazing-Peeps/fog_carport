@@ -1,8 +1,16 @@
 package app.web.entities;
 
-public class AccountInfo
-{ //TODO: Ponder how to best implement this class/entity/feature, probably shouldn't be an inner class
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
+/**
+ * Note: this class has a natural ordering that is
+ * inconsistent with equals.
+ **/
+public class AccountInfo implements Comparable< AccountInfo >
+{ //TODO: Ponder how to best implement this class/entity/feature, probably shouldn't be an inner class
+    
     private Integer userId;
     private Integer contactId;
     private String fullName;
@@ -13,8 +21,6 @@ public class AccountInfo
     private String email;
     
     private Boolean consentToSpam;
-
-    private boolean hasAnAccount;   //TODO is this needed?
     
     
     
@@ -24,6 +30,7 @@ public class AccountInfo
         
         return stringBuilder.toString();
     }
+    
     @Override
     public String toString()
     {
@@ -35,9 +42,43 @@ public class AccountInfo
                ", city='" + this.city + '\'' +
                ", phoneNumber=" + this.phoneNumber +
                ", email='" + this.email + '\'' +
-               ", hasAnAccount=" + this.hasAnAccount +
                '}';
     }
+    
+    @Override
+    public boolean equals( Object object )
+    {
+        if ( this == object ) {
+            return true;
+        }
+        if ( !( object instanceof AccountInfo accountInfo ) ) {
+            return false;
+        }
+        return Objects.equals( this.userId, accountInfo.userId ) && Objects.equals( this.fullName, accountInfo.fullName ) && Objects.equals( this.address, accountInfo.address ) && Objects.equals( this.zip, accountInfo.zip ) && Objects.equals( this.city, accountInfo.city ) && Objects.equals( this.phoneNumber, accountInfo.phoneNumber ) && Objects.equals( this.email, accountInfo.email ) && Objects.equals( this.consentToSpam, accountInfo.consentToSpam );
+    }
+    
+    @Override
+    public int compareTo( @NotNull AccountInfo o )
+    {
+        int compareValue = this.userId - o.userId;
+        
+        compareValue = compareValue + this.fullName.compareTo( o.fullName );
+        
+        compareValue = compareValue + this.address.compareTo( o.address );
+        
+        compareValue = compareValue + this.zip - o.zip;
+        
+        compareValue = compareValue + this.city.compareTo(o.city);
+        
+        compareValue = compareValue + this.phoneNumber - o.phoneNumber;
+        
+        compareValue = compareValue + this.email.compareTo( o.email);
+        
+        compareValue = compareValue + this.consentToSpam.compareTo( o.consentToSpam );
+        
+        return compareValue;
+    }
+    
     
     
     //Getters and Setters
@@ -51,59 +92,73 @@ public class AccountInfo
         this.userId = userId;
     }
     
-    public Integer getContactId() {
+    public Integer getContactId()
+    {
         return this.contactId;
     }
-
-    public void setContactId(Integer contactId) {
+    
+    public void setContactId( Integer contactId )
+    {
         this.contactId = contactId;
     }
-
-    public String getFullName() {
+    
+    public String getFullName()
+    {
         return this.fullName;
     }
-
-    public void setFullName(String fullName) {
+    
+    public void setFullName( String fullName )
+    {
         this.fullName = fullName;
     }
-
-    public String getAddress() {
+    
+    public String getAddress()
+    {
         return this.address;
     }
-
-    public void setAddress(String address) {
+    
+    public void setAddress( String address )
+    {
         this.address = address;
     }
-
-    public Integer getZip() {
+    
+    public Integer getZip()
+    {
         return this.zip;
     }
-
-    public void setZip(Integer zip) {
+    
+    public void setZip( Integer zip )
+    {
         this.zip = zip;
     }
-
-    public String getCity() {
+    
+    public String getCity()
+    {
         return this.city;
     }
-
-    public void setCity(String city) {
+    
+    public void setCity( String city )
+    {
         this.city = city;
     }
-
-    public Integer getPhoneNumber() {
+    
+    public Integer getPhoneNumber()
+    {
         return this.phoneNumber;
     }
-
-    public void setPhoneNumber(Integer phoneNumber) {
+    
+    public void setPhoneNumber( Integer phoneNumber )
+    {
         this.phoneNumber = phoneNumber;
     }
-
-    public String getEmail() {
+    
+    public String getEmail()
+    {
         return this.email;
     }
-
-    public void setEmail(String email) {
+    
+    public void setEmail( String email )
+    {
         this.email = email;
     }
     
@@ -116,17 +171,7 @@ public class AccountInfo
     {
         this.consentToSpam = consentToSpam;
     }
-
-    public boolean isHasAnAccount()
-    {
-        return this.hasAnAccount;
-    }   //TODO Needed or?
     
-    public void setHasAnAccount( boolean hasAnAccount )
-    {
-        this.hasAnAccount = hasAnAccount;
-    }   //TODO Needed or?
     
-
     
 }

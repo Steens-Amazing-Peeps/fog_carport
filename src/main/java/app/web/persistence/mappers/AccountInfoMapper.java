@@ -12,8 +12,6 @@ public interface AccountInfoMapper
 {
     void setDataStore( DataStore dataStore );
     
-    int create( AccountInfo accountInfo, Integer userId ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException;
-    
     int create( AccountInfo accountInfo ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException;
     
     Map< Integer, AccountInfo > readAll() throws DatabaseException;

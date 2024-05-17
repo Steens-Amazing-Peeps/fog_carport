@@ -118,15 +118,15 @@ public class Carport4ReviewAndConfirmController
         }
         
         User currentUser = ctx.sessionAttribute( WebSessionAttributes.currentUser );
-        Integer currentUserId = null;
         
         if ( currentUser != null ){
-            currentUserId = currentUser.getUserId();
+            Integer currentUserId = currentUser.getUserId();
+            order.getAccountInfo().setUserId( currentUserId );
         }
         
         
         try {
-            carport4ReviewAndConfirmModel.addNewOrder(order, currentUserId);
+            carport4ReviewAndConfirmModel.addNewOrder(order);
             
         } catch ( NoIdKeyReturnedException | UnexpectedResultDbException | DatabaseException e ) {
             ctx.attribute( WebAttributes.msg, e.getUserMessage() );

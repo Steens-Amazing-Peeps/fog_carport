@@ -18,13 +18,13 @@ public class Carport4ReviewAndConfirmModelImpl implements Carport4ReviewAndConfi
     }
     
     @Override
-    public void addNewOrder( Order order, Integer userId ) throws NoIdKeyReturnedException, UnexpectedResultDbException, DatabaseException
+    public void addNewOrder( Order order ) throws NoIdKeyReturnedException, UnexpectedResultDbException, DatabaseException
     {
         order.calcPriceSuggested();
         order.setDateRequestedToNow();
         order.setStatusToPending();
         
-        this.orderMapper.createFull( order, userId );
+        this.orderMapper.createFull( order );
 
     }
     

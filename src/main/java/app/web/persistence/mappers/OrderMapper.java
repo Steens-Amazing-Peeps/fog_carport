@@ -18,7 +18,7 @@ public interface OrderMapper
     
     int create( Order order, Integer contactInfoId ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException;
     
-    int createFull( Order order, Integer userId ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException;
+    int createFull( Order order ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException;
     
     Map< Integer, Order > readAll() throws DatabaseException;
     

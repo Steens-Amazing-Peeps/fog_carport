@@ -29,44 +29,25 @@ public final class AccountInfoMapperImpl implements AccountInfoMapper
     {
         this.dataStore = dataStore;
     }
-
-    @Override
-    public int create( AccountInfo accountInfo, Integer userId ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
-    {
-        String sql =
-                "INSERT INTO public.contact_info " +
-                        "   ( full_name, address, zip_code, city, phone_number, email, user_id ) " +
-                        "VALUES " +
-                        "   (?, ?, ?, ?, ?, ?, ?);";
-
-        Object[] parametersForSql = new Object[ 7 ];
-        parametersForSql[ 0 ] = accountInfo.getFullName();
-        parametersForSql[ 1 ] = accountInfo.getAddress();
-        parametersForSql[ 2 ] = accountInfo.getZip();
-        parametersForSql[ 3 ] = accountInfo.getCity();
-        parametersForSql[ 4 ] = accountInfo.getPhoneNumber();
-        parametersForSql[ 5 ] = accountInfo.getEmail();
-        parametersForSql[ 6 ] = userId;
-
-        return this.dataStore.create( sql, accountInfo, parametersForSql, ENTITY_CREATOR );
-    }
     
     @Override
     public int create( AccountInfo accountInfo ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
     {
         String sql =
                 "INSERT INTO public.contact_info " +
-                "   ( full_name, address, zip_code, city, phone_number, email ) " +
+                "   ( user_id, full_name, address, zip_code, city, phone_number, email, send_ads_to_email ) " +
                 "VALUES " +
-                "   (?, ?, ?, ?, ?, ? );";
+                "   (?, ?, ?, ?, ?, ?, ?, ? );";
         
-        Object[] parametersForSql = new Object[ 6 ];
-        parametersForSql[ 0 ] = accountInfo.getFullName();
-        parametersForSql[ 1 ] = accountInfo.getAddress();
-        parametersForSql[ 2 ] = accountInfo.getZip();
-        parametersForSql[ 3 ] = accountInfo.getCity();
-        parametersForSql[ 4 ] = accountInfo.getPhoneNumber();
-        parametersForSql[ 5 ] = accountInfo.getEmail();
+        Object[] parametersForSql = new Object[ 8 ];
+        parametersForSql[ 0 ] = accountInfo.getUserId();
+        parametersForSql[ 1 ] = accountInfo.getFullName();
+        parametersForSql[ 2 ] = accountInfo.getAddress();
+        parametersForSql[ 3 ] = accountInfo.getZip();
+        parametersForSql[ 4 ] = accountInfo.getCity();
+        parametersForSql[ 5 ] = accountInfo.getPhoneNumber();
+        parametersForSql[ 6 ] = accountInfo.getEmail();
+        parametersForSql[ 7 ] = accountInfo.getConsentToSpam();
 
         
         return this.dataStore.create( sql, accountInfo, parametersForSql, ENTITY_CREATOR );
@@ -120,10 +101,10 @@ public final class AccountInfoMapperImpl implements AccountInfoMapper
     {
         String sql =
                 "UPDATE public.contact_info " +
-                        "SET full_name = ?, address = ?, zip_code = ?, city = ?, phone_number = ?, email = ?, user_id = ? " +
+                        "SET full_name = ?, address = ?, zip_code = ?, city = ?, phone_number = ?, email = ?, user_id = ? send_ads_to_email = ? " +
                         "WHERE contact_info_id = ?;";
 
-        Object[] parametersForSql = new Object[ 8 ];
+        Object[] parametersForSql = new Object[ 9 ];
         parametersForSql[ 0 ] = accountInfo.getFullName();
         parametersForSql[ 1 ] = accountInfo.getAddress();
         parametersForSql[ 2 ] = accountInfo.getZip();
@@ -131,6 +112,7 @@ public final class AccountInfoMapperImpl implements AccountInfoMapper
         parametersForSql[ 4 ] = accountInfo.getPhoneNumber();
         parametersForSql[ 5 ] = accountInfo.getEmail();
         parametersForSql[ 6 ] = userId;
+        parametersForSql[ 8 ] = accountInfo.getConsentToSpam();
         parametersForSql[ 7 ] = accountInfo.getContactId();
 
 
@@ -174,6 +156,7 @@ public final class AccountInfoMapperImpl implements AccountInfoMapper
             accountInfo.setCity( rs.getString( "city" ) );
             accountInfo.setPhoneNumber( rs.getInt( "phone_number" ) );
             accountInfo.setEmail( rs.getString( "email" ) );
+            accountInfo.setConsentToSpam( rs.getBoolean( "send_ads_to_email" ) );
 
             return accountInfo;
 
@@ -195,6 +178,7 @@ public final class AccountInfoMapperImpl implements AccountInfoMapper
                 accountInfo.setCity( rs.getString( "city" ) );
                 accountInfo.setPhoneNumber( rs.getInt( "phone_number" ) );
                 accountInfo.setEmail( rs.getString( "email" ) );
+                accountInfo.setConsentToSpam( rs.getBoolean( "send_ads_to_email" ) );
 
                 contactMap.put( accountInfo.getContactId(), accountInfo );
             }
