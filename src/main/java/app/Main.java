@@ -119,7 +119,7 @@ public class Main
         //Buy Flow
         Carport1InfoModel carport1InfoModel = new Carport1InfoModelImpl();
         Carport2DrawingModel carport2DrawingModel = new Carport2DrawingModelImpl();
-        Carport3AccountInfoModel carport3AccountInfoModel = new Carport3AccountInfoModelImpl();
+        Carport3AccountInfoModel carport3AccountInfoModel = new Carport3AccountInfoModelImpl( accountInfoMapper );
         Carport4ReviewAndConfirmModel carport4ReviewAndConfirmModel = new Carport4ReviewAndConfirmModelImpl( orderMapper );
         Carport5ReceiptModel carport5ReceiptModel = new Carport5ReceiptModelImpl();
         

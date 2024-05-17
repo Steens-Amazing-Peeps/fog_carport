@@ -8,6 +8,7 @@ import app.web.constants.routing.WebHtml;
 import app.web.constants.routing.WebPages;
 import app.web.entities.AccountInfo;
 import app.web.entities.Order;
+import app.web.entities.User;
 import app.web.exceptions.WebInvalidInputException;
 import app.web.pageControllers.models.users.buyFlow.Carport3AccountInfoModel;
 import io.javalin.Javalin;
@@ -18,7 +19,7 @@ public class Carport3AccountInfoController
 {
     
     private static Carport3AccountInfoModel carport3AccountInfoModel;
-    
+
     public static void startUp( Carport3AccountInfoModel carport3AccountInfoModel )
     {
         if ( Carport3AccountInfoController.carport3AccountInfoModel == null ) {
@@ -63,12 +64,8 @@ public class Carport3AccountInfoController
             return;
         }
         
-        AccountInfo accountInfo = order.getAccountInfo();
-        
-        if ( accountInfo == null ) {
-            accountInfo = new AccountInfo();
-            order.setAccountInfo( accountInfo );
-        }
+        User user = ctx.sessionAttribute( WebSessionAttributes.currentUser );
+        carport3AccountInfoModel.getLastAccountInfo( order, user );
         
         ctx.sessionAttribute( WebSessionAttributes.currentOrder, order );
         render( ctx );
@@ -143,7 +140,7 @@ public class Carport3AccountInfoController
         
         try {
             carport3AccountInfoModel.setConsentToSpam( accountInfo, consentToSpam );
-        } catch (  RuntimeException | WebInvalidInputException ignored ) {
+        } catch ( RuntimeException | WebInvalidInputException ignored ) {
             //We don't care, we are just trying to save some valid values to be nice.
         }
         
@@ -354,8 +351,8 @@ public class Carport3AccountInfoController
             if ( errorCounter > 1 ) {
                 stringBuilderExceptionMessage.insert( 0, System.lineSeparator() ).insert( 0, " Fejl, De er:" ).insert( 0, errorCounter );
             } else {
-                stringBuilderExceptionMessage.delete( 0, 3 ).insert( 0, System.lineSeparator() ).insert( 0,"En Fejl:" );
-
+                stringBuilderExceptionMessage.delete( 0, 3 ).insert( 0, System.lineSeparator() ).insert( 0, "En Fejl:" );
+                
             }
             
             ctx.attribute( WebAttributes.msg, stringBuilderExceptionMessage.toString() );

@@ -31,7 +31,7 @@ public interface OrderMapper
     
     Order readSingle( Integer orderId ) throws DatabaseException;
     
-    int update( Order order ) throws DatabaseException, UnexpectedResultDbException;
+    int update( Order order, Integer accountInfoId ) throws DatabaseException, UnexpectedResultDbException;
     
     int delete( Integer orderId ) throws DatabaseException, UnexpectedResultDbException;
     

@@ -95,7 +95,24 @@ public final class AccountInfoMapperImpl implements AccountInfoMapper
 
         return ( AccountInfo ) this.dataStore.readSingle( sql, contact_id, ENTITY_CREATOR );
     }
-
+    
+    @Override
+    public AccountInfo readSingleByUserIdMostRecent( Integer userId ) throws DatabaseException
+    {
+        String sql =
+                "SELECT " +
+                "    * " +
+                "FROM " +
+                "    public.contact_info " +
+                "WHERE " +
+                "    user_id = ? " +
+                "ORDER BY " +
+                "    contact_info_id DESC " +
+                "LIMIT 1;";
+        
+        return ( AccountInfo ) this.dataStore.readSingle( sql, userId, ENTITY_CREATOR );
+    }
+    
     @Override
     public int update( AccountInfo accountInfo, Integer userId ) throws DatabaseException, UnexpectedResultDbException
     {

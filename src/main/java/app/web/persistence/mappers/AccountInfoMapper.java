@@ -24,4 +24,6 @@ public interface AccountInfoMapper
     
     int delete( Integer contact_id ) throws DatabaseException, UnexpectedResultDbException;
     
+    AccountInfo readSingleByUserIdMostRecent( Integer userId ) throws DatabaseException;
+    
 }

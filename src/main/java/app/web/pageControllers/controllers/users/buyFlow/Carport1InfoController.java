@@ -157,7 +157,7 @@ public class Carport1InfoController
         }
         
         //Comment
-        carport.setComment( carportComment );
+        order.setComment( carportComment );
         
         //Done
         order.setCarport( carport );
@@ -340,7 +340,7 @@ public class Carport1InfoController
         }
         
         //Comment
-        carport.setComment( carportComment );
+        order.setComment( carportComment );
         
         //Done
         order.setCarport( carport );

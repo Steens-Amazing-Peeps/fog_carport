@@ -42,7 +42,7 @@ public final class DataStoreImpl implements DataStore
      * @param entity           Entity for this request
      * @param parametersForSql We replace the '?' in rawSQL with parametersForSql
      * @param entityCreator       How to we make this Entity? By using this!
-     * @return the Id of created row
+     * @return Amount of Affected Rows
      * @throws DatabaseException           If we have issues with connecting to the Database or a coding error/SQL code error happens
      * @throws UnexpectedResultDbException If we receive the wrong result (IE result-set on create) or if we affect more than 1 row
      * @throws NoIdKeyReturnedException    If there wasn't, for some reason. an id returned from database
@@ -52,8 +52,6 @@ public final class DataStoreImpl implements DataStore
     public int create( String rawSql, Object entity, Object[] parametersForSql, EntityCreator entityCreator ) throws DatabaseException, UnexpectedResultDbException, NoIdKeyReturnedException
     { //TODO: Make SQL safe, somehow
         String checkedSql = checkSql( rawSql, parametersForSql.length );
-        
-        int resKey;
         
         try ( Connection connection = this.connectionPool.getConnection() ) {
             try ( PreparedStatement ps = connection.prepareStatement( checkedSql, Statement.RETURN_GENERATED_KEYS ) ) {
@@ -89,18 +87,17 @@ public final class DataStoreImpl implements DataStore
                     throw new NoIdKeyReturnedException( "Database Fejl: Kunne ikke skaffe det nye ID fra databasen", "Database Error: " + "at Create: " + "Failed to retrieve generated key (ID) for Entity=" + entity );
                 }
                 
-                resKey = keySet.getInt( 1 );
+                int resKey = keySet.getInt( 1 );
                 entityCreator.setId( entity, resKey );
                 System.out.println( "Database: Added row for Entity=" + entity );
                 
+                return rowsAdded;
             }
             
         } catch ( SQLException e ) {
             e.printStackTrace();
             throw new DatabaseException( "Fata database fejl, er Databasen nede?", e.getMessage() );
         }
-        
-        return resKey;
         
     }
     
