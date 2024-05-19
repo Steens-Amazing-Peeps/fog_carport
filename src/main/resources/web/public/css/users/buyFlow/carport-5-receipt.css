@@ -1,0 +1,15 @@
+.content {
+    margin-top: 20px;
+}
+
+.form-header {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+}
+
+.receipt {
+    margin-left: 8%;
+    margin-right: 8%;
+}
