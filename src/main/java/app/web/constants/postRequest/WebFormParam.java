@@ -40,7 +40,9 @@ public interface WebFormParam
     
     
     
-    
+    //Order History
     String orderId = "orderId";
+    
+    String orderPrice = "orderPrice";
     
 }

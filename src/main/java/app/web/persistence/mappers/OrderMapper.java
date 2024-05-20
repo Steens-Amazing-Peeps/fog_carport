@@ -33,7 +33,7 @@ public interface OrderMapper
     
     int update( Order order, Integer accountInfoId ) throws DatabaseException, UnexpectedResultDbException;
     
-    int updateApprove( Integer orderId ) throws DatabaseException, UnexpectedResultDbException;
+    int updateApprove( Integer orderId, Integer priceActualInOere ) throws DatabaseException, UnexpectedResultDbException;
     
     int updateFinish( Integer orderId ) throws DatabaseException, UnexpectedResultDbException;
     

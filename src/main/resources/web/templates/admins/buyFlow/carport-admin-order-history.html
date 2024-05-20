@@ -58,6 +58,10 @@
                           th:text="${orderEntry.value.string}">
                         </span>
 
+                        <input type="hidden" id="orderPrice" name="orderPrice"
+                               th:value="${orderEntry.value.priceSuggested}">
+                        </input>
+
                         <input type="hidden" id="orderId" name="orderId"
                                th:value="${orderEntry.key}">
                         </input>

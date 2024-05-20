@@ -100,11 +100,13 @@ public class CarportAdminOrderHistoryController
         }
 
         String doneOrderIdAsString;
+        String doneOrderPriceAsString;
         
         doneOrderIdAsString = ctx.formParam( WebFormParam.orderId );
+        doneOrderPriceAsString = ctx.formParam( WebFormParam.orderPrice );
         
         try {
-            Map<Integer, FullHistory> updatedFullHistoryMap = carportAdminOrderHistoryModel.approve( doneOrderIdAsString );
+            Map<Integer, FullHistory> updatedFullHistoryMap = carportAdminOrderHistoryModel.approve( doneOrderIdAsString,doneOrderPriceAsString  );
             ctx.sessionAttribute( WebSessionAttributes.fullHistory, updatedFullHistoryMap );
             ctx.attribute( WebAttributes.msg, "" );
             

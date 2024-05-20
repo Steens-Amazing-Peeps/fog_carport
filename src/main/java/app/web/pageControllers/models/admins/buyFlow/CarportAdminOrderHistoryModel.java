@@ -11,6 +11,6 @@ public interface CarportAdminOrderHistoryModel
     
     Map<Integer, FullHistory> getFullHistory() throws DatabaseException;
     
-    Map< Integer, FullHistory> approve( String doneOrderIdAsString ) throws UnexpectedResultDbException, DatabaseException;
+    Map< Integer, FullHistory > approve( String doneOrderIdAsString, String priceActualInOereAsString ) throws UnexpectedResultDbException, DatabaseException;
     
 }

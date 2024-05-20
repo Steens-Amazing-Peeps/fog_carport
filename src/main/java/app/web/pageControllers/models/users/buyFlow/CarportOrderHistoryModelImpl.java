@@ -22,7 +22,7 @@ public class CarportOrderHistoryModelImpl implements CarportOrderHistoryModel
     @Override
     public FullHistory getFullHistory( User currentUser ) throws DatabaseException
     {
-        return fullHistoryMapper.readSingle( currentUser );
+        return this.fullHistoryMapper.readSingle( currentUser );
     }
     
     @Override

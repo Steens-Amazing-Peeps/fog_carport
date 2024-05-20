@@ -5,7 +5,6 @@ import app.web.exceptions.DatabaseException;
 import app.web.exceptions.UnexpectedResultDbException;
 import app.web.persistence.mappers.FullHistoryMapper;
 import app.web.persistence.mappers.OrderMapper;
-import app.web.persistence.mappers.UserMapper;
 
 import java.util.Map;
 
@@ -26,10 +25,12 @@ public class CarportAdminOrderHistoryModelImpl implements CarportAdminOrderHisto
     }
     
     @Override
-    public Map< Integer, FullHistory > approve( String doneOrderIdAsString ) throws UnexpectedResultDbException, DatabaseException
+    public Map< Integer, FullHistory > approve( String doneOrderIdAsString, String priceActualInOereAsString ) throws UnexpectedResultDbException, DatabaseException
     {
         Integer orderId = Integer.parseInt( doneOrderIdAsString );
-        this.orderMapper.updateApprove( orderId );
+        Integer orderPrice = Integer.parseInt( priceActualInOereAsString );
+        
+        this.orderMapper.updateApprove( orderId, orderPrice );
         
         return this.fullHistoryMapper.readAllFull();
     }
