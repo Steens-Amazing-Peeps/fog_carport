@@ -40,7 +40,7 @@ public class SvgCarport {
     public SvgCarport(Carport carport) throws WebInvalidInputException {
 
         this.bom = carport.calcBom();
-        System.out.println(bom);
+//        System.out.println(bom);
 
         unitConversion = new UnitConversion(carport.getWidth(),carport.getLength());
 
@@ -159,13 +159,13 @@ public class SvgCarport {
                             carportSvg.addRectangle(xValuePosts,yCenterFigure(offsetFromTop,beamHeight), postHeight,postWidth,rectStandardStyle);
                             carportSvg.addRectangle(xValuePosts,yCenterFigure(offsetFromBottom,beamHeight), postHeight,postWidth,rectStandardStyle);
                         }
-                        System.out.println("posts placed at: "+xValuePosts); //tells you that the placement of posts was successful and informs you of the location
+//                        System.out.println("posts placed at: "+xValuePosts); //tells you that the placement of posts was successful and informs you of the location
                         postAmount = postAmount - amountOfPostsPlacedPerLoop; //removes the amount of posts used from the total amount of posts
                     }
                     else {
-                        System.out.println("couldn't place posts at: "+xValuePosts); //primitive error message used to indicate if posts could not get placed and informs about the location
+//                        System.out.println("couldn't place posts at: "+xValuePosts); //primitive error message used to indicate if posts could not get placed and informs about the location
                     }
-                    System.out.println("amount of posts left: "+postAmount);
+//                    System.out.println("amount of posts left: "+postAmount);
                     if (postAmount == 0){
                         break; //breaks out of the loop if there are no more posts left
                     }

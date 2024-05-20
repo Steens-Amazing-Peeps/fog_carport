@@ -24,20 +24,36 @@ public class CreateAccountModelImpl implements CreateAccountModel
     @Override
     public User createAccount( String email, String password, String passwordAgain, Map<Integer, User> globalUserMap, String role ) throws DatabaseException, WebInvalidInputException, UnexpectedResultDbException, NoIdKeyReturnedException
     {
+        StringBuilder combinedCommonErrors = new StringBuilder();
+        int amountOfCommonErrors = 0;
+
         if ( !Validators.isEmailValid( email ) ) {
-            throw new WebInvalidInputException( "Emailen '" + email + "' er ikke en gyldig email" );
+            combinedCommonErrors.append("- Emailen '" + email + "' er ikke en gyldig email" + System.lineSeparator());
+            amountOfCommonErrors = amountOfCommonErrors + 1;
+//            throw new WebInvalidInputException( "Emailen '" + email + "' er ikke en gyldig email" );
         }
         
         if ( !Objects.equals( password, passwordAgain ) ) {
-            throw new WebInvalidInputException( "Kodeordende var ikke ens" );
+            combinedCommonErrors.append("- Kodeordende var ikke ens" + System.lineSeparator());
+            amountOfCommonErrors = amountOfCommonErrors + 1;
+//            throw new WebInvalidInputException( "Kodeordende var ikke ens" );
         }
         
         if ( password.length() > Config.User.PASSWORD_MAX_LENGTH ) {
-            throw new WebInvalidInputException( "Kode ord for langt, max " + Config.User.PASSWORD_MAX_LENGTH + " tegn" );
+            combinedCommonErrors.append("- Kode ord for langt, max " + Config.User.PASSWORD_MAX_LENGTH + " tegn" + System.lineSeparator());
+            amountOfCommonErrors = amountOfCommonErrors + 1;
+//            throw new WebInvalidInputException( "Kode ord for langt, max " + Config.User.PASSWORD_MAX_LENGTH + " tegn" );
         }
         
         if ( password.length() < Config.User.PASSWORD_MIN_LENGTH ) {
-            throw new WebInvalidInputException( "Kode ord for kort, min " + Config.User.PASSWORD_MIN_LENGTH + " tegn" );
+            combinedCommonErrors.append("- Kode ord for kort, min " + Config.User.PASSWORD_MIN_LENGTH + " tegn");
+            amountOfCommonErrors = amountOfCommonErrors + 1;
+//            throw new WebInvalidInputException( "Kode ord for kort, min " + Config.User.PASSWORD_MIN_LENGTH + " tegn" );
+        }
+
+        if (!combinedCommonErrors.isEmpty()){
+            combinedCommonErrors.insert(0,"Der er '" + amountOfCommonErrors + "' fejl med at oprette en bruger:" + System.lineSeparator());
+            throw new WebInvalidInputException(combinedCommonErrors.toString());
         }
         
         Map< Integer, User > singleUserMap = this.userMapper.readAllByEmail( email );
