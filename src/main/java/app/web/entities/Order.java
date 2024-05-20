@@ -22,7 +22,7 @@ public class Order
     private AccountInfo accountInfo;
     
     
-    public StringBuilder getFullHistory()
+    public StringBuilder getString()
     { //TODO
         StringBuilder stringBuilder = new StringBuilder();
         

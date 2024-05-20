@@ -35,7 +35,7 @@ public final class UserMapperImpl implements UserMapper
     public int create( User user ) throws DatabaseException, NoIdKeyReturnedException, UnexpectedResultDbException
     {
         if ( user.getRole() == null ) {
-            user.setRole( Config.User.DEFAULT_USER_ROLE );
+            user.setRole( Config.User.USER_ROLE );
         }
         
         

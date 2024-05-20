@@ -88,20 +88,23 @@
 <!--Back and forth Buttons-->
 
 <nav class="buy-flow-nav" th:fragment="buy-flow-nav (backText, confirmText)">
-    <div class="underline-animation" id="back">
-        <button type="submit" class="link-button"
-                formmethod="post" formaction="back"
-                th:text="${backText}"> SET BACK TEXT
-        </button>
-    </div>
-
-    <div class="underline-animation" id="confirm">
-        <button type="submit" class="link-button"
-                formmethod="post" formaction="confirm"
-                th:text="${confirmText}"> SET CONFIRM TEXT
-        </button>
-    </div>
+    <div th:replace="~{fragments :: buy-flow-nav-back (${backText})}"></div>
+    <div th:replace="~{fragments :: buy-flow-nav-confirm(${confirmText})}"></div>
 </nav>
+
+<div class="underline-animation" id="back" th:fragment="buy-flow-nav-back (backText)">
+    <button type="submit" class="link-button"
+            formmethod="post" formaction="back"
+            th:text="${backText}"> SET BACK TEXT
+    </button>
+</div>
+
+<div class="underline-animation" id="confirm" th:fragment="buy-flow-nav-confirm (confirmText)">
+    <button type="submit" class="link-button"
+            formmethod="post" formaction="confirm"
+            th:text="${confirmText}"> SET CONFIRM TEXT
+    </button>
+</div>
 
 <footer class="footer-content" th:fragment="footer">
     <h3>Hos Fog værdsætter vi din holdning. Er der noget vi kan gøre bedre? Så giv os besked!</h3>
