@@ -6,6 +6,7 @@ import app.web.entities.Plank;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,12 +40,15 @@ public class BeamCalculatorImpl implements BeamCalculator
         int maxPrice = -1;
         
         Plank plankNew; //Exists to avoid multi-threading bugs
+        Map< Integer, Plank > validBeamsNew = new LinkedHashMap<>();
         
         //Calc Price, Max Price and Max Amount
         for ( Plank plank : validBeams.values() ) { //TODO: Figure out a way to skip this loop
             
             if ( plank != null ) {
                 plankNew = new Plank( plank );
+                validBeamsNew.put( plankNew.getId(),plankNew );
+                
                 plankNew.setPostPrice( postPrice );
                 plankNew.calcPricePrMm();  //TODO: Where can this happen, if not in a preliminary loop? Maybe when we sort by price?... no probably wouldn't work
                 
@@ -69,7 +73,7 @@ public class BeamCalculatorImpl implements BeamCalculator
             
         } //End - Initial fori
         
-        List< Plank > resList = this.calcBeamsOnPostsLogic( validBeams, maxAmount, maxPrice, totalLength );
+        List< Plank > resList = this.calcBeamsOnPostsLogic( validBeamsNew, maxAmount, maxPrice, totalLength );
         
         return resList;
     }
