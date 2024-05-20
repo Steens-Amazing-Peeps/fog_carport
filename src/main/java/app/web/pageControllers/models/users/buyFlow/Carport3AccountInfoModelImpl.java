@@ -1,6 +1,7 @@
 package app.web.pageControllers.models.users.buyFlow;
 
 import app.util.Validators;
+import app.web.constants.Config;
 import app.web.entities.AccountInfo;
 import app.web.entities.Order;
 import app.web.entities.User;
@@ -59,6 +60,9 @@ public class Carport3AccountInfoModelImpl implements Carport3AccountInfoModel
         if ( fullName == null || fullName.isBlank() ) {
             throw new WebInvalidInputException( "Navn ikke udfyldt" );
         }
+        if (fullName.length() > Config.AccountInfo.MAXIMUM_FULLNAME_LENGTH){
+            throw new WebInvalidInputException("Navn må maks være på 100 tegn");
+        }
         
         accountInfo.setFullName( fullName );
     }
@@ -69,18 +73,24 @@ public class Carport3AccountInfoModelImpl implements Carport3AccountInfoModel
         if ( address == null || address.isBlank() ) {
             throw new WebInvalidInputException( "Adresse ikke udfyldt" );
         }
+        if (address.length() > Config.AccountInfo.MAXIMUM_ADDRESS_LENGTH){
+            throw new WebInvalidInputException("Adresse må maks være på 50 tegn");
+        }
         
         accountInfo.setAddress( address );
     }
     
     @Override
-    public void setZip( AccountInfo accountInfo, String Zip ) throws WebInvalidInputException
+    public void setZip( AccountInfo accountInfo, String zip ) throws WebInvalidInputException
     {
-        if ( Zip == null || Zip.isBlank() ) {
+        if ( zip == null || zip.isBlank() ) {
             throw new WebInvalidInputException( "Postnr. ikke udfyldt" );
         }
+        if (!(zip.length() == Config.AccountInfo.REQUIRED_ZIP_DK_LENGTH)){
+            throw new WebInvalidInputException("Postnr. skal være på 4 cifre");
+        }
         
-        accountInfo.setZip( Integer.valueOf( Zip ) );
+        accountInfo.setZip( Integer.valueOf( zip ) );
     }
     
     @Override
@@ -88,6 +98,9 @@ public class Carport3AccountInfoModelImpl implements Carport3AccountInfoModel
     {
         if ( city == null || city.isBlank() ) {
             throw new WebInvalidInputException( "By ikke udfyldt" );
+        }
+        if (city.length() > Config.AccountInfo.MAXIMUM_CITY_LENGTH){
+            throw new WebInvalidInputException("By må maks være på 50 tegn");
         }
         
         accountInfo.setCity( city );
@@ -98,6 +111,9 @@ public class Carport3AccountInfoModelImpl implements Carport3AccountInfoModel
     {
         if ( phoneNumber == null || phoneNumber.isBlank() ) {
             throw new WebInvalidInputException( "Tlf. ikke udfyldt" );
+        }
+        if (!(phoneNumber.length() == Config.AccountInfo.REQUIRED_TLF_DK_LENGTH)){
+            throw new WebInvalidInputException("Tlf. skal være på 8 cifre");
         }
         
         accountInfo.setPhoneNumber( Integer.valueOf( phoneNumber ) );

@@ -71,5 +71,14 @@ public interface Config
         int COMMA_DIGITS_IN_CM_IN_STRING = 1;
         int COMMA_DIGITS_IN_M_IN_STRING = 2;
     }
+
+    public static interface AccountInfo
+    {
+        int MAXIMUM_FULLNAME_LENGTH = 100;
+        int MAXIMUM_ADDRESS_LENGTH = 50;
+        int REQUIRED_ZIP_DK_LENGTH = 4;
+        int MAXIMUM_CITY_LENGTH = 50;
+        int REQUIRED_TLF_DK_LENGTH = 8;
+    }
     
 }
