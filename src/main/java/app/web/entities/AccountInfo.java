@@ -23,7 +23,9 @@ public class AccountInfo implements Comparable< AccountInfo >
     private Boolean consentToSpam;
     
     
-    
+    public String getString(){
+        return this.toStringPretty( new StringBuilder() );
+    }
     public String toStringPretty( StringBuilder stringBuilder )
     {
         stringBuilder.append( this.toString() ).append( System.lineSeparator() );

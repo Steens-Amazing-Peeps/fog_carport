@@ -17,7 +17,8 @@ public interface Config
         //User
         int PASSWORD_MAX_LENGTH = 100; //DB max = 100  //Cannot be negative
         int PASSWORD_MIN_LENGTH = 4; //Cannot be negative
-        String DEFAULT_USER_ROLE = "user"; //DB default = user  //Cannot be null
+        String USER_ROLE = "user"; //DB default = user  //Cannot be null //Only change these if you know what you are doing with databases
+        String ADMIN_ROLE = "admin"; //Cannot be null //Only change these if you know what you are doing with databases
         
     }
     

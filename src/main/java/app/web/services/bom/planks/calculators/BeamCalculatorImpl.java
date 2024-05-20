@@ -38,17 +38,19 @@ public class BeamCalculatorImpl implements BeamCalculator
         int maxAmount = -1;
         int maxPrice = -1;
         
+        Plank plankNew; //Exists to avoid multi-threading bugs
+        
         //Calc Price, Max Price and Max Amount
         for ( Plank plank : validBeams.values() ) { //TODO: Figure out a way to skip this loop
             
             if ( plank != null ) {
-                
-                plank.setPostPrice( postPrice );
-                plank.calcPricePrMm();  //TODO: Where can this happen, if not in a preliminary loop? Maybe when we sort by price?... no probably wouldn't work
+                plankNew = new Plank( plank );
+                plankNew.setPostPrice( postPrice );
+                plankNew.calcPricePrMm();  //TODO: Where can this happen, if not in a preliminary loop? Maybe when we sort by price?... no probably wouldn't work
                 
                 //Amount
-                amount = totalLength / plank.getLength();
-                if ( totalLength % plank.getLength() != 0 ) {
+                amount = totalLength / plankNew.getLength();
+                if ( totalLength % plankNew.getLength() != 0 ) {
                     amount = amount + 1;
                 }
                 
@@ -57,7 +59,7 @@ public class BeamCalculatorImpl implements BeamCalculator
                 }
                 
                 //Price
-                totalPrice = plank.getPriceWithPole() * amount;
+                totalPrice = plankNew.getPriceWithPole() * amount;
                 
                 if ( totalPrice > maxPrice ) {
                     maxPrice = totalPrice;  //TODO: Can just use the first plank as a starting point in calcBeamsOnPostsLogic instead, but if we have this loop anyway, this might be better?

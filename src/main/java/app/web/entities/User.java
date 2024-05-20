@@ -13,7 +13,49 @@ public class User
     private String password;  // t
     private String role;  // t
     
-    private List<Order> orders = new ArrayList<>();
+    
+    
+    @Override
+    public boolean equals( Object obj )
+    {
+        if ( obj instanceof User otherUser ) {
+            
+            if (  !Objects.equals( otherUser.getUserId(), this.getUserId() ) ){
+                return false;
+            }
+            
+            if (  !Objects.equals( otherUser.getEmail(), this.getEmail() ) ){
+                return false;
+            }
+            
+            if (  !Objects.equals( otherUser.getPassword(), this.getPassword() ) ){
+                return false;
+            }
+            
+            if (  !Objects.equals( otherUser.getRole(), this.getRole() ) ){
+                return false;
+            }
+            
+            return true;
+        }
+        
+        return false;
+    }
+    
+    
+    public String getString(){
+        return this.toString();
+    }
+    @Override
+    public String toString()
+    {
+        return "User{" +
+               "userId=" + this.userId +
+               ", email='" + this.email + '\'' +
+               ", password='" + this.password + '\'' +
+               ", role=" + this.role +
+               '}';
+    }
     
     public Integer getUserId()
     {
@@ -56,42 +98,6 @@ public class User
     }
     
     
-    @Override
-    public boolean equals( Object obj )
-    {
-        if ( obj instanceof User otherUser ) {
-            
-            if (  !Objects.equals( otherUser.getUserId(), this.getUserId() ) ){
-                return false;
-            }
-            
-            if (  !Objects.equals( otherUser.getEmail(), this.getEmail() ) ){
-                return false;
-            }
-            
-            if (  !Objects.equals( otherUser.getPassword(), this.getPassword() ) ){
-                return false;
-            }
-            
-            if (  !Objects.equals( otherUser.getRole(), this.getRole() ) ){
-                return false;
-            }
-            
-            return true;
-        }
-        
-        return false;
-    }
-    
-    @Override
-    public String toString()
-    {
-        return "User{" +
-               "userId=" + this.userId +
-               ", email='" + this.email + '\'' +
-               ", password='" + this.password + '\'' +
-               ", role=" + this.role +
-               '}';
-    }
+
     
 }

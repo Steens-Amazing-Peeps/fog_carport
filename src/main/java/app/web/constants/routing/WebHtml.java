@@ -4,7 +4,7 @@ public interface WebHtml
 {     //Alle vores HTML filer's path, bruges I controller.
     
     String INDEX_HTML = "index.html";
-
+    
     //Users
     String FEEDBACK_HTML = PathParts.USERS + "feedback.html";
     
@@ -26,6 +26,7 @@ public interface WebHtml
     
     //Admins
     String EDIT_BUILDING_MATERIALS_HTML = PathParts.ADMINS + "edit-building-materials.html";
+    String CARPORT_ADMIN_ORDER_HISTORY_HTML = PathParts.ADMINS + PathParts.BUY_FLOW + "carport-admin-order-history";
     
     
     interface PathParts //Makes renaming folders real easy

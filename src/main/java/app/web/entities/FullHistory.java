@@ -1,9 +1,7 @@
 package app.web.entities;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class FullHistory
 {
@@ -30,7 +28,7 @@ public class FullHistory
                 
                 //Get All the orders that use this info
                 for ( Order order : accountInfoSetAndOrdersMapEntry.getValue().values() ) {
-                    stringBuilder.append( order.getFullHistory() ).append( System.lineSeparator() );
+                    stringBuilder.append( order.getString() ).append( System.lineSeparator() );
                 }
             }
             
@@ -41,6 +39,27 @@ public class FullHistory
         
         return stringBuilder.toString();
     }
+    
+    public String getString()
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        
+        //Map isn't null or empty
+        if ( ( this.OrdersByAccountInfo != null && !this.OrdersByAccountInfo.isEmpty() ) ) {
+            for ( Map.Entry< AccountInfo, Map< Integer, Order > > accountInfoSetAndOrdersMapEntry : this.OrdersByAccountInfo.entrySet() ) {
+                
+                //All Account Infos are the same on any given entry, so get just the key.
+                stringBuilder.append( accountInfoSetAndOrdersMapEntry.getKey() ).append( System.lineSeparator() );
+                
+                //Get All the orders that use this info
+                for ( Order order : accountInfoSetAndOrdersMapEntry.getValue().values() ) {
+                    stringBuilder.append( order.getString() ).append( System.lineSeparator() );
+                }
+            }
+        }
+        return stringBuilder.toString();
+    }
+    
     
     @Override
     public String toString()

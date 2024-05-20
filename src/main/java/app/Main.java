@@ -9,6 +9,7 @@ import app.web.entities.FullHistory;
 import app.web.exceptions.DatabaseException;
 import app.web.pageControllers.controllers.IndexController;
 import app.web.pageControllers.controllers.admins.EditBuildingMaterialsController;
+import app.web.pageControllers.controllers.admins.buyFlow.CarportAdminOrderHistoryController;
 import app.web.pageControllers.controllers.users.*;
 import app.web.pageControllers.controllers.users.account.CreateAccountController;
 import app.web.pageControllers.controllers.users.account.LoginController;
@@ -20,6 +21,8 @@ import app.web.pageControllers.models.IndexModelImpl;
 
 import app.web.pageControllers.models.admins.EditBuildingMaterialsModel;
 import app.web.pageControllers.models.admins.EditBuildingMaterialsModelImpl;
+import app.web.pageControllers.models.admins.buyFlow.CarportAdminOrderHistoryModel;
+import app.web.pageControllers.models.admins.buyFlow.CarportAdminOrderHistoryModelImpl;
 import app.web.pageControllers.models.users.FeedbackModel;
 import app.web.pageControllers.models.users.FeedbackModelImpl;
 import app.web.pageControllers.models.users.account.*;
@@ -79,6 +82,8 @@ public class Main
         //Admins
         EditBuildingMaterialsController.addRoutes( app );
         
+        CarportAdminOrderHistoryController.addRoutes( app );
+        
     }
     
     private static void setUpWebServer( JavalinConfig config, GetConnectionIf connectionPool )
@@ -124,7 +129,9 @@ public class Main
         Carport5ReceiptModel carport5ReceiptModel = new Carport5ReceiptModelImpl();
         
         CarportBillPayUpModel carportBillPayUpModel = new CarportBillPayUpModelImpl();
-        CarportOrderHistoryModel carportOrderHistoryModel = new CarportOrderHistoryModelImpl();
+        
+        CarportOrderHistoryModel carportOrderHistoryModel = new CarportOrderHistoryModelImpl(fullHistoryMapper, orderMapper);
+        CarportAdminOrderHistoryModel carportAdminOrderHistoryModel = new CarportAdminOrderHistoryModelImpl( fullHistoryMapper, orderMapper );
         
         //Admins
         EditBuildingMaterialsModel editBuildingMaterialsModel = new EditBuildingMaterialsModelImpl();
@@ -155,6 +162,8 @@ public class Main
         
         //Admins
         EditBuildingMaterialsController.startUp( editBuildingMaterialsModel );
+        
+        CarportAdminOrderHistoryController.startUp(carportAdminOrderHistoryModel);
         
         //TODO: DELETE THIS THIS IS TEMP
         try {
