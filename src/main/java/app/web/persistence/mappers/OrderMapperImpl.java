@@ -172,16 +172,18 @@ public final class OrderMapperImpl implements OrderMapper
     }
     
     @Override
-    public int updateApprove( Integer orderId ) throws DatabaseException, UnexpectedResultDbException
+    public int updateApprove( Integer orderId, Integer priceActualInOere ) throws DatabaseException, UnexpectedResultDbException
     {
         String sql =
                 "UPDATE \"order\" " +
-                "SET date_approved = ? " +
+                "SET date_approved = ?, price_actual_in_oere = ?, status = ? " +
                 "WHERE order_id = ?;";
         
-        Object[] parametersForSql = new Object[ 2 ];
+        Object[] parametersForSql = new Object[ 4 ];
         parametersForSql[ 0 ] = LocalDateTime.now();
-        parametersForSql[ 1 ] = orderId;
+        parametersForSql[ 1 ] = priceActualInOere;
+        parametersForSql[ 2 ] = "approved";
+        parametersForSql[ 3 ] = orderId;
         
         return this.dataStore.update( sql, this.readSingle( orderId ), parametersForSql );
     }
@@ -191,12 +193,13 @@ public final class OrderMapperImpl implements OrderMapper
     {
         String sql =
                 "UPDATE \"order\" " +
-                "SET date_finished = ? " +
+                "SET date_finished = ?, status = ? " +
                 "WHERE order_id = ?;";
         
-        Object[] parametersForSql = new Object[ 2 ];
+        Object[] parametersForSql = new Object[ 3 ];
         parametersForSql[ 0 ] = LocalDateTime.now();
-        parametersForSql[ 1 ] = orderId;
+        parametersForSql[ 1 ] = "finished";
+        parametersForSql[ 2 ] = orderId;
         
         return this.dataStore.update( sql, this.readSingle( orderId ), parametersForSql );
     }
