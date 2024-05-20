@@ -28,7 +28,7 @@ public class AccountInfo implements Comparable< AccountInfo >
     }
     public String toStringPretty( StringBuilder stringBuilder )
     {
-        stringBuilder.append( this.toString() ).append( System.lineSeparator() );
+        stringBuilder.append( this.toStringReadable() ).append( System.lineSeparator() );
         
         return stringBuilder.toString();
     }
@@ -45,6 +45,20 @@ public class AccountInfo implements Comparable< AccountInfo >
                ", phoneNumber=" + this.phoneNumber +
                ", email='" + this.email + '\'' +
                '}';
+    }
+
+    public String toStringReadable(){
+        String s = "ContactInfo:" + System.lineSeparator() +
+                "contactId=" + this.contactId + System.lineSeparator() +
+                "fullName='" + this.fullName + '\'' + System.lineSeparator() +
+                "address='" + this.address + '\'' + System.lineSeparator() +
+                "zip=" + this.zip + System.lineSeparator() +
+                "city='" + this.city + '\'' + System.lineSeparator() +
+                "phoneNumber=" + this.phoneNumber + System.lineSeparator() +
+                "email='" + this.email + '\''
+                ;
+
+        return s;
     }
     
     @Override

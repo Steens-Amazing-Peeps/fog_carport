@@ -68,7 +68,7 @@ public class Order
     public StringBuilder toStringPretty( StringBuilder stringBuilder )
     { //TODO
         
-        stringBuilder.append( this.toString() ).append( System.lineSeparator() );
+        stringBuilder.append( this.toStringReadable() ).append( System.lineSeparator() );
         
         return stringBuilder;
     }
@@ -86,6 +86,20 @@ public class Order
                ", status='" + this.status + '\'' +
                ", comment='" + this.comment + '\'' +
                '}';
+    }
+
+    public String toStringReadable(){
+        String s = "Order " + this.orderId + ":" + System.lineSeparator() +
+                "priceSuggested=" + this.priceSuggested + System.lineSeparator() +
+                "priceActual=" + this.priceActual + System.lineSeparator() +
+                "dateRequested=" + this.dateRequested + System.lineSeparator() +
+                "dateApproved=" + this.dateApproved + System.lineSeparator() +
+                "dateFinished=" + this.dateFinished + System.lineSeparator() +
+                "status='" + this.status + '\'' + System.lineSeparator() +
+                "comment='" + this.comment + '\'' + System.lineSeparator()
+                ;
+
+        return s;
     }
     
     public void calcPriceSuggested()

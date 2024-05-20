@@ -92,7 +92,7 @@ public class Carport
     public StringBuilder toStringPretty( StringBuilder stringBuilder )
     { //TODO
         
-        stringBuilder.append( this ).append( System.lineSeparator() );
+        stringBuilder.append( this.toStringReadable() ).append( System.lineSeparator() );
         
         return stringBuilder;
     }
@@ -110,6 +110,18 @@ public class Carport
                ", shed=" + this.shed +
                ", roof=" + this.roof +
                '}';
+    }
+
+    public String toStringReadable(){ //removed "shed", "roof" and "isOpen" as we do not use them
+        String s = "Carport:" + System.lineSeparator() +
+                "price=" + this.getPrice() + System.lineSeparator() +
+                "carportId=" + this.carportId + System.lineSeparator() +
+                "height=" + this.height + System.lineSeparator() +
+                "length=" + this.length + System.lineSeparator() +
+                "width=" + this.width
+                ;
+
+        return s;
     }
     
     //Getters and Setters

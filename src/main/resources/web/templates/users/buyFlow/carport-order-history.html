@@ -18,20 +18,20 @@
         </div>
 
 
-        <div th:each="acountInfoAndOrdersEntry : ${session.fullHistory.ordersByAccountInfo}">
+        <div th:each="accountInfoAndOrdersEntry : ${session.fullHistory.ordersByAccountInfo}">
 
-            <!--                <div th:value="acountInfoAndOrdersEntry.key">-->
+            <!--                <div th:value="accountInfoAndOrdersEntry.key">-->
             <!--                    &lt;!&ndash; AccountInfo Entity &ndash;&gt;-->
             <!--                </div>-->
-            <!--                <div th:value="acountInfoAndOrdersEntry.value">-->
+            <!--                <div th:value="accountInfoAndOrdersEntry.value">-->
             <!--                    &lt;!&ndash; Map< orderId, Order > &ndash;&gt;-->
             <!--                </div>-->
 
             <span class="order-meta" style="white-space: pre-wrap;"
-                  th:text="${acountInfoAndOrdersEntry.key.string}">
+                  th:text="${accountInfoAndOrdersEntry.key.string}">
                     </span>
 
-            <div th:each="orderEntry : ${acountInfoAndOrdersEntry.value}">
+            <div th:each="orderEntry : ${accountInfoAndOrdersEntry.value}">
 
                 <!--                    <div th:value="orderEntry.key">-->
                 <!--                        &lt;!&ndash; Order Id &ndash;&gt;-->
