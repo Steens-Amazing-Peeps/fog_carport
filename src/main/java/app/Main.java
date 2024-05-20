@@ -128,10 +128,12 @@ public class Main
         Carport4ReviewAndConfirmModel carport4ReviewAndConfirmModel = new Carport4ReviewAndConfirmModelImpl( orderMapper );
         Carport5ReceiptModel carport5ReceiptModel = new Carport5ReceiptModelImpl();
         
-        CarportBillPayUpModel carportBillPayUpModel = new CarportBillPayUpModelImpl();
+
+        CarportBillPayUpModel carportBillPayUpModel = new CarportBillPayUpModelImpl( orderMapper );
         
         CarportOrderHistoryModel carportOrderHistoryModel = new CarportOrderHistoryModelImpl(fullHistoryMapper, orderMapper);
         CarportAdminOrderHistoryModel carportAdminOrderHistoryModel = new CarportAdminOrderHistoryModelImpl( fullHistoryMapper, orderMapper );
+
         
         //Admins
         EditBuildingMaterialsModel editBuildingMaterialsModel = new EditBuildingMaterialsModelImpl();
