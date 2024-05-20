@@ -8,8 +8,15 @@
 <div class="page" id="page">
 
     <div th:replace="~{fragments :: header}"></div>
-
+  
     <div class="content" id="content">
+      
+      
+          <div class="history-intro">
+            <span th:if="*{session.currentUser.role != null}? ${session.currentUser.role == 'user'}">Dine bestillinger:</span>
+            <span th:if="*{session.currentUser.role != null}? ${session.currentUser.role == 'admin'}">Modtagne bestillinger:</span>
+        </div>
+
 
         <div th:each="acountInfoAndOrdersEntry : ${session.fullHistory.ordersByAccountInfo}">
 
@@ -78,6 +85,14 @@
                 </form>
 
             </div>
+
+
+
+
+        <div>
+            <p class="error-msg" style="white-space: pre-line"
+               th:unless="${#strings.isEmpty(msg)}"
+               th:text="${msg}"></p>
 
         </div>
 

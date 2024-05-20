@@ -13,18 +13,28 @@
 
     <div class="content" id="content">
 
-        <h1>Dette er en ultra primitiv placeholder</h1>
-        <h1>Og her kommer til at være to større links</h1>
-        <h1>Til hhv standard carporte og custom carporte</h1>
+        <div class="welcome">
+            <h1>Velkommen til Fog carporte</h1>
+        </div>
+
+        <div class="choice">
+            <p>Se vores sortiment af standard byg-selv carporte eller design en carport ud fra specifikke mål. Ved hver
+                standard carport findes en tegning over selve carporten og dens elementer. Vælger du derimod at indtaste
+                egne
+                mål, så laver vi en tegning til netop din carport.</p>
+        </div>
+
         <nav>
-            <div class="underline-animation">
+            <div class="underline-animation" id="button-one">
                 <form method="get" action="https://www.johannesfog.dk/have-fritid/carporte" class="inline">
+                    <img src="/images/StandardCarport.png" alt="Standard">
                     <button type="submit" class="link-button">Standard Carporte</button>
                 </form>
             </div>
 
-            <div class="underline-animation">
+            <div class="underline-animation" id="button-two">
                 <form method="get" action="/carport/info/" class="inline">
+                    <img src="/images/CustomCarport.png" alt="Custom">
                     <button type="submit" class="link-button">Design egen carport</button>
                 </form>
             </div>
