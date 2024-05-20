@@ -1,0 +1,9 @@
+.history-intro {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 20px;
+
+    font-weight: bold;
+    font-size: 1.8rem;
+}

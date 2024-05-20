@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<div th:replace="~{fragments :: head('Recept','users/buyFlow/receipt')}"></div>
+<div th:replace="~{fragments :: head('Recept','users/buyFlow/carport-5-receipt')}"></div>
 
 <body>
 
@@ -18,7 +18,7 @@
                 <p>Tak for købet!</p>
             </div>
 
-            <form>
+            <form class="receipt">
 
                 <div>
                     <p style="white-space: pre-line"
@@ -35,8 +35,6 @@
         </div>
 
         <div th:replace="~{fragments :: buy-flow-nav ('Tilbage til din oversigt', 'Til regning')}"></div>
-
-        </form>
 
     </div>
 
