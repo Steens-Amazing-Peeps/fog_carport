@@ -70,4 +70,38 @@ public class FullHistoryMapperImpl implements FullHistoryMapper
         return fullHistoryMap;
     }
     
+    @Override
+    public FullHistory readSingle( Integer userId ) throws DatabaseException
+    {
+        User currentUser = WebGlobalAttributes.USER_MAP.get( userId );
+        return this.readSingle( currentUser );
+    }
+    
+    @Override
+    public FullHistory readSingle( User currentUser ) throws DatabaseException
+    {
+        FullHistory fullHistory = new FullHistory();
+        fullHistory.setUser( currentUser );
+        
+        Map< Integer, AccountInfo > accountInfoMap = this.accountInfoMapper.readAllByUserId( currentUser.getUserId() );
+        
+//        Set< Integer > usersWithAccountInfo = new TreeSet<>();
+        Set< AccountInfo > seenAccountInfo = new TreeSet<>();
+        
+        
+        
+        for ( AccountInfo accountInfo : accountInfoMap.values() ) {
+            
+            if ( !seenAccountInfo.contains( accountInfo ) ) {
+                seenAccountInfo.add( accountInfo );
+                
+                fullHistory.addAccountInfo( accountInfo );
+                fullHistory.addOrderMapWithAccountInfo( this.orderMapper.readAllByAccountInfoIdFull( accountInfo ) );
+                
+            }
+        }
+        
+        return fullHistory;
+    }
+    
 }

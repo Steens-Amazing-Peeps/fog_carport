@@ -8,13 +8,6 @@ public interface WebSessionAttributes
     String currentOrder = "currentOrder";
     String completedOrder = "completedOrder";
     
-    
-    
-    
-    
-    
-    
-    
-
+    String fullHistory = "fullHistory";    //Either a FullHistory or a Map<Integer, FullHistory>
     
 }

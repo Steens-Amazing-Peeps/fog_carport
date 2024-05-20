@@ -22,7 +22,7 @@ public class Order
     private AccountInfo accountInfo;
     
     
-    public StringBuilder getFullHistory()
+    public StringBuilder getString()
     { //TODO
         StringBuilder stringBuilder = new StringBuilder();
         
@@ -51,6 +51,17 @@ public class Order
         this.carport.getReceipt( stringBuilder );
         this.accountInfo.toStringPretty( stringBuilder );
         
+        return stringBuilder;
+    }
+
+    public StringBuilder getBill()
+    { //TODO
+        StringBuilder stringBuilder = new StringBuilder();
+
+        this.toStringPretty( stringBuilder );
+        this.carport.getBill( stringBuilder );
+        this.accountInfo.toStringPretty( stringBuilder );
+
         return stringBuilder;
     }
     

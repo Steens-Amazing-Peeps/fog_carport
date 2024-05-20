@@ -22,7 +22,7 @@ public interface OrderMapper
     
     Map< Integer, Order > readAll() throws DatabaseException;
     
-
+    
     
     Map< Integer, Order > readAllByAccountInfoId( Integer accountInfoId ) throws DatabaseException;
     
@@ -33,6 +33,12 @@ public interface OrderMapper
     
     int update( Order order, Integer accountInfoId ) throws DatabaseException, UnexpectedResultDbException;
     
+    int updateApprove( Integer orderId ) throws DatabaseException, UnexpectedResultDbException;
+    
+    int updateFinish( Integer orderId ) throws DatabaseException, UnexpectedResultDbException;
+    
     int delete( Integer orderId ) throws DatabaseException, UnexpectedResultDbException;
+    
+    
     
 }

@@ -7,13 +7,13 @@ public interface WebPages
 //    String INDEX_POST_PAGE = ;
     
     //Header only
-
+    
     String LOGOUT_POST_PAGE = "/logout/";
-  
+    
     //Feedback
     String FEEDBACK_GET_PAGE = "/feedback";
     String FEEDBACK_POST_PAGE = FEEDBACK_GET_PAGE;
-
+    
     
     
     //Account
@@ -43,7 +43,7 @@ public interface WebPages
     
     String CARPORT_4_REVIEW_AND_CONFIRM_GET_PAGE = "/carport/review-and-confirm/";
     String CARPORT_4_REVIEW_AND_CONFIRM_BACK_POST_PAGE = CARPORT_4_REVIEW_AND_CONFIRM_GET_PAGE + "back";
-    String CARPORT_4_REVIEW_AND_CONFIRM_CONFIRM_POST_PAGE = CARPORT_4_REVIEW_AND_CONFIRM_GET_PAGE  + "confirm";
+    String CARPORT_4_REVIEW_AND_CONFIRM_CONFIRM_POST_PAGE = CARPORT_4_REVIEW_AND_CONFIRM_GET_PAGE + "confirm";
     
     
     String CARPORT_5_RECEIPT_GET_PAGE = "/carport/receipt/";
@@ -57,12 +57,18 @@ public interface WebPages
     
     
     String CARPORT_ORDER_HISTORY_GET_PAGE = "/carport/order-history/";
-    
+    String CARPORT_ORDER_HISTORY_POST_PAGE = CARPORT_ORDER_HISTORY_GET_PAGE + "pay";
     
     
     //Admin Only
     String EDIT_BUILDING_MATERIALS_GET_PAGE = "/edit-building-materials/";
     String EDIT_BUILDING_MATERIALS_POST_PAGE = EDIT_BUILDING_MATERIALS_GET_PAGE + "";
+    
+    
+    String CARPORT_ADMIN_ORDER_HISTORY_GET_PAGE = "/carport/admin-order-history/";
+    String CARPORT_ADMIN_ORDER_HISTORY_POST_APPROVE_PAGE = CARPORT_ADMIN_ORDER_HISTORY_GET_PAGE + "approve";
+    String CARPORT_ADMIN_ORDER_HISTORY_POST_DELETE_PAGE = CARPORT_ADMIN_ORDER_HISTORY_GET_PAGE + "delete";
+    
     
     
     

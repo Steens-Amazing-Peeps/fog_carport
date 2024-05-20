@@ -9,6 +9,7 @@ import app.web.exceptions.NoIdKeyReturnedException;
 import app.web.exceptions.UnexpectedResultDbException;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -168,6 +169,36 @@ public final class OrderMapperImpl implements OrderMapper
         
         
         return this.dataStore.update( sql, order, parametersForSql );
+    }
+    
+    @Override
+    public int updateApprove( Integer orderId ) throws DatabaseException, UnexpectedResultDbException
+    {
+        String sql =
+                "UPDATE \"order\" " +
+                "SET date_approved = ? " +
+                "WHERE order_id = ?;";
+        
+        Object[] parametersForSql = new Object[ 2 ];
+        parametersForSql[ 0 ] = LocalDateTime.now();
+        parametersForSql[ 1 ] = orderId;
+        
+        return this.dataStore.update( sql, this.readSingle( orderId ), parametersForSql );
+    }
+    
+    @Override
+    public int updateFinish( Integer orderId ) throws DatabaseException, UnexpectedResultDbException
+    {
+        String sql =
+                "UPDATE \"order\" " +
+                "SET date_finished = ? " +
+                "WHERE order_id = ?;";
+        
+        Object[] parametersForSql = new Object[ 2 ];
+        parametersForSql[ 0 ] = LocalDateTime.now();
+        parametersForSql[ 1 ] = orderId;
+        
+        return this.dataStore.update( sql, this.readSingle( orderId ), parametersForSql );
     }
     
     @Override

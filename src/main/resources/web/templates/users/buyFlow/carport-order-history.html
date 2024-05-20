@@ -8,18 +8,92 @@
 <div class="page" id="page">
 
     <div th:replace="~{fragments :: header}"></div>
-
+  
     <div class="content" id="content">
-
-        <div class="history-intro">
+      
+      
+          <div class="history-intro">
             <span th:if="*{session.currentUser.role != null}? ${session.currentUser.role == 'user'}">Dine bestillinger:</span>
             <span th:if="*{session.currentUser.role != null}? ${session.currentUser.role == 'admin'}">Modtagne bestillinger:</span>
         </div>
+
+
+        <div th:each="acountInfoAndOrdersEntry : ${session.fullHistory.ordersByAccountInfo}">
+
+            <!--                <div th:value="acountInfoAndOrdersEntry.key">-->
+            <!--                    &lt;!&ndash; AccountInfo Entity &ndash;&gt;-->
+            <!--                </div>-->
+            <!--                <div th:value="acountInfoAndOrdersEntry.value">-->
+            <!--                    &lt;!&ndash; Map< orderId, Order > &ndash;&gt;-->
+            <!--                </div>-->
+
+            <span class="order-meta" style="white-space: pre-wrap;"
+                  th:text="${acountInfoAndOrdersEntry.key.string}">
+                    </span>
+
+            <div th:each="orderEntry : ${acountInfoAndOrdersEntry.value}">
+
+                <!--                    <div th:value="orderEntry.key">-->
+                <!--                        &lt;!&ndash; Order Id &ndash;&gt;-->
+                <!--                    </div>-->
+
+                <!--                    <div th:value="orderEntry.value">-->
+                <!--                        &lt;!&ndash; Order Entity &ndash;&gt;-->
+                <!--                    </div>-->
+                <form method="post">
+
+                    <span class="order-content" style="white-space: pre-wrap;"
+                          th:text="${orderEntry.value.string}">
+                        </span>
+
+                    <input type="hidden" id="orderId" name="orderId"
+                           th:value="${orderEntry.key}">
+                    </input>
+
+                    <span class="order-buttons-surround-span">
+
+                        <span id="order-button-approve" class="order-button-span"
+                              th:if="${orderEntry.value.dateApproved != null && orderEntry.value.dateFinished == null}">
+
+                            <button id="approve-button" class="order-button" type="submit"
+                                    formaction="pay"
+                                    th:if="${orderEntry.value.dateApproved != null && orderEntry.value.dateFinished == null}"
+                            >Betal
+                            </button>
+
+                        </span>
+
+                        <!--                        <span id="order-button-done" class="order-button-span">-->
+
+                        <!--                            <button id="done-button" class="order-button" type="submit"-->
+                        <!--                                    formaction="done">Færdig-->
+                        <!--                            </button>-->
+
+                        <!--                        </span>-->
+
+                        <!--                        <span id="order-button-remove" class="order-button-span">-->
+
+                        <!--                            <button id="remove-button" class="order-button" type="submit"-->
+                        <!--                                    formaction="remove">Fjern-->
+                        <!--                            </button>-->
+
+                        <!--                        </span>-->
+
+
+                    </span>
+
+                </form>
+
+            </div>
+
+
+
 
         <div>
             <p class="error-msg" style="white-space: pre-line"
                th:unless="${#strings.isEmpty(msg)}"
                th:text="${msg}"></p>
+
         </div>
 
     </div>
