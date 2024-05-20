@@ -26,3 +26,10 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
+.mail-footer {
+    position: relative;
+
+    width: 60%;
+    height: auto;
+}
