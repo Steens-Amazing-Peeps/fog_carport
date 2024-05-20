@@ -1,8 +1,15 @@
 package app.web.pageControllers.controllers.users.buyFlow;
 
 
+import app.web.constants.attributes.WebAttributes;
+import app.web.constants.attributes.WebSessionAttributes;
 import app.web.constants.routing.WebHtml;
 import app.web.constants.routing.WebPages;
+import app.web.entities.Order;
+import app.web.entities.User;
+import app.web.exceptions.DatabaseException;
+import app.web.exceptions.NoIdKeyReturnedException;
+import app.web.exceptions.UnexpectedResultDbException;
 import app.web.pageControllers.models.users.buyFlow.CarportBillPayUpModel;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -43,19 +50,77 @@ public class CarportBillPayUpController
     
     private static void getPage( Context ctx )
     {//TODO
+        Order order = ctx.sessionAttribute( WebSessionAttributes.completedOrder );
+
+        if ( order == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+
+        if ( order.getCarport() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+
+        if ( order.getAccountInfo() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+
         render( ctx );
     }
     
     private static void postBack( Context ctx )
     {//TODO
+        Order order = ctx.sessionAttribute( WebSessionAttributes.completedOrder );
+
+        if ( order == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+
+        if ( order.getCarport() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+
+        if ( order.getAccountInfo() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+
         Carport5ReceiptController.redirect( ctx );
-        
     }
     
     private static void postConfirm( Context ctx )
     {//TODO
+        Order order = ctx.sessionAttribute( WebSessionAttributes.completedOrder );
 
-    
+        if ( order == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+
+        if ( order.getCarport() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+
+        if ( order.getAccountInfo() == null ) {
+            Carport1InfoController.redirect( ctx );
+            return;
+        }
+
+        try {
+            carportBillPayUpModel.setOrderDone( order );
+
+        } catch (NoIdKeyReturnedException | UnexpectedResultDbException | DatabaseException e ) {
+            ctx.attribute( WebAttributes.msg, e.getUserMessage() );
+            render( ctx );
+            return;
+        }
+
+        CarportBillPayUpController.redirect( ctx );
     }
 
 }

@@ -87,10 +87,16 @@ public class Order
     {
         this.dateRequested = LocalDateTime.now();
     }
+    public void setDateFinishedToNow() {
+        this.dateFinished = LocalDateTime.now();
+    }
     
     public void setStatusToPending()
     {
         this.status = "pending";
+    }
+    public void setStatusToFinished() {
+        this.status = "finished";
     }
     
     //Getters and Setters
