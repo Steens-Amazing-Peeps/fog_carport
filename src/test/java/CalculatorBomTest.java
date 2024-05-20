@@ -109,7 +109,7 @@ public class CalculatorBomTest
         rafters.put( id++, new Plank( id, 45, 195, 4100, Plank.RAFTER, 225 ) );
         rafters.put( id++, new Plank( id, 45, 195, 6000, Plank.RAFTER, 300 ) );
         rafters.put( id++, new Plank( id, 45, 195, 9000, Plank.RAFTER, 400 ) );
-
+        
         validPlanks.setRafters( rafters );
         
         //Posts
@@ -352,9 +352,35 @@ public class CalculatorBomTest
         List< Plank > rafters;
         this.carport.setWidth( 1000 );
         try {
+            rafters = this.rafterCalculatorImpl.findShortestUsableRafter( validPlanks.getRafters(), this.carport.getWidth(), 2, this.plankCalculatorImpl.getSplitCarportSegmentIntoTwoSegmentsAtThisWidthInMm() );
+        } catch ( WebInvalidInputException e ) {
+            throw new RuntimeException( e );
+        }
+        
+        assertEquals( 1, rafters.size() );
+        for ( Plank rafter : rafters ) {
+            assertEquals( 1100, rafter.getLength() );
+        }
+        
+        
+        this.carport.setWidth( 5000 );
+        try {
             rafters = this.rafterCalculatorImpl.findShortestUsableRafter( validPlanks.getRafters(), this.carport.getWidth(), 3, this.plankCalculatorImpl.getSplitCarportSegmentIntoTwoSegmentsAtThisWidthInMm() );
         } catch ( WebInvalidInputException e ) {
             throw new RuntimeException( e );
+        }
+        
+        assertEquals( 2, rafters.size() );
+        int indexCount = 0;
+        for ( Plank rafter : rafters ) {
+            
+            if ( indexCount == 0 ) {
+                assertEquals( 3200, rafter.getLength() );
+            } else if ( indexCount == 1 ) {
+                assertEquals( 2000, rafter.getLength() );
+            }
+            
+            indexCount++;
         }
         
     }
@@ -362,45 +388,61 @@ public class CalculatorBomTest
     @Test
     void calcBom()
     {
-        this.carport.setLength( 7800 );
-        
         int height;
         int length;
         int width;
         
-        height = this.carport.getHeight();
-        length = this.carport.getLength();
-        width = this.carport.getWidth();
+        height = 2200;
+        length = 7800;
+        width = 6000;
+        
+        this.carport.setHeight( height );
+        this.carport.setLength( length );
+        this.carport.setWidth( width );
+        this.plankCalculatorImpl.setMinimumDistanceBetweenPolesCarportWidthInMm( 0 );
+        this.plankCalculatorImpl.setSplitCarportSegmentIntoTwoSegmentsAtThisWidthInMm( 6000 );
         
         Bom bom = null;
         try {
-            this.carport.setHeight(2200);
-            this.carport.setWidth(6000);
-            this.carport.setLength(7800);
-            this.plankCalculatorImpl.setMinimumDistanceBetweenPolesCarportWidthInMm(0);
-            this.plankCalculatorImpl.setSplitCarportSegmentIntoTwoSegmentsAtThisWidthInMm(6000);
             bom = this.carport.calcBom();
-
+            
         } catch ( WebInvalidInputException e ) {
             throw new RuntimeException( e );
         }
         
         System.out.println( bom );
-
+        
         System.out.println( "height = " + height );
         System.out.println( "length = " + length );
         System.out.println( "width = " + width );
-
-        int sumLength = 0;
+        
+        int sumBeamLength = 0;
         for ( Plank beam : bom.getBeams().values() ) {
-            sumLength = sumLength + ( beam.getLength() * beam.getAmount() );
+            sumBeamLength = sumBeamLength + ( beam.getLength() * beam.getAmount() );
         }
-
-        sumLength = sumLength / bom.getRowAmount();
-
-        System.out.println( "Beam sum length = " + sumLength );
-
-
+        
+        sumBeamLength = sumBeamLength / bom.getRowAmount();
+        
+        System.out.println( "Beam sum length = " + sumBeamLength );
+        
+        assertEquals( bom.getTotalBeams() + 2, bom.getTotalPosts() );
+        assertEquals( bom.getTotalPosts() - 2, bom.getTotalBeams() );
+        
+        assertEquals( bom.getTotalPosts() / 2, bom.getTotalRafters() );
+        
+        //Beam length, is it within acceptable waste and long enough?
+        assertTrue( sumBeamLength >= this.carport.getLength() && sumBeamLength <= ( this.carport.getLength() + this.beamCalculatorImpl.getAmountOfAcceptableWasteInMm() ) );
+        
+        //Post and Rafter Length
+        for ( Plank post : bom.getPosts().values()) {
+            assertEquals( 2300, post.getLength() );
+        };
+        
+        for ( Plank rafter : bom.getRafters().values()) {
+            assertEquals( 6000, rafter.getLength() );
+        };
+        
+        
     }
     
     
