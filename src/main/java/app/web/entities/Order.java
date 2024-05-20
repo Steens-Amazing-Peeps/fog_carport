@@ -53,6 +53,17 @@ public class Order
         
         return stringBuilder;
     }
+
+    public StringBuilder getBill()
+    { //TODO
+        StringBuilder stringBuilder = new StringBuilder();
+
+        this.toStringPretty( stringBuilder );
+        this.carport.getBill( stringBuilder );
+        this.accountInfo.toStringPretty( stringBuilder );
+
+        return stringBuilder;
+    }
     
     public StringBuilder toStringPretty( StringBuilder stringBuilder )
     { //TODO
