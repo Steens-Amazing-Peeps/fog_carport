@@ -30,11 +30,14 @@
                        th:text="${msg}"></p>
                 </div>
 
+                <nav class="buy-flow-nav">
+                <div th:replace="~{fragments :: buy-flow-nav-back ('Tilbage til din oversigt')}"></div>
+                </nav>
+
             </form>
 
         </div>
 
-        <div th:replace="~{fragments :: buy-flow-nav ('Tilbage til din oversigt', 'Til regning')}"></div>
 
     </div>
 

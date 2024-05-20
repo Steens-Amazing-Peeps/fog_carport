@@ -76,8 +76,16 @@ public class Carport
     { //TODO
         
         this.toStringPretty( stringBuilder );
-        this.bom.toString( stringBuilder );
         
+        return stringBuilder;
+    }
+
+    public StringBuilder getBill( StringBuilder stringBuilder )
+    { //TODO
+
+        this.toStringPretty( stringBuilder );
+        this.bom.toString( stringBuilder );
+
         return stringBuilder;
     }
     

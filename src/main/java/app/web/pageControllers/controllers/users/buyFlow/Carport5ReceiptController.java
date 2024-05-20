@@ -73,7 +73,7 @@ public class Carport5ReceiptController
     }
     
     private static void postConfirm( Context ctx )
-    {//TODO
+    {//TODO: possibly change/remove this method since the receipt is the endpoint of the buyflow and no longer sends you to the bill page
         Order order = ctx.sessionAttribute( WebSessionAttributes.completedOrder );
         
         if ( order == null ) {
