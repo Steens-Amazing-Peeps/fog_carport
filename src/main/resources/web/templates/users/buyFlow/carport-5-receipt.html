@@ -15,7 +15,7 @@
 
             <div class="form-header">
                 <h1>Kvittering</h1>
-                <p>Fortsæt til næste side til betaling</p>
+                <p>Betalingsinfo fås via mail eller ved at tilgå ordrehistorik.</p>
             </div>
 
             <form class="receipt">
@@ -29,6 +29,10 @@
                     <p class="error-msg" style="white-space: pre-line" th:unless="${#strings.isEmpty(msg)}"
                        th:text="${msg}"></p>
                 </div>
+
+                <form method="get" action="/carport/bill/" class="inline">
+                    <button class="link-button-mail">Betalingsinfo</button>
+                </form>
 
                 <nav class="buy-flow-nav">
                 <div th:replace="~{fragments :: buy-flow-nav-back ('Tilbage til din oversigt')}"></div>

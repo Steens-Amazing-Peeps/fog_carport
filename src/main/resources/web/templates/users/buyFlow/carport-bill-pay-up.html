@@ -12,22 +12,50 @@
     <div class="content" id="content">
 
         <div class="form-header">
-            <h1>Betaling</h1>
-            <p>Klik på nedenstående link for at betale din ordre.</p>
+            <h1>Email eksempel</h1>
         </div>
 
+        <div class="mail">
+            <!--Et hurtigt forsøg mix, men siden is messed up-->
+            <div class="mail-body">
+                <p>Hej <span th:text="${accountInfo.fullName}">"Name of client"</span></p>
+                <br>
+                <p>Tak for din ordre af en skræddersyet carport på mål fra Fogs trælast. Vi har modtaget din ordre og
+                    sørger
+                    for at alt er i orden inden forsendelse. Ellers kontakter vi dig og giver yderligere
+                    information.</p>
+                <br>
+                <p>Har du spørgsmål til os kan du naturligvis altid kontakte os i åbningstiderne, eller ved at logge ind
+                    på vores
+                    hjemmeside. Hvis du bestilte en carport uden at have en eksisterende Fog konto kan du anvende
+                    feedback siden
+                    med dit ordrenr.</p>
+                <br>
+                <p>Din ordre:</p>
+            </div>
 
-        <form>
+            <div class="order-specifics">
+                <p style="white-space: pre-line" th:text="${session.currentOrder}">Order id, price, one date,
+                    comment</p>
+                <br>
+            </div>
 
-            <button type="submit" class="buy">Betal din ordre</button>
+            <div class="order-measurements">
+                <p style="white-space: pre-line" th:text="${session.currentOrder.carport}">Height, width, length</p>
+                <br>
+            </div>
 
-            <div th:replace="~{fragments :: buy-flow-nav ('Tilbage til din recept', 'Betal Regning')}"></div>
+            <div class="mail-end">
+                <button type="submit" class="buy">Betal for din ordre</button>
+                <br>
+                <p>Venlig hilsen</p>
+                <br>
+                <p>Fog trælast</p>
+            </div>
 
-        </form>
+        </div>
 
     </div>
-
-    <div th:replace="~{fragments :: footer}"></div>
 
 </div>
 

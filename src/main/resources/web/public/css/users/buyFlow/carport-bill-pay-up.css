@@ -9,6 +9,11 @@
     align-items: center;
 }
 
+.mail {
+    display: flex;
+    flex-direction: column;
+}
+
 .buy {
     background: none;
     border: none;
