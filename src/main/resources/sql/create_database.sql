@@ -376,6 +376,9 @@ ALTER TABLE IF EXISTS public.variant
         NOT VALID;
 
 
+INSERT INTO public."user" VALUES (3, 'admin@fog.com', '4321', 'admin');
+
+
 INSERT INTO public.material VALUES (1, 'planke', 'træ', 'ubehandlet', 'STK', 'brædt');
 INSERT INTO public.material VALUES (2, 'planke', 'træ', 'ubehandlet', 'STK', 'spærtræ');
 INSERT INTO public.material VALUES (3, 'planke', 'træ', 'ubehandlet', 'STK', 'reglar');
