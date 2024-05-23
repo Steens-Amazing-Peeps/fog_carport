@@ -7,7 +7,7 @@ public interface Config
     {
         
         //Website General
-        int PORT = 7072;
+        int PORT = 7070;
         
     }
     
