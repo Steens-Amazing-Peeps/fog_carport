@@ -23,12 +23,21 @@ public class AccountInfo implements Comparable< AccountInfo >
     private Boolean consentToSpam;
     
     
-    public String getString(){
+    public String getString()
+    {
         return this.toStringPretty( new StringBuilder() );
     }
+    
     public String toStringPretty( StringBuilder stringBuilder )
     {
-        stringBuilder.append( this.toString() ).append( System.lineSeparator() );
+        stringBuilder.append( "Bestillings Info" );
+        stringBuilder.append( " - " ).append( this.address );
+        stringBuilder.append( " , " ).append( this.zip );
+        stringBuilder.append( " , " ).append( this.city );
+        stringBuilder.append( " - Tlf: " ).append( this.phoneNumber );
+        stringBuilder.append( " - " ).append( this.email );
+        
+        stringBuilder.append( System.lineSeparator() );
         
         return stringBuilder.toString();
     }
@@ -70,11 +79,11 @@ public class AccountInfo implements Comparable< AccountInfo >
         
         compareValue = compareValue + this.zip - o.zip;
         
-        compareValue = compareValue + this.city.compareTo(o.city);
+        compareValue = compareValue + this.city.compareTo( o.city );
         
         compareValue = compareValue + this.phoneNumber - o.phoneNumber;
         
-        compareValue = compareValue + this.email.compareTo( o.email);
+        compareValue = compareValue + this.email.compareTo( o.email );
         
         compareValue = compareValue + this.consentToSpam.compareTo( o.consentToSpam );
         

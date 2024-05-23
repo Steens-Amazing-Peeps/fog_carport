@@ -8,11 +8,11 @@
 <div class="page" id="page">
 
     <div th:replace="~{fragments :: header}"></div>
-  
+
     <div class="content" id="content">
-      
-      
-          <div class="history-intro">
+
+
+        <div class="history-intro">
             <span th:if="*{session.currentUser.role != null}? ${session.currentUser.role == 'user'}">Dine bestillinger:</span>
             <span th:if="*{session.currentUser.role != null}? ${session.currentUser.role == 'admin'}">Modtagne bestillinger:</span>
         </div>
@@ -27,9 +27,9 @@
             <!--                    &lt;!&ndash; Map< orderId, Order > &ndash;&gt;-->
             <!--                </div>-->
 
-            <span class="order-meta" style="white-space: pre-wrap;"
-                  th:text="${acountInfoAndOrdersEntry.key.string}">
-                    </span>
+            <h3 class="order-meta" style="white-space: pre-wrap;"
+                th:text="${acountInfoAndOrdersEntry.key.string}">
+            </h3>
 
             <div th:each="orderEntry : ${acountInfoAndOrdersEntry.value}">
 
@@ -42,9 +42,9 @@
                 <!--                    </div>-->
                 <form method="post">
 
-                    <span class="order-content" style="white-space: pre-wrap;"
-                          th:text="${orderEntry.value.string}">
-                        </span>
+                    <p class="order-content" style="white-space: pre-wrap;"
+                       th:text="${orderEntry.value.stringUser}">
+                    </p>
 
                     <input type="hidden" id="orderId" name="orderId"
                            th:value="${orderEntry.key}">
@@ -87,12 +87,12 @@
             </div>
 
 
+            <div>
+                <p class="error-msg" style="white-space: pre-line"
+                   th:unless="${#strings.isEmpty(msg)}"
+                   th:text="${msg}"></p>
 
-
-        <div>
-            <p class="error-msg" style="white-space: pre-line"
-               th:unless="${#strings.isEmpty(msg)}"
-               th:text="${msg}"></p>
+            </div>
 
         </div>
 

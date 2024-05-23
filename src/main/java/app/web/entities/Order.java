@@ -1,10 +1,15 @@
 package app.web.entities;
 
 import app.util.CarportMath;
+import app.util.PriceInOereAndDkk;
 import app.web.constants.Config;
 
+import javax.swing.text.DateFormatter;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Order
 {
@@ -26,8 +31,82 @@ public class Order
     { //TODO
         StringBuilder stringBuilder = new StringBuilder();
         
-        this.toStringPretty( stringBuilder );
-        this.carport.getConfirm( stringBuilder );
+        
+        stringBuilder.append( "Ordre Id: " ).append( this.orderId );
+        stringBuilder.append( " - Pris Råmaterialer: " ).append( this.getPriceRawMaterialsPretty() );
+        stringBuilder.append( " - Forslået Pris: " ).append( this.getPriceSuggestedPretty() );
+        stringBuilder.append( " - Pris: " ).append( Objects.requireNonNullElse( this.getPriceActualPretty(), "Afventer Vurdering" ) );
+        
+        
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern( "dd/MM/yyyy" );
+        
+        stringBuilder.append( " - Dato Bestilt: " ).append( dateTimeFormatter.format( this.dateRequested ) );
+        
+        stringBuilder.append( " - Dato Godkendt: " );
+        if ( this.dateApproved != null ) {
+            stringBuilder.append( dateTimeFormatter.format( this.dateApproved ) );
+        } else {
+            stringBuilder.append( "Afventer Godkendelse" );
+        }
+        
+        stringBuilder.append( " - Dato Betalt: " );
+        if ( this.dateFinished != null ) {
+            stringBuilder.append( dateTimeFormatter.format( this.dateFinished ) );
+        } else if ( this.dateApproved == null ) {
+            stringBuilder.append( "Afventer Godkendelse" );
+        } else {
+            stringBuilder.append( "Afventer Betaling" );
+        }
+        
+        
+        stringBuilder.append( " - Status: " ).append( this.status );
+        stringBuilder.append( " - Kundens Kommentar: " ).append( Objects.requireNonNullElse( this.comment, "N/A" ) );
+        stringBuilder.append( System.lineSeparator() );
+        
+        this.carport.getString( stringBuilder );
+        
+        return stringBuilder;
+    }
+    
+    public StringBuilder getStringUser()
+    { //TODO
+        StringBuilder stringBuilder = new StringBuilder();
+        
+        stringBuilder.append( "Ordre Id: " ).append( this.orderId );
+        stringBuilder.append( " - Estimeret Pris: " ).append( this.getPriceSuggestedPretty() );
+        stringBuilder.append( " - Pris: " ).append( Objects.requireNonNullElse( this.getPriceActualPretty(), "Afventer Vurdering" ) );
+        
+        
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern( "dd/MM/yyyy" );
+        
+        stringBuilder.append( " - Dato Bestilt: " ).append( dateTimeFormatter.format( this.dateRequested ) );
+        
+        stringBuilder.append( " - Dato Godkendt: " );
+        if ( this.dateApproved != null ) {
+            stringBuilder.append( dateTimeFormatter.format( this.dateApproved ) );
+        } else {
+            stringBuilder.append( "Afventer Godkendelse" );
+        }
+        
+        stringBuilder.append( " - Dato Betalt: " );
+        if ( this.dateFinished != null ) {
+            stringBuilder.append( dateTimeFormatter.format( this.dateFinished ) );
+        } else if ( this.dateApproved == null ) {
+            stringBuilder.append( "Afventer Godkendelse" );
+        } else {
+            stringBuilder.append( "Afventer Betaling" );
+        }
+        
+        
+        stringBuilder.append( " - Status: " ).append( this.status );
+        stringBuilder.append( " - Din Kommentar: " ).append( Objects.requireNonNullElse( this.comment, "N/A" ) );
+        stringBuilder.append( System.lineSeparator() );
+        
+        if ( this.dateFinished == null ) {
+            this.carport.getStringUnpaid( stringBuilder );
+        } else {
+            this.carport.getStringPaid( stringBuilder );
+        }
         
         return stringBuilder;
     }
@@ -36,32 +115,34 @@ public class Order
     { //TODO
         StringBuilder stringBuilder = new StringBuilder();
         
-        this.toStringPretty( stringBuilder );
-        this.carport.getConfirm( stringBuilder );
-        this.accountInfo.toStringPretty( stringBuilder );
+        stringBuilder.append( "Ordre" );
+        stringBuilder.append( " - Estimeret Pris: " ).append( this.getPriceSuggestedPretty() );
+        stringBuilder.append( " - Din Kommentar: " ).append( Objects.requireNonNullElse( this.comment, "N/A" ) );
+        stringBuilder.append( System.lineSeparator() );
+        
+        this.carport.getStringUnpaid( stringBuilder );
+        stringBuilder.append( this.accountInfo.getString() );
         
         return stringBuilder;
     }
     
     public StringBuilder getReceipt()
     { //TODO
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = this.getStringUser();
         
-        this.toStringPretty( stringBuilder );
-        this.carport.getReceipt( stringBuilder );
-        this.accountInfo.toStringPretty( stringBuilder );
+        stringBuilder.append( this.accountInfo.getString() );
         
         return stringBuilder;
     }
-
+    
     public StringBuilder getBill()
     { //TODO
         StringBuilder stringBuilder = new StringBuilder();
-
+        
         this.toStringPretty( stringBuilder );
         this.carport.getBill( stringBuilder );
         this.accountInfo.toStringPretty( stringBuilder );
-
+        
         return stringBuilder;
     }
     
@@ -94,11 +175,45 @@ public class Order
         this.priceSuggested = serviceFee.multiply( BigDecimal.valueOf( this.getEstimatedRawMaterialsPrice() ) ).intValue();
     }
     
+    public PriceInOereAndDkk getPriceActualPretty()
+    {
+        if ( this.priceActual == null || this.priceActual <= 0 ) {
+            return null;
+        }
+        PriceInOereAndDkk pricePretty = new PriceInOereAndDkk();
+        pricePretty.setPriceInOere( this.priceActual );
+        return pricePretty;
+    }
+    
+    public PriceInOereAndDkk getPriceSuggestedPretty()
+    {
+        if ( this.priceSuggested == null || this.priceSuggested <= 0 ) {
+            return null;
+        }
+        PriceInOereAndDkk pricePretty = new PriceInOereAndDkk();
+        pricePretty.setPriceInOere( this.priceSuggested );
+        return pricePretty;
+    }
+    
+    public PriceInOereAndDkk getPriceRawMaterialsPretty()
+    {
+        Integer estimatedRawMaterialsPrice = this.getEstimatedRawMaterialsPrice();
+        if ( estimatedRawMaterialsPrice == null || estimatedRawMaterialsPrice <= 0 ) {
+            return null;
+        }
+        
+        PriceInOereAndDkk pricePretty = new PriceInOereAndDkk();
+        pricePretty.setPriceInOere( estimatedRawMaterialsPrice );
+        return pricePretty;
+    }
+    
     public void setDateRequestedToNow()
     {
         this.dateRequested = LocalDateTime.now();
     }
-    public void setDateFinishedToNow() {
+    
+    public void setDateFinishedToNow()
+    {
         this.dateFinished = LocalDateTime.now();
     }
     
@@ -106,7 +221,9 @@ public class Order
     {
         this.status = "pending";
     }
-    public void setStatusToFinished() {
+    
+    public void setStatusToFinished()
+    {
         this.status = "finished";
     }
     
@@ -124,7 +241,7 @@ public class Order
     
     public Integer getEstimatedRawMaterialsPrice()
     {
-        return this.carport.getPrice() ;
+        return this.carport.getPrice();
     }
     
     public Integer getPriceSuggested()
@@ -206,6 +323,7 @@ public class Order
     {
         this.accountInfo = accountInfo;
     }
+    
     public String getComment()
     {
         return this.comment;

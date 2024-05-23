@@ -166,20 +166,6 @@ public class Main
         EditBuildingMaterialsController.startUp( editBuildingMaterialsModel );
         
         CarportAdminOrderHistoryController.startUp(carportAdminOrderHistoryModel);
-        
-        //TODO: DELETE THIS THIS IS TEMP
-        try {
-            
-            System.out.println( "FULL HISTORY TEST" );
-            Map< Integer, FullHistory > fullHistoryMap = fullHistoryMapper.readAllFull();
-            
-            for ( FullHistory fullHistory : fullHistoryMap.values() ) {
-                System.out.println( fullHistory.toString() );
-            }
-            
-        } catch ( DatabaseException e ) {
-            e.printStackTrace();
-        }
     }
     
 }
