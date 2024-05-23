@@ -54,62 +54,68 @@ public class Carport
         return this.bom;
     }
     
-    public StringBuilder getConfirm()
+    public String getConfirm()
     { //TODO
         return this.getConfirm( new StringBuilder() );
     }
     
-    public StringBuilder getConfirm( StringBuilder stringBuilder )
+    public String getConfirm( StringBuilder stringBuilder )
     {  //TODO
         
         this.toStringPretty( stringBuilder );
         
-        return stringBuilder;
+        return stringBuilder.toString();
         
     }
     
-    public StringBuilder getReceipt()
+    public String getReceipt()
     { //TODO
         return this.getReceipt( new StringBuilder() );
     }
     
-    public StringBuilder getReceipt( StringBuilder stringBuilder )
+    public String getReceipt( StringBuilder stringBuilder )
     { //TODO
         
         this.toStringPretty( stringBuilder );
         
-        return stringBuilder;
+        return stringBuilder.toString();
     }
     
-    public StringBuilder getBill( StringBuilder stringBuilder )
+    public String getBill( StringBuilder stringBuilder )
     { //TODO
         
         this.toStringPretty( stringBuilder );
         this.bom.toString( stringBuilder );
         
-        return stringBuilder;
+        return stringBuilder.toString();
     }
     
-    public void getStringUnpaid( StringBuilder stringBuilder )
-    {
-        this.toStringPretty( stringBuilder );
-    }
-    
-    public void getStringPaid( StringBuilder stringBuilder )
+    public String getStringUnpaid( StringBuilder stringBuilder )
     {
         this.toStringPretty( stringBuilder );
         
-        stringBuilder.append( this.bom.getStringUser( stringBuilder ) );
+        return stringBuilder.toString();
     }
     
-    public void getString( StringBuilder stringBuilder )
+    public String getStringPaid( StringBuilder stringBuilder )
     {
         this.toStringPretty( stringBuilder );
         
-        stringBuilder.append( this.bom.getString( stringBuilder ) );
+        this.bom.getStringUser( stringBuilder );
+        
+        return stringBuilder.toString();
     }
     
-    public StringBuilder toStringPretty( StringBuilder stringBuilder )
+    public String getString( StringBuilder stringBuilder )
+    {
+        this.toStringPretty( stringBuilder );
+        
+        this.bom.getString( stringBuilder );
+        
+        return stringBuilder.toString();
+    }
+    
+    public String toStringPretty( StringBuilder stringBuilder )
     { //TODO
         
         stringBuilder.append( "Carport" );
@@ -118,7 +124,7 @@ public class Carport
         stringBuilder.append( " - Bredde: " ).append( MetricConversion.mmToMString( this.width ) ).append( " m" );
         stringBuilder.append( System.lineSeparator() );
         
-        return stringBuilder;
+        return stringBuilder.toString();
     }
     
     @Override

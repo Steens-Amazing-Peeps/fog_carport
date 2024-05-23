@@ -27,11 +27,13 @@ public class Order
     private AccountInfo accountInfo;
     
     
-    public StringBuilder getString()
+    public String getString()
     { //TODO
-        StringBuilder stringBuilder = new StringBuilder();
-        
-        
+        return this.getString( new StringBuilder() );
+    }
+    
+    public String getString( StringBuilder stringBuilder )
+    {
         stringBuilder.append( "Ordre Id: " ).append( this.orderId );
         stringBuilder.append( " - Pris Råmaterialer: " ).append( this.getPriceRawMaterialsPretty() );
         stringBuilder.append( " - Forslået Pris: " ).append( this.getPriceSuggestedPretty() );
@@ -65,13 +67,18 @@ public class Order
         
         this.carport.getString( stringBuilder );
         
-        return stringBuilder;
+        return stringBuilder.toString();
     }
     
-    public StringBuilder getStringUser()
+    
+    
+    public String getStringUser()
     { //TODO
-        StringBuilder stringBuilder = new StringBuilder();
-        
+        return this.getStringUser(  new StringBuilder() );
+    }
+    
+    public String getStringUser( StringBuilder stringBuilder )
+    {
         stringBuilder.append( "Ordre Id: " ).append( this.orderId );
         stringBuilder.append( " - Estimeret Pris: " ).append( this.getPriceSuggestedPretty() );
         stringBuilder.append( " - Pris: " ).append( Objects.requireNonNullElse( this.getPriceActualPretty(), "Afventer Vurdering" ) );
@@ -108,10 +115,10 @@ public class Order
             this.carport.getStringPaid( stringBuilder );
         }
         
-        return stringBuilder;
+        return stringBuilder.toString();
     }
     
-    public StringBuilder getConfirm()
+    public String getConfirm()
     { //TODO
         StringBuilder stringBuilder = new StringBuilder();
         
@@ -123,19 +130,16 @@ public class Order
         this.carport.getStringUnpaid( stringBuilder );
         stringBuilder.append( this.accountInfo.getString() );
         
-        return stringBuilder;
+        return stringBuilder.toString();
     }
     
-    public StringBuilder getReceipt()
+    public String getReceipt()
     { //TODO
-        StringBuilder stringBuilder = this.getStringUser();
         
-        stringBuilder.append( this.accountInfo.getString() );
-        
-        return stringBuilder;
+        return this.getStringUser() + this.accountInfo.getString();
     }
     
-    public StringBuilder getBill()
+    public String getBill()
     { //TODO
         StringBuilder stringBuilder = new StringBuilder();
         
@@ -143,15 +147,15 @@ public class Order
         this.carport.getBill( stringBuilder );
         this.accountInfo.toStringPretty( stringBuilder );
         
-        return stringBuilder;
+        return stringBuilder.toString();
     }
     
-    public StringBuilder toStringPretty( StringBuilder stringBuilder )
+    public String toStringPretty( StringBuilder stringBuilder )
     { //TODO
         
         stringBuilder.append( this.toString() ).append( System.lineSeparator() );
         
-        return stringBuilder;
+        return stringBuilder.toString();
     }
     
     @Override

@@ -26,35 +26,25 @@ public class FullHistoryMapperImpl implements FullHistoryMapper
         Map< Integer, FullHistory > fullHistoryMap = new LinkedHashMap<>();
         
         Map< Integer, AccountInfo > accountInfoMap = this.accountInfoMapper.readAll();
-
-
-//        Set< Integer > usersWithAccountInfo = new TreeSet<>();
-        Set< AccountInfo > seenAccountInfo = new TreeSet<>();
+        
         
         FullHistory fullHistory;
         Integer userId;
         for ( AccountInfo accountInfo : accountInfoMap.values() ) {
             
-            if ( !seenAccountInfo.contains( accountInfo ) ) {
-                seenAccountInfo.add( accountInfo );
-                
-                userId = accountInfo.getUserId();
-                
-                if ( fullHistoryMap.containsKey( userId ) ) {
-                    fullHistory = fullHistoryMap.get( userId );
-                } else {
-                    fullHistory = new FullHistory();
-                    fullHistory.setUser( WebGlobalAttributes.USER_MAP.get( userId ) );
-                }
-                
-                fullHistory.addAccountInfo( accountInfo );
-                fullHistory.addOrderMapWithAccountInfo( this.orderMapper.readAllByAccountInfoIdFull( accountInfo ) );
-
-//                usersWithAccountInfo.add( userId );
-                
-                fullHistoryMap.put( userId, fullHistory );
+            userId = accountInfo.getUserId();
+            if ( !fullHistoryMap.containsKey( userId ) ) {
+                fullHistory = new FullHistory();
+                fullHistory.setUser( WebGlobalAttributes.USER_MAP.get( userId ) );
+            } else {
+                fullHistory = fullHistoryMap.get( userId );
             }
+            
+            fullHistory.addOrderMapWithAccountInfo( this.orderMapper.readAllByAccountInfoIdFull( accountInfo ) );
+            
+            fullHistoryMap.put( userId, fullHistory );
         }
+        
         
         Set< Integer > usersWithoutContactInfo = new LinkedHashSet<>( WebGlobalAttributes.USER_MAP.keySet() );
         usersWithoutContactInfo.removeAll( fullHistoryMap.keySet() );
@@ -84,21 +74,21 @@ public class FullHistoryMapperImpl implements FullHistoryMapper
         fullHistory.setUser( currentUser );
         
         Map< Integer, AccountInfo > accountInfoMap = this.accountInfoMapper.readAllByUserId( currentUser.getUserId() );
-        
+
 //        Set< Integer > usersWithAccountInfo = new TreeSet<>();
-        Set< AccountInfo > seenAccountInfo = new TreeSet<>();
+//        Set< AccountInfo > seenAccountInfo = new TreeSet<>();
         
         
         
         for ( AccountInfo accountInfo : accountInfoMap.values() ) {
+
+//            if ( !seenAccountInfo.contains( accountInfo ) ) {
+//                seenAccountInfo.add( accountInfo );
+//                fullHistory.addAccountInfo( accountInfo );
+//            }
+            fullHistory.addOrderMapWithAccountInfo( this.orderMapper.readAllByAccountInfoIdFull( accountInfo ) );
             
-            if ( !seenAccountInfo.contains( accountInfo ) ) {
-                seenAccountInfo.add( accountInfo );
-                
-                fullHistory.addAccountInfo( accountInfo );
-                fullHistory.addOrderMapWithAccountInfo( this.orderMapper.readAllByAccountInfoIdFull( accountInfo ) );
-                
-            }
+            
         }
         
         return fullHistory;
