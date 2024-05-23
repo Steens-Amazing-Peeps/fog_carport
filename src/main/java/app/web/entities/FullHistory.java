@@ -2,6 +2,7 @@ package app.web.entities;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class FullHistory
 {
@@ -10,7 +11,7 @@ public class FullHistory
     Map< AccountInfo, Map< Integer, Order > > OrdersByAccountInfo;
     
     
-
+    
     public String toStringFull()
     {
         StringBuilder stringBuilder = new StringBuilder();
@@ -20,7 +21,7 @@ public class FullHistory
         stringBuilder.append( this.user ).append( System.lineSeparator() );
         
         //Map isn't null or empty
-        if ( ( this.OrdersByAccountInfo != null && !this.OrdersByAccountInfo.isEmpty() )  ) {
+        if ( ( this.OrdersByAccountInfo != null && !this.OrdersByAccountInfo.isEmpty() ) ) {
             for ( Map.Entry< AccountInfo, Map< Integer, Order > > accountInfoSetAndOrdersMapEntry : this.OrdersByAccountInfo.entrySet() ) {
                 
                 //All Account Infos are the same on any given entry, so get just the key.
@@ -28,7 +29,7 @@ public class FullHistory
                 
                 //Get All the orders that use this info
                 for ( Order order : accountInfoSetAndOrdersMapEntry.getValue().values() ) {
-                    stringBuilder.append( order.getString() ).append( System.lineSeparator() );
+                    stringBuilder.append( order.getString( stringBuilder ) ).append( System.lineSeparator() );
                 }
             }
             
@@ -82,7 +83,7 @@ public class FullHistory
     public void addOrderMapWithAccountInfo( Map< Integer, Order > orderMapWithAccountInfo )
     {
         if ( this.OrdersByAccountInfo == null ) {
-            this.OrdersByAccountInfo = new LinkedHashMap<>();
+            this.OrdersByAccountInfo = new TreeMap<>();
         }
         
         for ( Order order : orderMapWithAccountInfo.values() ) {

@@ -165,8 +165,8 @@ public final class AccountInfoMapperImpl implements AccountInfoMapper
             AccountInfo accountInfo;
 
             accountInfo = new AccountInfo();
-            accountInfo.setUserId( rs.getInt( "user_id" ) );
             accountInfo.setContactId( rs.getInt( "contact_info_id" ) );
+            accountInfo.setUserId( rs.getInt( "user_id" ) );
             accountInfo.setFullName( rs.getString( "full_name" ) );
             accountInfo.setAddress( rs.getString( "address" ) );
             accountInfo.setZip( rs.getInt( "zip_code" ) );
@@ -187,8 +187,8 @@ public final class AccountInfoMapperImpl implements AccountInfoMapper
 
             while ( rs.next() ) {
                 accountInfo = new AccountInfo();
-                accountInfo.setUserId( rs.getInt( "user_id" ) );
                 accountInfo.setContactId( rs.getInt( "contact_info_id" ) );
+                accountInfo.setUserId( rs.getInt( "user_id" ) );
                 accountInfo.setFullName( rs.getString( "full_name" ) );
                 accountInfo.setAddress( rs.getString( "address" ) );
                 accountInfo.setZip( rs.getInt( "zip_code" ) );

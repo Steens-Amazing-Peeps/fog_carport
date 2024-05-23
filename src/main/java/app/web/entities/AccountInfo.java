@@ -47,12 +47,14 @@ public class AccountInfo implements Comparable< AccountInfo >
     {
         return "ContactInfo{" +
                "contactId=" + this.contactId +
+               ", userId=" + this.userId +
                ", fullName='" + this.fullName + '\'' +
                ", address='" + this.address + '\'' +
                ", zip=" + this.zip +
                ", city='" + this.city + '\'' +
                ", phoneNumber=" + this.phoneNumber +
                ", email='" + this.email + '\'' +
+               ", consentToSpam='" + this.consentToSpam + '\'' +
                '}';
     }
     
@@ -65,27 +67,27 @@ public class AccountInfo implements Comparable< AccountInfo >
         if ( !( object instanceof AccountInfo accountInfo ) ) {
             return false;
         }
-        return Objects.equals( this.userId, accountInfo.userId ) && Objects.equals( this.fullName, accountInfo.fullName ) && Objects.equals( this.address, accountInfo.address ) && Objects.equals( this.zip, accountInfo.zip ) && Objects.equals( this.city, accountInfo.city ) && Objects.equals( this.phoneNumber, accountInfo.phoneNumber ) && Objects.equals( this.email, accountInfo.email ) && Objects.equals( this.consentToSpam, accountInfo.consentToSpam );
+        return Objects.equals( this.userId, accountInfo.userId ) && Objects.equals( this.fullName, accountInfo.fullName ) && Objects.equals( this.address, accountInfo.address ) && Objects.equals( this.zip, accountInfo.zip ) && Objects.equals( this.city, accountInfo.city ) && Objects.equals( this.phoneNumber, accountInfo.phoneNumber ) && Objects.equals( this.email, accountInfo.email );// && Objects.equals( this.consentToSpam, accountInfo.consentToSpam );
     }
     
     @Override
     public int compareTo( @NotNull AccountInfo o )
     {
-        int compareValue = this.userId - o.userId;
+        int compareValue = this.userId.compareTo( o.userId );
         
         compareValue = compareValue + this.fullName.compareTo( o.fullName );
         
         compareValue = compareValue + this.address.compareTo( o.address );
         
-        compareValue = compareValue + this.zip - o.zip;
+        compareValue = compareValue + this.zip.compareTo( o.zip );
         
         compareValue = compareValue + this.city.compareTo( o.city );
         
-        compareValue = compareValue + this.phoneNumber - o.phoneNumber;
+        compareValue = compareValue + this.phoneNumber.compareTo( o.phoneNumber );
         
         compareValue = compareValue + this.email.compareTo( o.email );
-        
-        compareValue = compareValue + this.consentToSpam.compareTo( o.consentToSpam );
+
+//        compareValue = compareValue + this.consentToSpam.compareTo( o.consentToSpam );
         
         return compareValue;
     }
