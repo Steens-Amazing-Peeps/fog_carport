@@ -143,7 +143,37 @@ public class Bom
         return stringBuilder.toString();
     }
     
+    public String getString(StringBuilder stringBuilder){
+        stringBuilder.append( "--BOM--" ).append( System.lineSeparator() );
+        for ( Plank plank : this.posts.values() ) {
+            plank.getString(stringBuilder);
+        }
+        for ( Plank plank : this.beams.values() ) {
+            plank.getString(stringBuilder);
+        }
+        for ( Plank plank : this.rafters.values() ) {
+            plank.getString(stringBuilder);
+        }
+        stringBuilder.append( System.lineSeparator() );
+        
+        return stringBuilder.toString();
+    }
     
+    public String getStringUser(StringBuilder stringBuilder){
+        stringBuilder.append( "--BOM--" ).append( System.lineSeparator() );
+        for ( Plank plank : this.posts.values() ) {
+            plank.getStringUser(stringBuilder);
+        }
+        for ( Plank plank : this.beams.values() ) {
+            plank.getStringUser(stringBuilder);
+        }
+        for ( Plank plank : this.rafters.values() ) {
+            plank.getStringUser(stringBuilder);
+        }
+        stringBuilder.append( System.lineSeparator() );
+        
+        return stringBuilder.toString();
+    }
     
     
     //Getters and Setters

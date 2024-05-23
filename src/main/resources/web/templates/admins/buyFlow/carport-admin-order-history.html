@@ -20,15 +20,15 @@
             <!--                &lt;!&ndash; FullHistory Entity&ndash;&gt;-->
             <!--            </div>-->
 
-            <span class="order-meta" style="white-space: pre-wrap;"
+            <h2 class="order-meta" style="white-space: pre-wrap;"
                   th:if="${fullHistoryEntry.value.user !=  null}"
                   th:text="${fullHistoryEntry.value.user.string}">
-            </span>
+            </h2>
 
-            <span class="order-meta" style="white-space: pre-wrap;"
+            <h2 class="order-meta" style="white-space: pre-wrap;"
                   th:if="${fullHistoryEntry.value.user ==  null}"
                   th:text="'Ingen Bruger'">
-            </span>
+            </h2>
 
             <div th:each="acountInfoAndOrdersEntry : ${fullHistoryEntry.value.ordersByAccountInfo}">
 
@@ -39,9 +39,9 @@
                 <!--                    &lt;!&ndash; Map< orderId, Order > &ndash;&gt;-->
                 <!--                </div>-->
 
-                <span class="order-meta" style="white-space: pre-wrap;"
+                <h3 class="order-meta" style="white-space: pre-wrap;"
                       th:text="${acountInfoAndOrdersEntry.key.string}">
-                    </span>
+                    </h3>
 
                 <div th:each="orderEntry : ${acountInfoAndOrdersEntry.value}">
 
@@ -54,9 +54,9 @@
                     <!--                    </div>-->
                     <form method="post">
 
-                    <span class="order-content" style="white-space: pre-wrap;"
+                    <p class="order-content" style="white-space: pre-wrap;"
                           th:text="${orderEntry.value.string}">
-                        </span>
+                        </p>
 
                         <input type="hidden" id="orderPrice" name="orderPrice"
                                th:value="${orderEntry.value.priceSuggested}">

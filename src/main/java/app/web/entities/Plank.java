@@ -1,5 +1,7 @@
 package app.web.entities;
 
+import app.util.MetricConversion;
+import app.util.PriceInOereAndDkk;
 import app.util.UnitConversion;
 import org.jetbrains.annotations.NotNull;
 
@@ -120,7 +122,7 @@ public class Plank implements Comparable< Plank >
         return null;
     }
     
-
+    
     
     //Getters and Setters
     public Integer getId()
@@ -378,17 +380,55 @@ public class Plank implements Comparable< Plank >
                '}';
     }
     
-
-    
-    public static class compareByLength implements Comparator< Plank >
-{
-    
-    @Override
-    public int compare( Plank o1, Plank o2 )
+    public String getString( StringBuilder stringBuilder )
     {
-        return o1.length - o2.length;
+        stringBuilder.append( " | " ).append( this.amount ).append( " | " );
+        this.getDescription( stringBuilder );
+        stringBuilder.append( " | " ).append( MetricConversion.mmToMString( this.length ) ).append( " m | " );
+        stringBuilder.append( this.getPricePretty() );
+        stringBuilder.append(" |");
+        stringBuilder.append( System.lineSeparator() );
+        
+        return stringBuilder.toString();
     }
     
-}
+    public String getStringUser( StringBuilder stringBuilder )
+    {
+        stringBuilder.append( " | " ).append( this.amount ).append( " | " );
+        this.getDescription( stringBuilder );
+        stringBuilder.append( " | " ).append( MetricConversion.mmToMString( this.length ) ).append( " m |" );
+        stringBuilder.append( System.lineSeparator() );
+        
+        return stringBuilder.toString();
+    }
+    
+    private PriceInOereAndDkk getPricePretty()
+    {
+        if ( this.price == null) {
+            return null;
+        }
+        PriceInOereAndDkk pricePretty = new PriceInOereAndDkk();
+        pricePretty.setPriceInOere( this.price );
+        return pricePretty;
+    }
+    
+    public String getDescription( StringBuilder stringBuilder )
+    {
+        stringBuilder.append( this.material ).append( " planke " ).append( this.id ).append( " - " ).append( this.width ).append( "mmX" ).append( this.height ).append( "mm " ).append( convertTypeToString( this.type ) ).append( " " ).append( this.treatment );
+        return stringBuilder.toString();
+    }
+    
+    
+    
+    public static class compareByLength implements Comparator< Plank >
+    {
+        
+        @Override
+        public int compare( Plank o1, Plank o2 )
+        {
+            return o1.length - o2.length;
+        }
+        
+    }
     
 }

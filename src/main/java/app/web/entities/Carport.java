@@ -11,13 +11,14 @@ import java.math.RoundingMode;
 
 public class Carport
 {
+    
     private Integer carportId;
     
     private Integer height;
     private Integer length;
     private Integer width;
     
-
+    
     
     
     //TODO check where these are used and if they are in the right place
@@ -79,20 +80,43 @@ public class Carport
         
         return stringBuilder;
     }
-
+    
     public StringBuilder getBill( StringBuilder stringBuilder )
     { //TODO
-
+        
         this.toStringPretty( stringBuilder );
         this.bom.toString( stringBuilder );
-
+        
         return stringBuilder;
+    }
+    
+    public void getStringUnpaid( StringBuilder stringBuilder )
+    {
+        this.toStringPretty( stringBuilder );
+    }
+    
+    public void getStringPaid( StringBuilder stringBuilder )
+    {
+        this.toStringPretty( stringBuilder );
+        
+        stringBuilder.append( this.bom.getStringUser( stringBuilder ) );
+    }
+    
+    public void getString( StringBuilder stringBuilder )
+    {
+        this.toStringPretty( stringBuilder );
+        
+        stringBuilder.append( this.bom.getString( stringBuilder ) );
     }
     
     public StringBuilder toStringPretty( StringBuilder stringBuilder )
     { //TODO
         
-        stringBuilder.append( this ).append( System.lineSeparator() );
+        stringBuilder.append( "Carport" );
+        stringBuilder.append( " - Højde: " ).append( MetricConversion.mmToMString( this.height ) ).append( " m" );
+        stringBuilder.append( " - Længde: " ).append( MetricConversion.mmToMString( this.length ) ).append( " m" );
+        stringBuilder.append( " - Bredde: " ).append( MetricConversion.mmToMString( this.width ) ).append( " m" );
+        stringBuilder.append( System.lineSeparator() );
         
         return stringBuilder;
     }
@@ -128,6 +152,7 @@ public class Carport
     {
         return this.bom.getEstimatedRawMaterialPrice();
     }
+    
     public Integer getHeight()
     {
         return this.height;
@@ -227,4 +252,9 @@ public class Carport
         this.bom = bom;
     }
     
+    
 }
+
+
+    
+

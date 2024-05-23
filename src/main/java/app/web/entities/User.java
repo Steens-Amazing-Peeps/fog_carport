@@ -44,7 +44,9 @@ public class User
     
     
     public String getString(){
-        return this.toString();
+        return "Bruger Id: " + this.userId +
+               " - " + this.email  +
+               " - " + this.role;
     }
     @Override
     public String toString()

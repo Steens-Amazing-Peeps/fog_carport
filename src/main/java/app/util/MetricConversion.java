@@ -54,4 +54,14 @@ public class MetricConversion
         return BigDecimal.valueOf( mm, COMMA_DIGITS_IN_M );
     }
     
+    public static String mmToMString( Integer mm )
+    {
+        if ( mm == null ) {
+            return null;
+        }
+        BigDecimal bigDecimal = BigDecimal.valueOf( mm, COMMA_DIGITS_IN_M );
+        bigDecimal = bigDecimal.setScale( COMMA_DIGITS_IN_STRING_M, RoundingMode.HALF_UP );
+        return bigDecimal.toString();
+    }
+    
 }
