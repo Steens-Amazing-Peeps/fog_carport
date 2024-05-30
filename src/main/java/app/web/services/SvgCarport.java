@@ -113,7 +113,7 @@ public class SvgCarport {
         double distanceEach = (totalBeamFillingLength / (rafterAmount + mathEqualSpacingDifferenceConstant) + rafterWidth / rafterAmount );
 
         for (int i = 0; i < rafterAmount; i++) {
-            carportSvg.addRectangle(xCenterFigureNegative((distanceEach * (i+1)),rafterWidth), origoXYValue,rafterHeight,rafterWidth,rectStandardStyle);
+            carportSvg.addRectangle(xCenterFigure((distanceEach * (i+1)),rafterWidth), origoXYValue,rafterHeight,rafterWidth,rectStandardStyle);
         }
     }
 
@@ -154,8 +154,8 @@ public class SvgCarport {
                         xValuePosts = xValuePosts + beamWidth;
 
 //                        if (i == 0){
-                            carportSvg.addRectangle(xCenterFigureNegative(xValuePosts,postWidth),yCenterFigure(offsetFromTop,postHeight), postHeight,postWidth,rectStandardStyle);
-                            carportSvg.addRectangle(xCenterFigureNegative(xValuePosts,postWidth),yCenterFigure(offsetFromBottom,postHeight), postHeight,postWidth,rectStandardStyle);
+                            carportSvg.addRectangle(xCenterFigure(xValuePosts,postWidth),yCenterFigure(offsetFromTop,postHeight), postHeight,postWidth,rectStandardStyle);
+                            carportSvg.addRectangle(xCenterFigure(xValuePosts,postWidth),yCenterFigure(offsetFromBottom,postHeight), postHeight,postWidth,rectStandardStyle);
 //                        } else {
 //                            carportSvg.addRectangle(xValuePosts,yCenterFigure(offsetFromTop,beamHeight), postHeight,postWidth,rectStandardStyle);
 //                            carportSvg.addRectangle(xValuePosts,yCenterFigure(offsetFromBottom,beamHeight), postHeight,postWidth,rectStandardStyle);
@@ -175,7 +175,7 @@ public class SvgCarport {
 
     }
 
-    private double xCenterFigureNegative(double xValue, double figureWidth){
+    private double xCenterFigure(double xValue, double figureWidth){
         return xValue - (figureWidth / 2);
     }
 
