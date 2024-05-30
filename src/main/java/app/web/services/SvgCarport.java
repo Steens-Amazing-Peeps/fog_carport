@@ -40,7 +40,7 @@ public class SvgCarport {
     public SvgCarport(Carport carport) throws WebInvalidInputException {
 
         this.bom = carport.calcBom();
-//        System.out.println(bom);
+        System.out.println(bom);
 
         unitConversion = new UnitConversion(carport.getWidth(),carport.getLength());
 
@@ -122,8 +122,8 @@ public class SvgCarport {
         int multiplyValueToGetBothRafterWidths = 2;
         totalBeamFillingLength = drawWidth - (rafterWidth * multiplyValueToGetBothRafterWidths);
 
-        carportSvg.addRectangle(rafterWidth,offsetFromTop,beamHeight,totalBeamFillingLength,rectStandardStyle);
-        carportSvg.addRectangle(rafterWidth,offsetFromBottom,beamHeight,totalBeamFillingLength,rectStandardStyle);
+        carportSvg.addRectangle(rafterWidth,yCenterFigure(offsetFromTop,beamHeight),beamHeight,totalBeamFillingLength,rectStandardStyle);
+        carportSvg.addRectangle(rafterWidth,yCenterFigure(offsetFromBottom,beamHeight),beamHeight,totalBeamFillingLength,rectStandardStyle);
     }
 
     public void postDrawer(){
@@ -133,10 +133,10 @@ public class SvgCarport {
         double postAmount = posts.get(0).getAmount();
         int amountOfFixedCornerPosts = 4;
 
-        carportSvg.addRectangle(offsetFromLeft + rafterWidth,yCenterFigure(offsetFromTop,beamHeight) , postHeight,postWidth,rectStandardStyle);
-        carportSvg.addRectangle(offsetFromRight - rafterWidth,yCenterFigure(offsetFromTop,beamHeight), postHeight,postWidth,rectStandardStyle);
-        carportSvg.addRectangle(offsetFromLeft + rafterWidth,yCenterFigure(offsetFromBottom,beamHeight), postHeight,postWidth,rectStandardStyle);
-        carportSvg.addRectangle(offsetFromRight - rafterWidth,yCenterFigure(offsetFromBottom,beamHeight), postHeight,postWidth,rectStandardStyle);
+        carportSvg.addRectangle(offsetFromLeft + rafterWidth,yCenterFigure(offsetFromTop,postHeight) , postHeight,postWidth,rectStandardStyle);
+        carportSvg.addRectangle(offsetFromRight - rafterWidth,yCenterFigure(offsetFromTop,postHeight), postHeight,postWidth,rectStandardStyle);
+        carportSvg.addRectangle(offsetFromLeft + rafterWidth,yCenterFigure(offsetFromBottom,postHeight), postHeight,postWidth,rectStandardStyle);
+        carportSvg.addRectangle(offsetFromRight - rafterWidth,yCenterFigure(offsetFromBottom,postHeight), postHeight,postWidth,rectStandardStyle);
         postAmount = postAmount - amountOfFixedCornerPosts; //removes the amount of posts used from the total amount of posts
 
         double xValuePosts = 0;
@@ -148,17 +148,18 @@ public class SvgCarport {
             int amountOfPostsPlacedPerLoop = 2;
 
             for (int i = 0; i < foriLoopAmount; i++) {
-                    if (0 < totalBeamFillingLength - (beamWidth * (i+1)) + rafterWidth && 1 < postAmount){ //checks if there is space left to place posts and checks if there are any posts left
+//                    if (0 < totalBeamFillingLength - ((beamWidth * (i+1)) + postWidth) && 1 < postAmount){ //checks if there is space left to place posts and checks if there are any posts left
+                    if (1 < postAmount){ //checks if there is space left to place posts and checks if there are any posts left
 
                         xValuePosts = xValuePosts + beamWidth;
 
-                        if (i == 0){
-                            carportSvg.addRectangle(xCenterFigurePositive(xValuePosts,rafterWidth),yCenterFigure(offsetFromTop,beamHeight), postHeight,postWidth,rectStandardStyle);
-                            carportSvg.addRectangle(xCenterFigurePositive(xValuePosts,rafterWidth),yCenterFigure(offsetFromBottom,beamHeight), postHeight,postWidth,rectStandardStyle);
-                        } else {
-                            carportSvg.addRectangle(xValuePosts,yCenterFigure(offsetFromTop,beamHeight), postHeight,postWidth,rectStandardStyle);
-                            carportSvg.addRectangle(xValuePosts,yCenterFigure(offsetFromBottom,beamHeight), postHeight,postWidth,rectStandardStyle);
-                        }
+//                        if (i == 0){
+                            carportSvg.addRectangle(xCenterFigureNegative(xValuePosts,postWidth),yCenterFigure(offsetFromTop,postHeight), postHeight,postWidth,rectStandardStyle);
+                            carportSvg.addRectangle(xCenterFigureNegative(xValuePosts,postWidth),yCenterFigure(offsetFromBottom,postHeight), postHeight,postWidth,rectStandardStyle);
+//                        } else {
+//                            carportSvg.addRectangle(xValuePosts,yCenterFigure(offsetFromTop,beamHeight), postHeight,postWidth,rectStandardStyle);
+//                            carportSvg.addRectangle(xValuePosts,yCenterFigure(offsetFromBottom,beamHeight), postHeight,postWidth,rectStandardStyle);
+//                        }
 //                        System.out.println("posts placed at: "+xValuePosts); //tells you that the placement of posts was successful and informs you of the location
                         postAmount = postAmount - amountOfPostsPlacedPerLoop; //removes the amount of posts used from the total amount of posts
                     }
@@ -176,10 +177,6 @@ public class SvgCarport {
 
     private double xCenterFigureNegative(double xValue, double figureWidth){
         return xValue - (figureWidth / 2);
-    }
-
-    private double xCenterFigurePositive(double xValue, double figureWidth){
-        return xValue + (figureWidth / 2);
     }
 
     private double yCenterFigure(double yValue, double figureHeight){
