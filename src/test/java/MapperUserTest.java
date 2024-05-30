@@ -144,7 +144,6 @@ public class MapperUserTest
         try {
             int rowsAffectedByCreate = userMapper.create( testUser1 );
             assertEquals( 1, rowsAffectedByCreate );
-            //TODO: possibly make a test database just for these test so the expected value isn't just a magic number
         } catch ( DatabaseException e ) {
             System.out.println( "database error :" + e.getMessage() );
 //            throw new RuntimeException(e);
