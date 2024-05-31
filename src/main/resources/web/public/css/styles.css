@@ -219,6 +219,59 @@ nav:hover {
     transform-origin: bottom left;
 }
 
+.buy-flow-nav button{
+    border: none;
+    background: transparent;
+    width: 120px;
+    height: 90px;
+
+    font-size: 1.2rem;
+    font-family: Arial, serif;
+    color: #FFFFFF;
+}
+
+.buy-flow-nav-arrow-confirm{
+    fill:#45A13D;
+    cursor: pointer;
+}
+
+#confirm:hover .buy-flow-nav-arrow-confirm{
+    fill:#23651E;
+}
+
+#confirm:active .buy-flow-nav-arrow-confirm{
+    fill:#274924;
+}
+
+#confirm:hover:after .buy-flow-nav-arrow-confirm{
+    fill:#45A13D;
+}
+
+.buy-flow-nav-arrow-back{
+    fill:#E12B2B;
+    cursor: pointer;
+}
+
+#back:hover .buy-flow-nav-arrow-back{
+    fill: #9c1414;
+}
+
+#confirm:active .buy-flow-nav-arrow-back{
+    fill: #6b1515;
+}
+
+#back:hover:after .buy-flow-nav-arrow-back{
+    fill: #E12B2B;
+}
+
+
+.back-button{
+
+}
+.confirm-button{
+
+}
+
 @media screen and (max-width: 680px) {
 
     #dropdowns {
@@ -233,6 +286,12 @@ nav:hover {
 
         flex-direction: column;
         gap: 10px;
+    }
+
+    .buy-flow-nav{
+        justify-content: space-between;
+
+        flex-direction: row;
     }
 
     #checkout {

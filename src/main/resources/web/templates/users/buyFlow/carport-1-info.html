@@ -20,7 +20,7 @@
                 <p>Felter markeret med * SKAL udfyldes</p>
             </div>
 
-            <form class="order" method="post">
+            <form class="order" method="post" id="form">
 
                 <div class="carport-dropdown-form">
 
@@ -33,13 +33,14 @@
                         </div>
                         <div class="text-field">
                             <input type="number" name="carportHeight" id="carportHeight"
-                                   placeholder="F.eks. 2.30"
+                                   placeholder="F.eks. 2.30" required
                                    step="0.01"
+                                   th:min="${session.minimumHeightInM}"
+                                   th:max="${session.maximumHeightInM}"
                                    th:value="${session.currentOrder.carport.heightInM}"
                                    th:text="'Min: ' + ${session.minimumHeightInM} + ' m | Max: ' + ${session.maximumHeightInM} + ' m'">
                         </div>
-<!--                        th:min="${session.minimumHeightInM}"-->
-<!--                        th:max="${session.maximumHeightInM}"-->
+
                     </div>
 
                     <div class="text-field">
@@ -51,13 +52,14 @@
                         </div>
                         <div class="text-field">
                             <input type="number" name="carportLength" id="carportLength"
-                                   placeholder="F.eks. 5.50"
+                                   placeholder="F.eks. 5.50" required
                                    step="0.01"
+                                   th:min="${session.minimumLengthInM}"
+                                   th:max="${session.maximumLengthInM}"
                                    th:value="${session.currentOrder.carport.lengthInM}"
                                    th:text="'Min: ' + ${session.minimumLengthInM} + ' m | Max: ' + ${session.maximumLengthInM} + ' m'">
                         </div>
-<!--                        th:min="${session.minimumLengthInM}"-->
-<!--                        th:max="${session.maximumLengthInM}"-->
+
                     </div>
 
                     <div class="text-field">
@@ -69,13 +71,14 @@
                         </div>
                         <div class="text-field">
                             <input type="number" name="carportWidth" id="carportWidth"
-                                   placeholder="F.eks. 4.20"
+                                   placeholder="F.eks. 4.20" required
                                    step="0.01"
+                                   th:min="${session.minimumWidthInM}"
+                                   th:max="${session.maximumWidthInM}"
                                    th:value="${session.currentOrder.carport.widthInM}"
                                    th:text="'Min: ' + ${session.minimumWidthInM} + ' m | Max: ' + ${session.maximumWidthInM} + ' m'">
                         </div>
-<!--                        th:min="${session.minimumWidthInM}"-->
-<!--                        th:max="${session.maximumWidthInM}"-->
+
                     </div>
 
 

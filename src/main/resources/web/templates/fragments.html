@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:html="http://www.w3.org/1999/xhtml">
 
 <head th:fragment="head (title, customStyle)">
     <title th:text="${title}"></title>
@@ -92,18 +93,30 @@
     <div th:replace="~{fragments :: buy-flow-nav-confirm(${confirmText})}"></div>
 </nav>
 
-<div class="underline-animation" id="back" th:fragment="buy-flow-nav-back (backText)">
-    <button type="submit" class="link-button"
-            formmethod="post" formaction="back"
-            th:text="${backText}"> SET BACK TEXT
-    </button>
+<div id="back" th:fragment="buy-flow-nav-back (backText)">
+    <svg width="120" height="90" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="120,10 120,80 45,80 45,90 0,45 45,0 45,10"
+                 class="buy-flow-nav-arrow-back"/>
+        <foreignObject x="0" y="0" width="120" height="90">
+            <button type="submit" class="back-button" id="back-button"
+                    formmethod="post" formaction="back" formtarget="form" formnovalidate
+                    th:text="${backText}"> SET BACK TEXT
+            </button>
+        </foreignObject>
+    </svg>
 </div>
 
-<div class="underline-animation" id="confirm" th:fragment="buy-flow-nav-confirm (confirmText)">
-    <button type="submit" class="link-button"
-            formmethod="post" formaction="confirm"
-            th:text="${confirmText}"> SET CONFIRM TEXT
-    </button>
+<div id="confirm" th:fragment="buy-flow-nav-confirm (confirmText)">
+    <svg width="120" height="90" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="0,10 0,80 85,80 85,90 120,45 85,0 85,10"
+                 class="buy-flow-nav-arrow-confirm"/>
+        <foreignObject x="0" y="0" width="120" height="90">
+            <button type="submit" class="confirm-button" id="confirm-button"
+                    formmethod="post" formaction="confirm" formtarget="form"
+                    th:text="${confirmText}"> SET CONFIRM TEXT
+            </button>
+        </foreignObject>
+    </svg>
 </div>
 
 <footer class="footer-content" th:fragment="footer">
