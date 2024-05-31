@@ -5,10 +5,7 @@ import app.web.constants.Config;
 import app.web.entities.Plank;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BeamCalculatorImpl implements BeamCalculator
 {
@@ -47,7 +44,7 @@ public class BeamCalculatorImpl implements BeamCalculator
             
             if ( plank != null ) {
                 plankNew = new Plank( plank );
-                validBeamsNew.put( plankNew.getId(),plankNew );
+                validBeamsNew.put( plankNew.getId(), plankNew );
                 
                 plankNew.setPostPrice( postPrice );
                 plankNew.calcPricePrMm();  //TODO: Where can this happen, if not in a preliminary loop? Maybe when we sort by price?... no probably wouldn't work
@@ -137,6 +134,7 @@ public class BeamCalculatorImpl implements BeamCalculator
                     if ( currentLength >= totalLength ) {
                         //Aka, how many planks we used
                         highestIndexUsed = i;
+                        System.out.println( "Tjekkede denne kombination op til index " + highestIndexUsed + " combination: " + Arrays.toString( arrayOfIndexes ) );
                         
                         //If we are trying to increase a secondary plank beyond the index of the first plank, then we should instead increase the first plank's index
                         if ( arrayOfIndexes[ indexToIncrease ] + 1 > arrayOfIndexes[ 0 ] ) {

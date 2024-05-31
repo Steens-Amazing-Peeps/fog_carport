@@ -240,6 +240,7 @@ public class CalculatorBomTest
         int rowAmount = 2;
         int polePrice = 10000;
         
+        //Checker 5 planker og deres kombinationer ud af 13 planker
         beamTests( validPlanks.getBeams(), carportLength, rowAmount, polePrice, this.beamCalculatorImpl );
         
         
@@ -251,6 +252,7 @@ public class CalculatorBomTest
         
         //.........................
         
+        //Checker alle planker og deres kombinationer ud af 13 planker
         this.beamCalculatorImpl.setMinimumBatchSize( validPlanks.getBeams().size() );
         
         //......................... Search every combination

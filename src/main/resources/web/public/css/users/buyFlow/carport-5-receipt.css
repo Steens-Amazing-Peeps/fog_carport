@@ -9,7 +9,14 @@
     align-items: center;
 }
 
-.receipt {
-    margin-left: 8%;
-    margin-right: 8%;
+.overview {
+    padding-left: 8%;
+    padding-right: 8%;
+}
+
+@media screen and (max-width: 680px) {
+    .overview {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
 }

@@ -19,7 +19,7 @@
                 </p>
             </div>
 
-            <form>
+            <form id="form">
 
                 <div class="carport-dropdown-form">
 
@@ -32,7 +32,7 @@
                         </div>
                         <div class="text-field">
                             <input type="text" id="fullName" name="fullName"
-                                   placeholder="Fornavn og efternavn"
+                                   placeholder="Fornavn efternavn" required
                                    th:value="${session.currentOrder.accountInfo.fullName}"><br>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="text-field">
                             <input type="text" id="address" name="address"
-                                   placeholder="Adresse (vej + nummer)"
+                                   placeholder="Vejnavn x" required
                                    th:value="${session.currentOrder.accountInfo.address}"><br>
                         </div>
                     </div>
@@ -60,7 +60,9 @@
                         </div>
                         <div class="text-field">
                             <input type="number" id="zip-code" name="zip-code"
-                                   placeholder="Postnummer"
+                                   placeholder="0000" required
+                                   minlength="4"
+                                   maxlength="4"
                                    th:value="${session.currentOrder.accountInfo.zip}"><br><br>
                         </div>
                     </div>
@@ -74,7 +76,7 @@
                         </div>
                         <div class="text-field">
                             <input type="text" id="city" name="city"
-                                   placeholder="Bynavn"
+                                   placeholder="Bynavn" required
                                    th:value="${session.currentOrder.accountInfo.city}"><br>
                         </div>
                     </div>
@@ -87,8 +89,9 @@
                                th:text="${msgPhone}"></p>
                         </div>
                         <div class="text-field">
-                            <input type="number" id="phone" name="phone"
-                                   placeholder="Telefon nummer"
+                            <input type="tel" id="phone" name="phone"
+                                   placeholder="00000000" required
+                                   pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}"
                                    th:value="${session.currentOrder.accountInfo.phoneNumber}"><br>
                         </div>
                     </div>
@@ -101,8 +104,8 @@
                                th:text="${msgEmail}"></p>
                         </div>
                         <div class="text-field">
-                            <input type="text" id="email" name="email"
-                                   placeholder="Din email adresse"
+                            <input type="email" id="email" name="email"
+                                   placeholder="email@mail.com" required
                                    th:value="${session.currentOrder.accountInfo.email}"><br>
                         </div>
                     </div>
