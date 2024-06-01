@@ -1,6 +1,7 @@
 package app.web.services.bom.planks.calculators;
 
 import app.util.MapManipulator;
+import app.util.MetricConversion;
 import app.web.constants.Config;
 import app.web.entities.Plank;
 import org.jetbrains.annotations.NotNull;
@@ -110,6 +111,8 @@ public class BeamCalculatorImpl implements BeamCalculator
         //Res
         List< Plank > resList;
         
+        //Demo
+        int combinationsChecked = 0;
         
         //The Real Logic
         while ( true ) {
@@ -134,10 +137,16 @@ public class BeamCalculatorImpl implements BeamCalculator
                     if ( currentLength >= totalLength ) {
                         //Aka, how many planks we used
                         highestIndexUsed = i;
+                        
+                        //Demo
+                        System.out.println();
+                        System.out.println( currentPlankArrayList );
                         System.out.println( "Tjekkede denne kombination op til index " + highestIndexUsed + " combination: " + Arrays.toString( arrayOfIndexes ) );
+                        System.out.println( "Længden var " + MetricConversion.mmToM( currentLength ) + " m" );
+                        combinationsChecked++;
                         
                         //If we are trying to increase a secondary plank beyond the index of the first plank, then we should instead increase the first plank's index
-                        if ( arrayOfIndexes[ indexToIncrease ] + 1 > arrayOfIndexes[ 0 ] ) {
+                        if ( arrayOfIndexes[ indexToIncrease ] + 1 > arrayOfIndexes[ 0 ] || highestIndexUsed == 0 ) {
                             
                             firstIndex++;
                             
@@ -152,11 +161,19 @@ public class BeamCalculatorImpl implements BeamCalculator
                         //Increase the scheduled index to increase by 1
                         arrayOfIndexes[ indexToIncrease ] = arrayOfIndexes[ indexToIncrease ] + 1;
                         
+                        //Reset all subsequent numbers to 0
+                        Arrays.fill( arrayOfIndexes, indexToIncrease + 1, arrayOfIndexes.length, 0 );
+                        
                         //Move the increase pointer further up the array by 1
                         if ( indexToIncrease + 1 <= highestIndexUsed && indexToIncrease + 1 < arrayOfIndexes.length ) {
                             indexToIncrease++;
                         } else {
-                            indexToIncrease = 1;
+                            for ( int j = 1; j < highestIndexUsed + 1; j++ ) {
+                                if ( arrayOfIndexes[ j ] + 1 <= arrayOfIndexes[ 0 ] && arrayOfIndexes[ j ] + 1 <= arrayOfIndexes[ highestIndexUsed ] + 1 ) {
+                                    indexToIncrease = j;
+                                    break;
+                                }
+                            }
                         }
                         
                         //Escape the fori loop
@@ -239,7 +256,7 @@ public class BeamCalculatorImpl implements BeamCalculator
             copyResList.add( new Plank( plank ) );
         }
         
-        
+        System.out.println( "Tjekkede " + combinationsChecked + " combinationer!" );
         return copyResList;
     }
     

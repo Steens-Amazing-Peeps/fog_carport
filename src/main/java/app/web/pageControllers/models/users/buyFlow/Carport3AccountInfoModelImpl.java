@@ -43,7 +43,7 @@ public class Carport3AccountInfoModelImpl implements Carport3AccountInfoModel
                     }
                     
                 } else {
-                    order.setAccountInfo(  mostRecentAccountInfo);
+                    accountInfo = mostRecentAccountInfo;
                 }
                 
             }

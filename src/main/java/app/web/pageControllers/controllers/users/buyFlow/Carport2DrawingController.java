@@ -66,6 +66,7 @@ public class Carport2DrawingController
         
         try {
             String svgCarportDrawing = carport2DrawingModel.drawCarport(order.getCarport());
+            order.calcPriceSuggested();
             ctx.attribute("svg", svgCarportDrawing);
             ctx.attribute( WebAttributes.msg, "" );
         } catch (WebInvalidInputException e) {
