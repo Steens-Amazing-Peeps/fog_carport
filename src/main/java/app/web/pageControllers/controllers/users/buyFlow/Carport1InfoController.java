@@ -356,21 +356,21 @@ public class Carport1InfoController
             return;
         }
         
-        //Get the Bom
-        try {
-            order.getCarport().calcBom();
-        } catch ( WebInvalidInputException e ) {
-            errorMsg = e.getUserMessage();
-            
-            errorCounter++;
-            stringBuilderExceptionMessage.append( errorCounter ).append( ". " ).append( errorMsg ).append( System.lineSeparator() );
-            
-            ctx.attribute( WebAttributes.msg, stringBuilderExceptionMessage.toString() );
-            render( ctx );
-            return;
-        }
-        //Get the price
-        order.calcPriceSuggested();
+//        //Get the Bom
+//        try {
+//            order.getCarport().calcBom();
+//        } catch ( WebInvalidInputException e ) {
+//            errorMsg = e.getUserMessage();
+//
+//            errorCounter++;
+//            stringBuilderExceptionMessage.append( errorCounter ).append( ". " ).append( errorMsg ).append( System.lineSeparator() );
+//
+//            ctx.attribute( WebAttributes.msg, stringBuilderExceptionMessage.toString() );
+//            render( ctx );
+//            return;
+//        }
+//        //Get the price
+//        order.calcPriceSuggested();
         
         //Happy Path
         ctx.attribute( WebAttributes.msg, "" );
