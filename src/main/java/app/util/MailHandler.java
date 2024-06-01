@@ -37,6 +37,7 @@ public class MailHandler {
 
         personalization.addTo(new Email(this.recipient));
         personalization.addDynamicTemplateData("name", "Anders Henningsen");
+        personalization.addDynamicTemplateData("carportinfo", "Carport mål");
         mail.addPersonalization(personalization);
 
         mail.addCategory("carportapp");
