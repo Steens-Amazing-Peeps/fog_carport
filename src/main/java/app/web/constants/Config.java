@@ -45,10 +45,11 @@ public interface Config
         int SPLIT_CARPORT_SEGMENT_INTO_TWO_SEGMENTS_AT_THIS_WIDTH_IN_MM = 6000; //Split a segment into two at this width (mm)
         //        int SPLIT_CARPORT_SEGMENT_INTO_TWO_SEGMENTS_AT_THIS_WIDTH = 3000; //Split a segment into two at this width (mm)
         int MINIMUM_DISTANCE_BETWEEN_POLES_CARPORT_WIDTH_IN_MM = 0; //Don't put poles in the middle unless the second segment is at least this size  (mm)
-       //        int MINIMUM_DISTANCE_BETWEEN_POLES_CARPORT_WIDTH = 1000; //Don't put poles in the middle unless the second segment is at least this size  (mm)
+        //        int MINIMUM_DISTANCE_BETWEEN_POLES_CARPORT_WIDTH = 1000; //Don't put poles in the middle unless the second segment is at least this size  (mm)
         
         int CHECK_ALL_COMBINATIONS_FOR_CARPORTS_EQUAL_TO_OR_SHORTER_THAN_THIS_IN_MM = 2000;
         int DISTANCE_BETWEEN_RAFTERS_IN_MM = 300;
+        
     }
     
     
@@ -66,21 +67,28 @@ public interface Config
         
         Integer SERVICE_FEE_PERCENTAGE_FOR_SUGGESTED_PRICE = 50; //Suggested price will be 50 % higher than base materials
         
+        int OVERHANG_ENDS_IN_MM = 100;
+        int OVERHANG_SIDES_IN_MM = 100;
+        
     }
     
     public static interface MetricUnits
     {
+        
         int COMMA_DIGITS_IN_CM_IN_STRING = 1;
         int COMMA_DIGITS_IN_M_IN_STRING = 2;
+        
     }
-
+    
     public static interface AccountInfo
     {
+        
         int MAXIMUM_FULLNAME_LENGTH = 100;
         int MAXIMUM_ADDRESS_LENGTH = 50;
         int REQUIRED_ZIP_DK_LENGTH = 4;
         int MAXIMUM_CITY_LENGTH = 50;
         int REQUIRED_TLF_DK_LENGTH = 8;
+        
     }
     
 }

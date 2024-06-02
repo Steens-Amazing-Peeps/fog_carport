@@ -2,6 +2,7 @@ package app.web.services;
 
 import app.util.MetricConversion;
 import app.util.UnitConversion;
+import app.web.constants.Config;
 import app.web.entities.Bom;
 import app.web.entities.Carport;
 import app.web.entities.Plank;
@@ -27,10 +28,10 @@ public class SvgCarport
     private double drawWidth = unitConversion.DRAW_WIDTH.intValue();
     private final int origoXYValue = 0;
     
-    private final int offsetFromRight = 750;
-    private final int offsetFromLeft = 50;
-    private final int offsetFromTop = 50;
-    private final int offsetFromBottom = 550;
+    private int offsetFromRight;
+    private int offsetFromLeft;
+    private int offsetFromTop;
+    private int offsetFromBottom;
     
     private double rafterWidth = 0; //it gets set later
     private double rafterHeight = 0; //it gets set later
@@ -50,6 +51,11 @@ public class SvgCarport
         rafters = bom.getRafters().values().stream().toList();
         beams = bom.getBeams().values().stream().toList();
         posts = bom.getPosts().values().stream().toList();
+        
+        this.offsetFromRight = UnitConversion.DRAW_WIDTH.intValue() - ( int ) this.unitConversion.widthMmToDrawUnits( Config.Carport.OVERHANG_ENDS_IN_MM );
+        this.offsetFromLeft = ( int ) this.unitConversion.widthMmToDrawUnits( Config.Carport.OVERHANG_ENDS_IN_MM );
+        this.offsetFromTop = UnitConversion.DRAW_HEIGHT.intValue() - ( int ) this.unitConversion.heightMmToDrawUnits( Config.Carport.OVERHANG_SIDES_IN_MM );
+        this.offsetFromBottom = ( int ) this.unitConversion.heightMmToDrawUnits( Config.Carport.OVERHANG_SIDES_IN_MM );
     }
     
     
