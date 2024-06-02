@@ -11,18 +11,17 @@ import java.util.List;
 import java.util.Locale;
 
 public class SvgCarport {
-    private static int id = 0;
     private UnitConversion unitConversion;
-    private Svg carportSvg = new Svg(this.origoXYValue,this.origoXYValue,"0 0 900 700", "100%","auto"); //the viewbox is a made to match the html page's div
+    private final Svg carportSvg = new Svg(this.origoXYValue,this.origoXYValue,"0 0 900 700", "100%","auto"); //the viewbox is a made to match the html page's div
 
     private final String rectStandardStyle = "stroke: #000000; stroke-width: 1px; fill: #ffffff";
 
-    private Bom bom;
-    private List<Plank> rafters;
-    private List<Plank> beams;
-    private List<Plank> posts;
+    private final Bom bom;
+    private final List<Plank> rafters;
+    private final List<Plank> beams;
+    private final List<Plank> posts;
     private double totalBeamFillingLength;
-    private double drawWidth = unitConversion.DRAW_WIDTH.intValue();
+    private final double drawWidth = UnitConversion.DRAW_WIDTH.intValue();
     private final int origoXYValue = 0;
 
     private final int offsetFromRight = 750;
@@ -40,17 +39,17 @@ public class SvgCarport {
     public SvgCarport(Carport carport) throws WebInvalidInputException {
 
         this.bom = carport.calcBom();
-        System.out.println(bom);
+        System.out.println(this.bom);
 
-        unitConversion = new UnitConversion(carport.getWidth(),carport.getLength());
+        this.unitConversion = new UnitConversion(carport.getWidth(),carport.getLength());
 
-        rafters = bom.getRafters().values().stream().toList();
-        beams = bom.getBeams().values().stream().toList();
-        posts = bom.getPosts().values().stream().toList();
+        this.rafters = this.bom.getRafters().values().stream().toList();
+        this.beams = this.bom.getBeams().values().stream().toList();
+        this.posts = this.bom.getPosts().values().stream().toList();
     }
 
 
-    public String drawCarport(){ //TODO: make constants for all manually placed numbers
+    public String drawCarport(){
         Locale.setDefault(new Locale("US")); //needed if you want to use decimals for svg stuff
 //        outer svg setup
         String outerSvgRectStyle = "stroke: #000000; stroke-width: 1px; fill: none";
@@ -71,11 +70,11 @@ public class SvgCarport {
         int widthTextYValue = 680;
         int widthTextRotationValue = 0;
 
-        carportSvg.addRectangle(origoXYValue,origoXYValue,outerSvgRectHeight,outerSvgRectWidth,outerSvgRectStyle);
-        carportSvg.addArrow(heightArrowXValue, heightArrowFirstYValue,heightArrowXValue,heightArrowSecondYValue);
-        carportSvg.addArrow(widthArrowFirstXValue, widthArrowYValue,widthArrowSecondXValue,widthArrowYValue);
-        carportSvg.addText(heightTextXValue,heightTextYValue,heightTextRotationValue, MetricConversion.mmToCm(unitConversion.getCarportHeight())+" cm");
-        carportSvg.addText(widthTextXValue,widthTextYValue,widthTextRotationValue,MetricConversion.mmToCm(unitConversion.getCarportWidth())+" cm");
+        this.carportSvg.addRectangle(this.origoXYValue, this.origoXYValue,outerSvgRectHeight,outerSvgRectWidth,outerSvgRectStyle);
+        this.carportSvg.addArrow(heightArrowXValue, heightArrowFirstYValue,heightArrowXValue,heightArrowSecondYValue);
+        this.carportSvg.addArrow(widthArrowFirstXValue, widthArrowYValue,widthArrowSecondXValue,widthArrowYValue);
+        this.carportSvg.addText(heightTextXValue,heightTextYValue,heightTextRotationValue, MetricConversion.mmToCm(this.unitConversion.getCarportHeight())+" cm");
+        this.carportSvg.addText(widthTextXValue,widthTextYValue,widthTextRotationValue,MetricConversion.mmToCm(this.unitConversion.getCarportWidth())+" cm");
 
 //        inner svg setup
         String innerSvgHeight = "600";
@@ -85,77 +84,77 @@ public class SvgCarport {
         int innerSvgRectHeight = 600; //constant width for the canvas
         int innerSvgRectWidth = 800; //constant width for the canvas
 
-        carportSvg.addSvg(80,20,"0 0 800 600", "800", "600");
-        carportSvg.addRectangle(origoXYValue,origoXYValue,innerSvgRectHeight,innerSvgRectWidth,innerSvgRectStyle);
+        this.carportSvg.addSvg(80,20,"0 0 800 600", "800", "600");
+        this.carportSvg.addRectangle(this.origoXYValue, this.origoXYValue,innerSvgRectHeight,innerSvgRectWidth,innerSvgRectStyle);
 
 //        methods for drawing the actual carport
-        rafterDrawer();
-        beamDrawer();
-        rafterInnerDrawer();
-        postDrawer();
+        this.rafterDrawer();
+        this.beamDrawer();
+        this.rafterInnerDrawer();
+        this.postDrawer();
 
-        return carportSvg.toString();
+        return this.carportSvg.toString();
     }
 
     public void rafterDrawer(){
-        rafterWidth = rafters.get(0).getDrawWidth(unitConversion);
-        rafterHeight = rafters.get(0).getDrawHeight(unitConversion);
-        rafterAmount = rafters.get(0).getAmount();
+        this.rafterWidth = this.rafters.get(0).getDrawWidth(this.unitConversion);
+        this.rafterHeight = this.rafters.get(0).getDrawHeight(this.unitConversion);
+        this.rafterAmount = this.rafters.get(0).getAmount();
         int amountIfFixedSideRafters = 2;
 
-        carportSvg.addRectangle(origoXYValue, origoXYValue, rafterHeight, rafterWidth, rectStandardStyle);
-        carportSvg.addRectangle(drawWidth - rafterWidth, origoXYValue, rafterHeight, rafterWidth, rectStandardStyle);
-        rafterAmount = rafterAmount - amountIfFixedSideRafters; //removes the amount of rafters used from the total amount of rafters
+        this.carportSvg.addRectangle(this.origoXYValue, this.origoXYValue, this.rafterHeight, this.rafterWidth, this.rectStandardStyle);
+        this.carportSvg.addRectangle(this.drawWidth - this.rafterWidth, this.origoXYValue, this.rafterHeight, this.rafterWidth, this.rectStandardStyle);
+        this.rafterAmount = this.rafterAmount - amountIfFixedSideRafters; //removes the amount of rafters used from the total amount of rafters
     }
 
     public void rafterInnerDrawer(){
         int mathEqualSpacingDifferenceConstant = 1;
-        double distanceEach = (totalBeamFillingLength / (rafterAmount + mathEqualSpacingDifferenceConstant) + rafterWidth / rafterAmount );
+        double distanceEach = (this.totalBeamFillingLength / (this.rafterAmount + mathEqualSpacingDifferenceConstant) + this.rafterWidth / this.rafterAmount);
 
-        for (int i = 0; i < rafterAmount; i++) {
-            carportSvg.addRectangle(xCenterFigure((distanceEach * (i+1)),rafterWidth), origoXYValue,rafterHeight,rafterWidth,rectStandardStyle);
+        for (int i = 0; i < this.rafterAmount; i++) {
+            this.carportSvg.addRectangle(this.xCenterFigure((distanceEach * (i+1)), this.rafterWidth), this.origoXYValue, this.rafterHeight, this.rafterWidth, this.rectStandardStyle);
         }
     }
 
     public void beamDrawer(){
-        beamHeight = beams.get(0).getDrawHeight(unitConversion);
+        this.beamHeight = this.beams.get(0).getDrawHeight(this.unitConversion);
         int multiplyValueToGetBothRafterWidths = 2;
-        totalBeamFillingLength = drawWidth - (rafterWidth * multiplyValueToGetBothRafterWidths);
+        this.totalBeamFillingLength = this.drawWidth - (this.rafterWidth * multiplyValueToGetBothRafterWidths);
 
-        carportSvg.addRectangle(rafterWidth,yCenterFigure(offsetFromTop,beamHeight),beamHeight,totalBeamFillingLength,rectStandardStyle);
-        carportSvg.addRectangle(rafterWidth,yCenterFigure(offsetFromBottom,beamHeight),beamHeight,totalBeamFillingLength,rectStandardStyle);
+        this.carportSvg.addRectangle(this.rafterWidth, this.yCenterFigure(this.offsetFromTop, this.beamHeight), this.beamHeight, this.totalBeamFillingLength, this.rectStandardStyle);
+        this.carportSvg.addRectangle(this.rafterWidth, this.yCenterFigure(this.offsetFromBottom, this.beamHeight), this.beamHeight, this.totalBeamFillingLength, this.rectStandardStyle);
     }
 
     public void postDrawer(){
         
-        double postWidth = posts.get(0).getDrawWidth(unitConversion);
-        double postHeight = posts.get(0).getDrawHeight(unitConversion);
-        double postAmount = posts.get(0).getAmount();
+        double postWidth = this.posts.get(0).getDrawWidth(this.unitConversion);
+        double postHeight = this.posts.get(0).getDrawHeight(this.unitConversion);
+        double postAmount = this.posts.get(0).getAmount();
         int amountOfFixedCornerPosts = 4;
 
-        carportSvg.addRectangle(offsetFromLeft + rafterWidth,yCenterFigure(offsetFromTop,postHeight) , postHeight,postWidth,rectStandardStyle);
-        carportSvg.addRectangle(offsetFromRight - rafterWidth - postWidth,yCenterFigure(offsetFromTop,postHeight), postHeight,postWidth,rectStandardStyle);
-        carportSvg.addRectangle(offsetFromLeft + rafterWidth,yCenterFigure(offsetFromBottom,postHeight), postHeight,postWidth,rectStandardStyle);
-        carportSvg.addRectangle(offsetFromRight - rafterWidth - postWidth,yCenterFigure(offsetFromBottom,postHeight), postHeight,postWidth,rectStandardStyle);
+        this.carportSvg.addRectangle(this.offsetFromLeft + this.rafterWidth, this.yCenterFigure(this.offsetFromTop,postHeight) , postHeight,postWidth, this.rectStandardStyle);
+        this.carportSvg.addRectangle(this.offsetFromRight - this.rafterWidth - postWidth, this.yCenterFigure(this.offsetFromTop,postHeight), postHeight,postWidth, this.rectStandardStyle);
+        this.carportSvg.addRectangle(this.offsetFromLeft + this.rafterWidth, this.yCenterFigure(this.offsetFromBottom,postHeight), postHeight,postWidth, this.rectStandardStyle);
+        this.carportSvg.addRectangle(this.offsetFromRight - this.rafterWidth - postWidth, this.yCenterFigure(this.offsetFromBottom,postHeight), postHeight,postWidth, this.rectStandardStyle);
         postAmount = postAmount - amountOfFixedCornerPosts; //removes the amount of posts used from the total amount of posts
 
         double xValuePosts = 0;
-        for (Plank beam : beams) {
-            beamAmount = beam.getAmount();
-            beamWidth = beam.getDrawWidth(unitConversion);
+        for (Plank beam : this.beams) {
+            this.beamAmount = beam.getAmount();
+            this.beamWidth = beam.getDrawWidth(this.unitConversion);
             int beamAmountDivideToHalfNumber = 2;
-            int foriLoopAmount = (int) (beamAmount / beamAmountDivideToHalfNumber);
+            int foriLoopAmount = (int) (this.beamAmount / beamAmountDivideToHalfNumber);
             int amountOfPostsPlacedPerLoop = 2;
 
             for (int i = 0; i < foriLoopAmount; i++) {
 //                    if (0 < totalBeamFillingLength - ((beamWidth * (i+1)) + postWidth) && 1 < postAmount){ //checks if there is space left to place posts and checks if there are any posts left
                     if (1 < postAmount){ //checks if there is space left to place posts and checks if there are any posts left
 
-                        xValuePosts = xValuePosts + beamWidth;
+                        xValuePosts = xValuePosts + this.beamWidth;
 
 //                        if (i == 0){
-                            carportSvg.addRectangle(xCenterFigure(xValuePosts,postWidth),yCenterFigure(offsetFromTop,postHeight), postHeight,postWidth,rectStandardStyle);
-                            carportSvg.addRectangle(xCenterFigure(xValuePosts,postWidth),yCenterFigure(offsetFromBottom,postHeight), postHeight,postWidth,rectStandardStyle);
+                        this.carportSvg.addRectangle(this.xCenterFigure(xValuePosts,postWidth), this.yCenterFigure(this.offsetFromTop,postHeight), postHeight,postWidth, this.rectStandardStyle);
+                        this.carportSvg.addRectangle(this.xCenterFigure(xValuePosts,postWidth), this.yCenterFigure(this.offsetFromBottom,postHeight), postHeight,postWidth, this.rectStandardStyle);
 //                        } else {
 //                            carportSvg.addRectangle(xValuePosts,yCenterFigure(offsetFromTop,beamHeight), postHeight,postWidth,rectStandardStyle);
 //                            carportSvg.addRectangle(xValuePosts,yCenterFigure(offsetFromBottom,beamHeight), postHeight,postWidth,rectStandardStyle);
