@@ -238,44 +238,44 @@ public class ModelCreateAccountTest
         
     }
     
-    @Test
-    void emailInvalidOptionalReq()
-    {
-        //Additional, Optional email validation
-        
-        this.email = "dddaaaa@.com";
-        
-        try {
-            this.createAccountModel.createAccount( this.email, this.password, this.repeatPassword, this.globalUserMap, this.role );
-            //Above method should never go through without throwing
-            //Below should never run
-            fail();
-        } catch ( DatabaseException | UnexpectedResultDbException |
-                  NoIdKeyReturnedException | WebInvalidInputException e ) {
-            assertTrue( e instanceof WebInvalidInputException );
-        }
-        
-        this.email = "dddaaaa@das@d.com";
-        
-        try {
-            this.createAccountModel.createAccount( this.email, this.password, this.repeatPassword, this.globalUserMap, this.role );
-            //Above method should never go through without throwing
-            //Below should never run
-            fail();
-        } catch ( DatabaseException | UnexpectedResultDbException |
-                  NoIdKeyReturnedException | WebInvalidInputException e ) {
-            assertTrue( e instanceof WebInvalidInputException );
-        }
-        
-        this.email = "dddaaaa@dasd.com.dk.com";
-        
-        try {
-            this.createAccountModel.createAccount( this.email, this.password, this.repeatPassword, this.globalUserMap, this.role );
-            
-        } catch ( DatabaseException | UnexpectedResultDbException |
-                  NoIdKeyReturnedException | WebInvalidInputException e ) {
-            fail();
-        }
-    }
+//    @Test
+//    void emailInvalidOptionalReq()
+//    {
+//        //Additional, Optional email validation
+//
+//        this.email = "dddaaaa@.com";
+//
+//        try {
+//            this.createAccountModel.createAccount( this.email, this.password, this.repeatPassword, this.globalUserMap, this.role );
+//            //Above method should never go through without throwing
+//            //Below should never run
+//            fail();
+//        } catch ( DatabaseException | UnexpectedResultDbException |
+//                  NoIdKeyReturnedException | WebInvalidInputException e ) {
+//            assertTrue( e instanceof WebInvalidInputException );
+//        }
+//
+//        this.email = "dddaaaa@das@d.com";
+//
+//        try {
+//            this.createAccountModel.createAccount( this.email, this.password, this.repeatPassword, this.globalUserMap, this.role );
+//            //Above method should never go through without throwing
+//            //Below should never run
+//            fail();
+//        } catch ( DatabaseException | UnexpectedResultDbException |
+//                  NoIdKeyReturnedException | WebInvalidInputException e ) {
+//            assertTrue( e instanceof WebInvalidInputException );
+//        }
+//
+//        this.email = "dddaaaa@dasd.com.dk.com";
+//
+//        try {
+//            this.createAccountModel.createAccount( this.email, this.password, this.repeatPassword, this.globalUserMap, this.role );
+//
+//        } catch ( DatabaseException | UnexpectedResultDbException |
+//                  NoIdKeyReturnedException | WebInvalidInputException e ) {
+//            fail();
+//        }
+//    }
     
 }

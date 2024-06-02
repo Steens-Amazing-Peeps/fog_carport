@@ -589,5 +589,46 @@ INSERT INTO public.variant VALUES (188, 10, 6000, 1, 100000, false);
 INSERT INTO public.variant VALUES (189, 10, 7000, 1, 140000, false);
 INSERT INTO public.variant VALUES (190, 10, 9000, 1, 250000, false);
 
+CREATE OR REPLACE VIEW public.bom_combined
+AS
+SELECT bom.carport_id,
+    bom.amount,
+    variant.variant_id,
+    variant.length_in_mm,
+    variant.amount_pr_unit,
+    variant.price_in_oere,
+    specific.height_in_mm,
+    specific.width_in_mm,
+    specific.direction,
+    specific.angle_in_degrees,
+    material.category,
+    material.type,
+    material.material,
+    material.treatment,
+    material.unit
+FROM bom
+    LEFT JOIN variant ON variant.variant_id = bom.variant_id
+    LEFT JOIN specific ON specific.specific_id = variant.specific_id
+    LEFT JOIN material ON material.material_id = specific.material_id;
+
+CREATE OR REPLACE VIEW public.material_combined
+AS
+SELECT variant.variant_id,
+    variant.length_in_mm,
+    variant.amount_pr_unit,
+    variant.price_in_oere,
+    variant.is_obsolete,
+    specific.height_in_mm,
+    specific.width_in_mm,
+    specific.direction,
+    specific.angle_in_degrees,
+    material.category,
+    material.type,
+    material.material,
+    material.treatment,
+    material.unit
+FROM variant
+    LEFT JOIN specific ON specific.specific_id = variant.specific_id
+    LEFT JOIN material ON material.material_id = specific.material_id;
 
 END;

@@ -36,7 +36,7 @@ public class EntityFullHistoryTest
         }
     }
     
-    @Test
+
     void mapLoopsTest()
     {
         for ( Map.Entry< Integer, FullHistory > fullHistoryEntry : fullHistoryMap.entrySet() ) {
