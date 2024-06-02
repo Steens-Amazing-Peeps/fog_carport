@@ -134,9 +134,9 @@ public class SvgCarport {
         int amountOfFixedCornerPosts = 4;
 
         carportSvg.addRectangle(offsetFromLeft + rafterWidth,yCenterFigure(offsetFromTop,postHeight) , postHeight,postWidth,rectStandardStyle);
-        carportSvg.addRectangle(offsetFromRight - rafterWidth,yCenterFigure(offsetFromTop,postHeight), postHeight,postWidth,rectStandardStyle);
+        carportSvg.addRectangle(offsetFromRight - rafterWidth - postWidth,yCenterFigure(offsetFromTop,postHeight), postHeight,postWidth,rectStandardStyle);
         carportSvg.addRectangle(offsetFromLeft + rafterWidth,yCenterFigure(offsetFromBottom,postHeight), postHeight,postWidth,rectStandardStyle);
-        carportSvg.addRectangle(offsetFromRight - rafterWidth,yCenterFigure(offsetFromBottom,postHeight), postHeight,postWidth,rectStandardStyle);
+        carportSvg.addRectangle(offsetFromRight - rafterWidth - postWidth,yCenterFigure(offsetFromBottom,postHeight), postHeight,postWidth,rectStandardStyle);
         postAmount = postAmount - amountOfFixedCornerPosts; //removes the amount of posts used from the total amount of posts
 
         double xValuePosts = 0;
