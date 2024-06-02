@@ -11,18 +11,21 @@ import java.util.*;
 
 public class PlankCalculatorImpl implements PlankCalculator  //TODO: Finish this
 {
+    
     //Below exists purely for testing reasons------------------------------------
     //'constants'
     //This middleman instant variable exists to make tests easier
     private int splitCarportSegmentIntoTwoSegmentsAtThisWidthInMm = Config.Bom.SPLIT_CARPORT_SEGMENT_INTO_TWO_SEGMENTS_AT_THIS_WIDTH_IN_MM;
     private int minimumDistanceBetweenPolesCarportWidthInMm = Config.Bom.MINIMUM_DISTANCE_BETWEEN_POLES_CARPORT_WIDTH_IN_MM;
     
+    private int distanceBetweenRaftersInMm = Config.Bom.DISTANCE_BETWEEN_RAFTERS_IN_MM;
+    
     //End of purely for testing reasons------------------------------------
     
     PostCalculator postCalculator;
     BeamCalculator beamCalculator;
     RafterCalculator rafterCalculator;
-
+    
     
     public PlankCalculatorImpl( PostCalculator postCalculator, BeamCalculator beamCalculator, RafterCalculator rafterCalculator )
     {
@@ -31,7 +34,7 @@ public class PlankCalculatorImpl implements PlankCalculator  //TODO: Finish this
         this.rafterCalculator = rafterCalculator;
     }
     
-
+    
     public int calcPostRows( Map< Integer, Plank > validRafters, int carportWidth )
     {
         int rowAmount = 2;
@@ -107,14 +110,29 @@ public class PlankCalculatorImpl implements PlankCalculator  //TODO: Finish this
             raftersWithAmounts.putIfAbsent( rafter.getId(), rafter );
             
             currentAmount = raftersWithAmounts.get( rafter.getId() ).getAmount();
-            rafter.setAmount( currentAmount + postsPrRow );
+            rafter.setAmount( currentAmount + this.spaceOutObjects( rafter.getHeight(), carport.getLength(), this.distanceBetweenRaftersInMm ) );
             raftersWithAmounts.put( rafter.getId(), rafter );
         }
         
         bom.setRafters( raftersWithAmounts );
-
+        
         
         return bom;
+    }
+    
+    private int spaceOutObjects( Integer objectSize, Integer LengthToCover, int gapSize )
+    {
+        int currentLength = 0;
+        int amountOfObjects = 0;
+        
+        while ( true ) {
+            if ( currentLength >= LengthToCover ) {
+                break;
+            }
+            currentLength = currentLength + objectSize + gapSize;
+            amountOfObjects++;
+        }
+        return amountOfObjects;
     }
     
     //Below exists purely for testing reasons------------------------------------

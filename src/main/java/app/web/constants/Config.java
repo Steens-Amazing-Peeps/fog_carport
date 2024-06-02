@@ -48,6 +48,7 @@ public interface Config
        //        int MINIMUM_DISTANCE_BETWEEN_POLES_CARPORT_WIDTH = 1000; //Don't put poles in the middle unless the second segment is at least this size  (mm)
         
         int CHECK_ALL_COMBINATIONS_FOR_CARPORTS_EQUAL_TO_OR_SHORTER_THAN_THIS_IN_MM = 2000;
+        int DISTANCE_BETWEEN_RAFTERS_IN_MM = 300;
     }
     
     
