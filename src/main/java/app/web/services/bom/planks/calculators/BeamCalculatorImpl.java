@@ -141,10 +141,10 @@ public class BeamCalculatorImpl implements BeamCalculator
                         //Demo
                         System.out.println();
                         System.out.println( currentPlankArrayList );
-                        System.out.println( "Tjekkede denne kombination op til index " + highestIndexUsed + " combination: " + Arrays.toString( arrayOfIndexes ) );
-                        System.out.println( "Længden var " + MetricConversion.mmToM( currentLength ) + " m" );
                         combinationsChecked++;
-                        
+                        System.out.println( "Combination:" + combinationsChecked + " - Tjekkede denne kombination op til index " + highestIndexUsed + " combination: " + Arrays.toString( Arrays.copyOf( arrayOfIndexes, highestIndexUsed + 1 ) ) ); //TODO: make sure this looks fine and test with a local run
+                        System.out.println( "Længden var " + MetricConversion.mmToM( currentLength ) + " m" );
+
                         //If we are trying to increase a secondary plank beyond the index of the first plank, then we should instead increase the first plank's index
                         if ( arrayOfIndexes[ indexToIncrease ] + 1 > arrayOfIndexes[ 0 ] || highestIndexUsed == 0 ) {
                             
