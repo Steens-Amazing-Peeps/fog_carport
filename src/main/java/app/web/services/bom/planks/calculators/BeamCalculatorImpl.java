@@ -2,6 +2,7 @@ package app.web.services.bom.planks.calculators;
 
 import app.util.MapManipulator;
 import app.util.MetricConversion;
+import app.util.demo.FileIO;
 import app.web.constants.Config;
 import app.web.entities.Plank;
 import org.jetbrains.annotations.NotNull;
@@ -14,10 +15,11 @@ public class BeamCalculatorImpl implements BeamCalculator
     //Below exists purely for testing reasons------------------------------------
     //'constants'
     //These middleman instant variable exists to make tests easier
-    private int MinimumBatchSize = Config.Bom.MINIMUM_BATCH_SIZE;
+    private int minimumBatchSize = Config.Bom.MINIMUM_BATCH_SIZE;
     private int amountOfAcceptableWasteInMm = Config.Bom.AMOUNT_OF_WASTE_ACCEPTABLE_IN_MM;
     
     private int prioritizeLeastWasteAtPriceDiff = Config.Bom.USE_LEAST_WASTEFUL_OPTION_AT_PRICE_DIFFERENCE;
+    private int checkAllCombinationsForCarportsEqualToOrShorterThanThisInMm = Config.Bom.CHECK_ALL_COMBINATIONS_FOR_CARPORTS_EQUAL_TO_OR_SHORTER_THAN_THIS_IN_MM;
     
     
     //End of purely for testing reasons------------------------------------
@@ -82,10 +84,19 @@ public class BeamCalculatorImpl implements BeamCalculator
         //Initialize variables needed for the real logic
         Plank[] plankArraySortedByPrice = MapManipulator.sortByValuePlankPricePrMmToArray( validBeams );
         
+        System.out.println("-------Cheapest to most Exspensive beams-------");
+        for ( int i = 0; i < plankArraySortedByPrice.length; i++ ) {
+            System.out.println( plankArraySortedByPrice[ i ] );
+        }
+        
         int runBatchUntil;
-        if ( this.MinimumBatchSize != 0 ) {
-            runBatchUntil = this.MinimumBatchSize;
+        if ( this.minimumBatchSize > 0 ) {
+            runBatchUntil = this.minimumBatchSize;
         } else {
+            runBatchUntil = validBeams.size();
+        }
+        
+        if ( totalLength <= this.checkAllCombinationsForCarportsEqualToOrShorterThanThisInMm ) {
             runBatchUntil = validBeams.size();
         }
         
@@ -140,11 +151,16 @@ public class BeamCalculatorImpl implements BeamCalculator
                         highestIndexUsed = i;
                         
                         //Demo
-                        System.out.println();
-                        System.out.println( currentPlankArrayList );
-                        System.out.println( "Tjekkede denne kombination op til index " + highestIndexUsed + " combination: " + Arrays.toString( arrayOfIndexes ) );
-                        System.out.println( "Længden var " + MetricConversion.mmToM( currentLength ) + " m" );
                         combinationsChecked++;
+                        demoStringBuilder.append( "Combination: " ).append( combinationsChecked ).append( " - Længden: " ).append( MetricConversion.mmToM( currentLength ) ).append( " m Combination: " ).append( Arrays.toString( Arrays.copyOf( arrayOfIndexes, highestIndexUsed + 1 ) ) ).append( " Længder: [ " );
+                        for ( Plank plank : currentPlankArrayList ) {
+                            demoStringBuilder.append( "( " ).append( plank.getId() ).append( ", " ).append( plank.getLength() ).append( " )" ).append( ", " );
+                        }
+                        demoStringBuilder.delete( demoStringBuilder.length() - 2, demoStringBuilder.length() );
+                        demoStringBuilder.append( " ]" );
+                        demoStringBuilder.append( System.lineSeparator() );
+                        //Demo End
+                        
                         
                         //If we are trying to increase a secondary plank beyond the index of the first plank, then we should instead increase the first plank's index
                         if ( arrayOfIndexes[ indexToIncrease ] + 1 > arrayOfIndexes[ 0 ] || highestIndexUsed == 0 ) {
@@ -257,6 +273,8 @@ public class BeamCalculatorImpl implements BeamCalculator
             copyResList.add( new Plank( plank ) );
         }
         
+        FileIO.txtOverWrite( "demoLog", demoStringBuilder.toString() );
+        System.out.println();
         System.out.println( "Tjekkede " + combinationsChecked + " combinationer!" );
         return copyResList;
     }
@@ -265,7 +283,7 @@ public class BeamCalculatorImpl implements BeamCalculator
     public String toString()
     {
         return "PlankCalculatorImpl{" + System.lineSeparator() +
-               "MinimumBatchSize=" + this.MinimumBatchSize + System.lineSeparator() +
+               "MinimumBatchSize=" + this.minimumBatchSize + System.lineSeparator() +
                ", amountOfAcceptableWasteInMm=" + this.amountOfAcceptableWasteInMm + System.lineSeparator() +
                ", prioritizeLeastWasteAtPriceDiff=" + this.prioritizeLeastWasteAtPriceDiff + System.lineSeparator() +
                '}';
@@ -277,13 +295,13 @@ public class BeamCalculatorImpl implements BeamCalculator
     
     public int getMinimumBatchSize()
     {
-        return this.MinimumBatchSize;
+        return this.minimumBatchSize;
     }
     
     
     public void setMinimumBatchSize( int minimumBatchSize )
     {
-        this.MinimumBatchSize = minimumBatchSize;
+        this.minimumBatchSize = minimumBatchSize;
     }
     
     
