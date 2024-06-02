@@ -113,6 +113,7 @@ public class BeamCalculatorImpl implements BeamCalculator
         
         //Demo
         int combinationsChecked = 0;
+        StringBuilder demoStringBuilder = new StringBuilder();
         
         //The Real Logic
         while ( true ) {
